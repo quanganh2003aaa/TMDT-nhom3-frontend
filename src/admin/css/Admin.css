@@ -1,0 +1,658 @@
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+th,
+td {
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: 18px;
+}
+
+/* Wrapper chứa 2 thẻ div */
+
+:root {
+    --status-pending: #f1c40f;
+    --status-processing: #3498db;
+    --status-shipped: rgb(255, 143, 255);
+    --status-done: #2ecc71;
+    --status-cancelled: #e74c3c;
+
+    --text-color: black;
+    --padding-status: 5px 10px;
+    --border-radius: 5px;
+    --poppins: 'Poppins', sans-serif;
+    --lato: 'Lato', sans-serif;
+
+    --light: #F9F9F9;
+    --blue: #088176;
+    --light-blue: #CFE8FF;
+    --grey: #eee;
+    --dark-grey: #AAAAAA;
+    --dark: #342E37;
+    --red: #DB504A;
+    --yellow: #FFCE26;
+    --light-yellow: #FFF2C6;
+    --orange: #FD7238;
+    --light-orange: #FFE0D3;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body.dark {
+    --light: #0C0C1E;
+    --grey: #060714;
+    --dark: #FBFBFB;
+}
+
+.admin {
+    background: var(--grey);
+    overflow-x: hidden;
+}
+
+
+
+/* SEARCH */
+#idSearch {
+    max-width: 400px;
+    width: 100%;
+    margin-right: 30px;
+}
+
+#idSearch .form-input {
+    display: flex;
+    align-items: center;
+    height: 36px;
+}
+
+#idSearch .form-input input {
+    flex-grow: 1;
+    padding: 0 16px;
+    height: 100%;
+    border: none;
+    background: var(--grey);
+    border-radius: 36px 0 0 36px;
+    outline: none;
+    width: 100%;
+    color: var(--dark);
+}
+
+#idSearch .form-input button {
+    width: 36px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--blue);
+    color: var(--light);
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 0 36px 36px 0;
+    cursor: pointer;
+}
+
+.filter{
+    margin-bottom: 10px;
+}
+/* MAIN */
+#content main {
+    width: 100%;
+    padding: 36px 24px;
+    font-family: var(--poppins);
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+#content main .head-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-gap: 16px;
+    flex-wrap: wrap;
+}
+
+#content main .head-title .left h1 {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark);
+}
+
+#content main .head-title .left .breadcrumb {
+    display: flex;
+    align-items: center;
+    grid-gap: 16px;
+}
+
+#content main .head-title .left .breadcrumb li {
+    color: var(--dark);
+}
+
+#content main .head-title .left .breadcrumb li a {
+    color: var(--dark-grey);
+    pointer-events: none;
+}
+
+#content main .head-title .left .breadcrumb li a.active {
+    color: var(--blue);
+    pointer-events: unset;
+}
+
+#content main .head-title .btn-download {
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 36px;
+    background: var(--blue);
+    color: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 10px;
+    font-weight: 500;
+}
+
+
+
+
+#content main .box-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-gap: 24px;
+    margin-top: 36px;
+}
+
+#content main .box-info li {
+    padding: 24px;
+    background: var(--light);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    grid-gap: 24px;
+}
+
+#content main .box-info li .bx {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#content main .box-info li:nth-child(1) .bx {
+    background: var(--light-blue);
+    color: var(--blue);
+}
+
+#content main .box-info li:nth-child(2) .bx {
+    background: var(--light-yellow);
+    color: var(--yellow);
+}
+
+#content main .box-info li:nth-child(3) .bx {
+    background: var(--light-orange);
+    color: var(--orange);
+}
+
+#content main .box-info li .text h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+#content main .box-info li .text p {
+    color: var(--dark);
+}
+
+
+#content main .table-data {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+    color: var(--dark);
+}
+
+#content main .table-data>div {
+    border-radius: 20px;
+    background: #fff;
+    padding: 24px;
+    overflow-x: auto;
+}
+
+#content main .table-data .head {
+    display: flex;
+    align-items: center;
+    grid-gap: 16px;
+    margin-bottom: 24px;
+}
+
+#content main .table-data .head h3 {
+    margin-right: auto;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#content main .table-data .head .bx {
+    cursor: pointer;
+}
+
+#content main .table-data .order {
+    flex-grow: 1;
+    flex-basis: 100%;
+}
+
+#content main .table-data .order table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #545555;
+}
+
+.total {
+    font-size: 22px;
+    font-weight: 600;
+    display: flex;
+    color: #545555;
+    justify-content: end;
+}
+
+#content main .table-data .order table th {
+    /* padding-bottom: 12px;
+    font-size: 18px;
+    text-align: left; */
+}
+
+#content main .table-data .order table td {
+    /* padding: 13px 0; */
+    
+}
+
+#content main .table-data .order table td p {
+    white-space: nowrap;       
+    overflow: hidden;          
+    text-overflow: ellipsis;   
+    max-width: 260px;           
+    display: block;              
+}
+
+#content main .table-data .order table tr td:first-child {
+    /* display: flex;
+    padding-left: 6px;
+    border-bottom: none;
+    text-overflow: ellipsis; */
+}
+
+#content main .table-data .order table td img {
+    width: 100px;
+    height: auto;
+}
+
+#content main .table-data .order table tbody tr:hover {
+    background: #fbfbfb;
+}
+
+#content main .table-data .order table tr td .status {
+    font-size: 18px;
+    padding: 6px 16px;
+    color: var(--light);
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+#content main .table-data .order table tr td .status.completed {
+    background: var(--blue);
+}
+
+#content main .table-data .order table tr td .status.process {
+    background: var(--yellow);
+}
+
+#content main .table-data .order table tr td .status.pending {
+    background: var(--orange);
+}
+
+
+#content main .table-data .todo {
+    flex-grow: 1;
+    flex-basis: 300px;
+}
+
+#content main .table-data .todo .todo-list {
+    width: 100%;
+}
+
+#content main .table-data .todo .todo-list li {
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--grey);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#content main .table-data .todo .todo-list li .bx {
+    cursor: pointer;
+}
+
+#content main .table-data .todo .todo-list li.completed {
+    border-left: 10px solid var(--blue);
+}
+
+#content main .table-data .todo .todo-list li.not-completed {
+    border-left: 10px solid var(--orange);
+}
+
+#content main .table-data .todo .todo-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* MAIN */
+
+/* CHARTS */
+
+/* Product */
+
+.table-data .order tbody button {
+    right: 0;
+    margin-left: 10px;
+}
+
+
+/* Orders */
+
+.table-orders {
+    table-layout: fixed;
+    width: 100%;
+}
+
+
+
+.status {
+    display: inline-block;
+    padding: var(--padding-status);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    font-weight: bold;
+}
+
+.status-pending {
+    background-color: var(--status-pending);
+}
+
+.status-processing {
+    background-color: var(--status-processing);
+}
+
+.status-shipped {
+    background-color: var(--status-shipped);
+}
+
+.status-done {
+    background-color: var(--status-done);
+}
+
+.status-cancelled {
+    background-color: var(--status-cancelled);
+}
+
+
+/* Chung cho cả hai phần div */
+.orders-details {
+    /* margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; */
+}
+
+/* CSS cho phần div chứa biểu mẫu */
+.accordion-body1 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* Khoảng cách giữa các trường nhập liệu */
+    padding: 10px;
+    background-color: #aabbcc;
+    /* Màu nền sáng */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng nhẹ */
+    width: 400px;
+    /* Chiếm hết chiều rộng */
+    box-sizing: border-box;
+    margin: 0 auto;
+    /* Căn giữa phần tử */
+    min-height: 80px;
+    /* Chiều cao tối thiểu */
+}
+
+/* CSS cho các label trong accordion-body1 */
+.accordion-body1 label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+/* CSS cho các input trong accordion-body1 */
+.accordion-body1 input,
+.accordion-body1 textarea {
+    padding: 5px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    height: 8vh;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+/* .accordion-body1 i {
+    position: absolute;
+    left: 15px;
+    color: black;
+    font-size: 1.2em;
+    line-height: 55px;
+} */
+
+
+.accordion-body1 input:hover,
+.accordion-body1 input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* CSS cho phần table */
+.accordion-body {
+    width: 100%;
+    margin-left: 0px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-body table {
+    /* width: 300px;
+    border-collapse: collapse;
+    border-radius: 8px; */
+}
+
+/* CSS cho các th trong table */
+.accordion-body th {
+    /* text-align: center;
+    background-color: #aabbcc;
+    color:#333 ;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold; */
+
+}
+
+/* CSS cho các td trong table */
+.accordion-body td {
+    /* text-align: center;
+    padding: 10px; */
+}
+
+/* CSS cho các select và input trong bảng */
+.accordion-body p {
+    text-align: center;
+    font-size: 18px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 120px;
+    box-sizing: border-box;
+}
+
+.accordion-collapse .button-details{
+    position: relative;
+    margin-left: 410px;
+    margin-top: 20px;
+}
+
+.accordion-collapse button {
+    /* padding: 10px 20px; 
+    margin: 10px 5px; 
+    border: none; 
+    border-radius: 5px; 
+    background-color: #007BFF;
+    color: white;
+    width: 100px;
+    font-size: 20px; 
+    cursor: pointer; 
+    transition: background-color 0.3s;  */
+}
+
+.accordion-collapse button:hover {
+    background-color: #76adff;
+    color: white;
+}
+
+.accordion-collapse button:active {
+    background-color: #0d427e; 
+}
+
+
+
+
+/* Đảm bảo rằng các bảng được căn chỉnh đẹp trên màn hình */
+@media (max-width: 768px) {
+    .accordion-body table {
+        width: 100%;
+    }
+
+    .accordion-body th,
+    .accordion-body td {
+        display: block;
+        width: 100%;
+    }
+
+    .accordion-body input {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    #sidebar {
+        width: 200px;
+    }
+
+    #content {
+        width: calc(100% - 60px);
+        left: 200px;
+    }
+
+    #content nav .nav-link {
+        display: none;
+    }
+}
+
+
+
+
+
+
+@media screen and (max-width: 576px) {
+    #content nav form .form-input input {
+        display: none;
+    }
+
+    #content nav form .form-input button {
+        width: auto;
+        height: auto;
+        background: transparent;
+        border-radius: none;
+        color: var(--dark);
+    }
+
+    #content nav form.show .form-input input {
+        display: block;
+        width: 100%;
+    }
+
+    #content nav form.show .form-input button {
+        width: 36px;
+        height: 100%;
+        border-radius: 0 36px 36px 0;
+        color: var(--light);
+        background: var(--red);
+    }
+
+    #content nav form.show~.notification,
+    #content nav form.show~.profile {
+        display: none;
+    }
+
+    #content main .box-info {
+        grid-template-columns: 1fr;
+    }
+
+    #content main .table-data .head {
+        min-width: 420px;
+    }
+
+    #content main .table-data .order table {
+        min-width: 420px;
+    }
+
+    #content main .table-data .todo .todo-list {
+        min-width: 420px;
+    }
+}
+
+.order-ul li{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.pagination {
+    margin: 10px 0 0;
+}
+

@@ -1,0 +1,305 @@
+
+:root {
+    --onyx: hsl(0, 0%, 25%);
+    --azure: hsl(219, 77%, 60%);
+    --white: hsl(0, 0%, 100%);
+    --platium: hsl(0, 0%, 91%);
+    --gainsboro: hsl(0, 0%, 90%);
+    --red-salsa: hsl(0, 77%, 60%);
+    --dim-gray: hsl(0, 0%, 39%);
+    --davys-gray: hsl(0, 0%, 30%);
+    --spanish-gray: hsl(0, 0%, 62%);
+    --quick-silver: hsl(0, 0%, 64%);
+
+
+
+    --fs-28: 28px;
+    --fs-24: 24px;
+    --fs-18: 18px;
+    --fs-15: 15px;
+    --fs-14: 14px;
+
+    --fw-5: 500;
+    --fw-6: 600;
+    --fw-7: 700;
+
+
+    --px: 60px;
+    --radius: 5px;
+
+}
+
+
+.container-pay a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container-pay button {
+    width: 100%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.container-pay i,
+span {
+    display: inline-block;
+}
+
+.container-pay label,
+img {
+    display: block;
+}
+
+.container-pay input {
+    font: inherit;
+    width: 100%;
+    border: none;
+}
+
+.container-pay input:focus {
+    outline: 2px solid var(--azure);
+}
+
+.container-pay input::-webkit-inner-spin-button,
+.container-pay input::-webkit-outer-spin-button {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(0, 0%, 80%);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 0%, 70%);
+}
+
+
+.container-pay {
+    max-width: 1440px;
+    min-height: 90vh;
+    margin: auto;
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-flex {
+    display: flex;
+    flex-grow: 1;
+}
+
+.checkout {
+    width: 70%;
+    padding: 40px var(--px);
+    padding-top: 0;
+    background: var(--white);
+    border-right: 1px solid var(--gainsboro);
+}
+
+.section-heading {
+    color: var(--onyx);
+    margin-bottom: 30px;
+    font-size: var(--fs-24);
+    font-weight: var(--fw-5);
+}
+
+.payment-form {
+    margin-bottom: 40px;
+}
+
+.payment-method {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.payment-method .method {
+    border: 1px solid var(--quick-silver);
+    border-radius: var(--radius);
+    width: 50%;
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+    gap: 20px;
+    cursor: pointer;
+}
+
+.payment-method .selected {
+    border-color: var(--azure);
+    border: 2px solid #4a81e8;
+}
+
+.payment-method .method i {
+    font-size: 20px;
+}
+
+.payment-method .method .checkmark {
+    margin-left: auto;
+    color: var(--quick-silver);
+}
+
+.payment-method .method .fill {
+    color: var(--azure);
+}
+
+.label-default {
+    padding-left: 10px;
+    margin-bottom: 5px;
+    font-size: var(--fs-18);
+    color: black;
+}
+
+
+.input-default {
+    background: var(--platium);
+    border-radius: var(--radius);
+    color: black;
+}
+
+.payment-form input {
+    padding: 10px 15px;
+    font-size: var(--fs-18);
+    font-weight: var(--fw-5);
+}
+
+.payment-form textarea {
+    width: 100%;
+    font-size: var(--fs-18);
+    font-weight: var(--fw-5);
+}
+
+.cardholder-name,
+.card-number {
+    margin-bottom: 10px;
+}
+
+.card-number input,
+.cvv input {
+    letter-spacing: 3px;
+}
+
+.input-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.input-flex .expire-date,
+.input-flex .cvv {
+    width: 50%;
+}
+
+.expire-date .input-flex {
+    color: var(--spanish-gray);
+    gap: 13px;
+}
+
+.expire-date .input-flex input {
+    text-align: center;
+}
+
+
+.checkout .btn {
+    border-radius: var(--radius);
+}
+
+.checkout .btn:active {
+    transform: scale(0.99);
+}
+
+.checkout .btn:focus {
+    color: var(--white);
+    background: var(--azure);
+    outline: 2px solid var(--azure);
+    outline-offset: 2px;
+}
+
+.checkout .btn-primary {
+    background: var(--azure);
+    font-weight: var(--fw-5);
+    color: var(--white);
+    padding: 13px 45px;
+}
+
+.checkout .btn-primary b {
+    margin-right: 10px;
+}
+
+.container-pay-product {
+    width: 50%;
+    height: 70vh;
+    display: inline;
+}
+
+.order-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px 55px;
+    border-radius: 8px;
+}
+
+.order-item {
+    display: flex;
+    border-bottom: none;
+    align-items: center;
+    padding-bottom: 10px;
+    gap: 5px;
+}
+
+.item-image {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.item-info {
+    margin-left: 15px;
+}
+
+.item-info p {
+    margin: 0;
+    font-size: 16px;
+    color: black;
+}
+
+.item-info span {
+    margin-left: 10px;
+    font-size: 16px;
+    color: black;
+}
+
+.amount {
+    padding: 40px var(--px);
+    border-top: 1px solid var(--davys-gray);
+    border-bottom: 1px solid var(--davys-gray);
+    font-size: 18px;
+}
+
+.amount>div:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.amount>div {
+    display: flex
+;
+    justify-content: space-between;
+}
+
+.amount .total {
+    font-size: var(--fs-24);
+    font-weight: var(--fw-7);
+    color: var(--onyx);
+}
+

@@ -1,0 +1,22 @@
+h1 {
+    font-size: 50px;
+    line-height: 64px;
+    color: black;
+}
+
+p {
+    font-size: 16px;
+    color: gray;
+    margin: 15px 0 20px 0;
+}
+
+.btn {
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition-behavior: normal, normal;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+    transition-property: background-color, box-shadow;
+}

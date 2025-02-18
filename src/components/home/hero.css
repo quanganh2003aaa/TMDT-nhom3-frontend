@@ -1,0 +1,91 @@
+@keyframes animate {
+    from {
+        opacity: 0;
+        transform: translate(0, 100px);
+        filter: blur(33px);
+
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0);
+        filter: blur(0);
+
+    }
+}
+
+
+@keyframes autoShowAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(200px) scale(0.3);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#hero_1 {
+    background-image: url("../../../public/images/hero4.png");
+    height: 90vh;
+    width: 100%;
+    background-size: cover;
+    background-position: top 25% right 0;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#hero_1 .content h4 {
+    padding-bottom: 15px;
+
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.3s 1 forwards;
+}
+
+#hero_1 .content h2 {
+    padding-bottom: 15px;
+
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.6s 1 forwards;
+}
+
+#hero_1 .content h1 {
+    color: #088178;
+
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.9s 1 forwards;
+
+}
+
+#hero_1 .content p {
+
+
+    opacity: 0;
+    animation: animate 1s ease-in-out 1.2s 1 forwards;
+
+}
+
+#hero_1 .content button {
+    background-image: url("../../../public/images/button.png");
+    background-color: transparent;
+    border: 0;
+    padding: 10px 80px 14px 65px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    font-size: 30px;
+
+    opacity: 0;
+    animation: animate 1s ease-in-out 1.6s 1 forwards;
+}
+
+
+#hero_1 .content button a {
+    font-weight: 700;
+    text-decoration: none;
+    color: #088178;
+}

@@ -1,0 +1,75 @@
+.cart {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 50%;
+    height: 100%;
+    background-color: mintcream;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    margin: auto;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.cart.show {
+    right: 0;
+}
+
+.cart #close-cart {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 10px;
+    font-size: 30px;
+}
+
+.cart button {
+    bottom: 10px;
+    right: 10px;
+    background-color: #050505d1;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+
+.cart i {
+    cursor: pointer;
+    margin-bottom: 30px;
+    width: 50px;
+}
+
+
+.cartH2{
+    margin-top: -70px ;
+    margin-bottom: 100px;
+    font-weight: 500;
+    font-size: 46px;
+    line-height: 54px;
+    color: black;
+}
+
+.cart table {
+    width: 100%;
+}
+
+.cart table thead tr th:first-child {
+    text-align: left;
+    margin-left: 10px;
+}
+
+.cart table tr td {
+    padding: 12px 10px;
+}
+
+.cart table thead tr th:last-child {
+    text-align: right;
+}
+
+.cart table tbody tr td:last-child {
+    text-align: right;
+}

@@ -1,0 +1,52 @@
+.agileitsMain {
+    font-family: 'Open Sans', sans-serif;
+    background: url(./1.jpg) no-repeat center 0px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.agileinfoRow {
+    width: 65%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.w3layoutsErrortext {
+    padding-top: 4em;
+}
+
+.w3layoutsErrortext h2 {
+    font-size: 14em;
+    letter-spacing: 20px;
+    color: #fff;
+    margin: 70px;
+}
+
+.w3layoutsErrortext h1 {
+    font-size: 1.2em;
+    color: #fff;
+    font-weight: 900;
+    line-height: 1.8em;
+}
+
+.w3lstext {
+    font-size: 0.9em;
+    color: #fff;
+    line-height: 1.8em;
+    font-weight: 400;
+    width: 65%;
+    text-transform: capitalize;
+    margin: 1.5em auto 2.5em;
+}
+
+.w3lstext a {
+    color: #088176;
+    padding-right: 10px;
+}
+
+.w3lstext a:hover {
+    color: #ffffff;
+}
