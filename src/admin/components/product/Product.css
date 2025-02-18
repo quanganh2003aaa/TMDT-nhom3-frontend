@@ -2,3 +2,69 @@
     width: 100px;
     height: auto;
 }
+
+.btn-ThemMoi{
+    float: right;
+    margin: 10px 20px;
+}
+
+.board{
+    background-color: white;
+    border-radius: 10px;
+}
+.board1{
+    padding: 20px;
+}
+
+.txt-input{
+    background-color:rgb(244, 244, 244);
+    border-radius: 10px;
+}
+.row{
+    padding: 10px;
+}
+.btn-form{
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: auto;
+}
+.btn-form button {
+    padding: 10px 20px;    
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-them{
+    background-color: #0D6EFD;
+    color: white;
+    border-radius: 5px;
+}
+.btn-them:hover{
+    background-color: #0d56c5;
+    color: white;
+}
+.btn-huy{
+    background-color: #fd0d0d;
+    color: white;
+    border-radius: 5px;
+}
+.btn-huy:hover{
+    background-color: #c50d0d;
+    color: white;
+}
+.image-preview {
+    display: flex;                   
+    flex-wrap: nowrap;                 
+    gap: 10px;  
+    overflow-x: auto;                 
+    width: 100%;                        
+    max-width: 100%;                       
+}
+.image-preview img {
+    width: 150px;                      
+    height: 100px;                  
+    object-fit: cover;           
+}
+
+

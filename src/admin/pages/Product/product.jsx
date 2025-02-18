@@ -1,8 +1,7 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import Product from "../components/product/Product";
-import '../css/Admin.css'
+import Sidebar from "../../components/Sidebar";
+import Navbar from "../../components/Navbar";
+import Product from "../../components/product/Product";
 
 const AdminPage = () => {
   return (

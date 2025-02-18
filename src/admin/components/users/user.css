@@ -1,0 +1,24 @@
+.col-md-4 > * {
+    margin-bottom: 10px; /* Thêm khoảng trắng giữa các phần tử */
+}
+
+#number-address {
+    height: 45px; /* Cùng chiều cao với dropdown */
+}
+
+.d-flex {
+    gap: 20px;
+}
+
+.col-form-label{
+    font-size:20px;
+    font-weight: 500;
+}
+
+.table tr{
+    border-bottom-width: 1px;
+}
+
+.table td{
+    border-width: 0;
+}

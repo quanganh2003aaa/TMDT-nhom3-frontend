@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Home.css'
 
 const Dashboard = () => {
     const [productCount, setProductCount] = useState(0);
@@ -8,18 +9,18 @@ const Dashboard = () => {
 
     useEffect(() => {
         // Xác thực người dùng
-        fetch("http://localhost:8080/auth/introspect", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (!data.result.valid || data.result.scope !== "ADMIN") {
-                window.location.href = "/admin/404";
-            }
-        })
-        .catch(() => window.location.href = "/admin/404");
+        // fetch("http://localhost:8080/auth/introspect", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ token })
+        // })
+        // .then(res => res.json())
+        // .then(data => {
+        //     if (!data.result.valid || data.result.scope !== "ADMIN") {
+        //         window.location.href = "/admin/404";
+        //     }
+        // })
+        // .catch(() => window.location.href = "/admin/404");
 
         // Lấy số lượng sản phẩm
         fetch("http://localhost:8080/product/count", {

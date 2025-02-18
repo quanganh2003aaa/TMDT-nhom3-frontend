@@ -11,20 +11,20 @@ const Dashboard = () => {
     const [orderProducts, setOrderProducts] = useState([]);
     const token = sessionStorage.getItem("token");
 
-    useEffect(() => {
-        fetch("http://localhost:8080/auth/introspect", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (!data.result.valid || data.result.scope !== "ADMIN") {
-                window.location.href = "/admin/404";
-            }
-        })
-        .catch(() => window.location.href = "/admin/404");
-    }, [token]);
+    // useEffect(() => {
+    //     fetch("http://localhost:8080/auth/introspect", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({ token })
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         if (!data.result.valid || data.result.scope !== "ADMIN") {
+    //             window.location.href = "/admin/404";
+    //         }
+    //     })
+    //     .catch(() => window.location.href = "/admin/404");
+    // }, [token]);
 
     useEffect(() => {
         fetchOrders();
