@@ -16,7 +16,7 @@ const User = () => {
     };
 
     const handleEditUser = (idUser) => {
-        navigate(`/admin/update-user/${idUser}`);
+        navigate(`/admin/update-user`);
       };
 
     // const handleDeleteUser = (idProduct) => {

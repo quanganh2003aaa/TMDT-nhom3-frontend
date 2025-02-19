@@ -56,7 +56,7 @@ const CreateUser = () => {
                         </div>
                     </div>
                     <div className="btn-form" >
-                        <a href="/admin/user">
+                        <a href="/admin/voucher">
                             <button  className="btn-huy">Hủy</button>
                         </a>
                         <button className="btn-them">Lưu</button>

@@ -52,7 +52,7 @@ const CreateUser = () => {
                             <textarea className="txt-input form-control" id="voucher"></textarea>
 
                             <div className="btn-form" style={{paddingTop:"40px"}}>
-                                <a href="/admin/user">
+                                <a href="/admin/voucher">
                                     <button  className="btn-huy">Hủy</button>
                                 </a>
                                 <button className="btn-them">Thêm</button>

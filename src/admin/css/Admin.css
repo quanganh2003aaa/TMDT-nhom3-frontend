@@ -76,6 +76,16 @@ body.dark {
 }
 
 
+.btn-warning{
+    color: white;
+    background-color: red;
+}
+
+.btn-warning:hover{
+    color: white;
+    background-color: rgb(145, 4, 4);
+}
+
 /* SEARCH */
 #idSearch {
     max-width: 400px;
@@ -216,6 +226,7 @@ body.dark {
 #content main .table-data .order {
     flex-grow: 1;
     flex-basis: 100%;
+    
 }
 
 #content main .table-data .order table {

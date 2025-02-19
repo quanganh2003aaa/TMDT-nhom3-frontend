@@ -1,8 +1,7 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import Orders from "../components/orders/Oder";
-import '../css/Admin.css'
+import Sidebar from "../../components/Sidebar";
+import Navbar from "../../components/Navbar";
+import Product from "../../components/deliver/mainDeli";
 
 const AdminPage = () => {
   return (
@@ -10,7 +9,7 @@ const AdminPage = () => {
       <Sidebar />
       <section id="content">
         <Navbar />
-        <Orders />
+        <Product />
       </section>
     </section>
   );

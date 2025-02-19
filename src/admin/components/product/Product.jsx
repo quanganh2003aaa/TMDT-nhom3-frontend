@@ -70,7 +70,7 @@ const ProductManagement = () => {
   // };
 
   const handleEditProduct = (idProduct) => {
-    navigate(`/admin/update-product/${idProduct}`);
+    navigate(`/admin/update-product`);  ///${idProduct}
   };
 
   // const handleSaveProduct = (formDataToSend) => {
@@ -170,7 +170,7 @@ const ProductManagement = () => {
               {/* {products.map((product) => ( */}
                 <tr key={1} >
                   <td style={{padding:"0px 30px"}}>1</td>
-                   <td><img src={`../images/product/ao_2`}  className="adminProimg"/></td> {/* alt={product.name} */}
+                  <td><img src={`/images/ao_2.png`}  className="adminProimg"/></td> {/* alt={product.name} */}
                   <td><p style={{fontSize:"20px"}}>Giày Nike</p></td>
                   <td><p>12</p></td>
                   <td><p>{formatPrice(1000000)}</p></td>

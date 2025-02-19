@@ -16,7 +16,7 @@ const User = () => {
     };
 
     const handleEditUser = (idVoucher) => {
-        navigate(`/admin/update-voucher/${idVoucher}`);
+        navigate(`/admin/update-voucher`);
       };
 
     // const handleDeleteUser = (idProduct) => {
@@ -92,8 +92,8 @@ const User = () => {
                     </thead>
                     <tbody>
                     <tr key={1} >
-                            <td style={{padding:"0px 30px"}}>GiamGia20K</td>
-                            <td><p style={{fontSize:"20px"}}>100.000 đ </p></td>
+                            <td>GiamGia20K</td>
+                            <td><p>100.000 đ </p></td>
                             <td><p>500.000 đ</p></td>
                             <td><p>18/02/2025</p></td>
                             <td><p>28/02/2025</p></td>
