@@ -19,12 +19,12 @@ const ProductManagement = () => {
   }, [query, selectedFilter]);
 
   const renderListProduct = () => {
-    const url = `http://localhost:8080/product/admin/getAll?query=${encodeURIComponent(query)}&select=${selectedFilter}`;
+    const url = `http://localhost:8080/api/product/admin/getAll?query=${encodeURIComponent(query)}&select=${selectedFilter}`;
     axios
       .get(url, {
-        headers: {
-          'Author': `Bearer ${token}`,
-        },
+        // headers: {
+        //   'Author': `Bearer ${token}`,
+        // },
       })
       .then((response) => {
         setProducts(response.data.result);
@@ -70,7 +70,7 @@ const ProductManagement = () => {
   // };
 
   const handleEditProduct = (idProduct) => {
-    navigate(`/admin/update-product`);  ///${idProduct}
+    navigate(`/admin/update-product/${idProduct}`);  
   };
 
   // const handleSaveProduct = (formDataToSend) => {
@@ -96,10 +96,10 @@ const ProductManagement = () => {
   const handleDeleteProduct = (idProduct) => {
     if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idProduct} không?`)) {
       axios
-        .delete(`http://localhost:8080/product/delete/${idProduct}`, {
-          headers: {
-            'Author': `Bearer ${token}`,
-          },
+        .delete(`http://localhost:8080/api/product/delete/${idProduct}`, {
+          // headers: {
+          //   'Author': `Bearer ${token}`,
+          // },
         })
         .then(() => {
           alert('Xoá sản phẩm thành công!');
@@ -161,19 +161,23 @@ const ProductManagement = () => {
                 <th>Mã Sản Phẩm</th>
                 <th>Ảnh</th>
                 <th>Tên</th>
+                <th>Thương hiệu</th>
+                <th>Danh mục</th>
                 <th>Kho</th>
                 <th>Giá</th>
                 <th>Hành động</th>
               </tr>
             </thead>
             <tbody>
-              {/* {products.map((product) => ( */}
-                <tr key={1} >
-                  <td style={{padding:"0px 30px"}}>1</td>
-                  <td><img src={`/images/ao_2.png`}  className="adminProimg"/></td> {/* alt={product.name} */}
-                  <td><p style={{fontSize:"20px"}}>Giày Nike</p></td>
-                  <td><p>12</p></td>
-                  <td><p>{formatPrice(1000000)}</p></td>
+              {products.map((product) => (
+                <tr key={product.id} >
+                  <td>{product.id}</td>
+                  <td><img src={`/images/${product.img}`}  className="adminProimg"/></td> 
+                  <td><p style={{fontSize:"20px"}}>{product.name}</p></td>
+                  <td><p>{product.brand}</p></td>
+                  <td><p>{product.category}</p></td>
+                  <td><p>{product.quantity}</p></td>
+                  <td><p>{formatPrice(product.price)}</p></td>
                   <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                     <div>
                         <button type="button" className="btn btn-success btn-product-modal" onClick={() => handleEditProduct(1)}>
@@ -185,7 +189,7 @@ const ProductManagement = () => {
                     </button>
                   </td>
                 </tr>
-              {/* ))} */}
+              ))} 
             </tbody>
           </table>
         </div>

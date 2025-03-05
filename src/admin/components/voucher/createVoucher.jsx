@@ -1,10 +1,45 @@
-import React, { useState } from "react";
-import './voucher.css'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateUser = () => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const navigate = useNavigate();
+    const [voucherData, setVoucherData] = useState({
+        id: '',
+        discountValue: '',
+        minOrderAmount: '',
+        startDate: '',
+        endDate: '',
+        maxUsage: ''
+    });
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setVoucherData({
+            ...voucherData,
+            [id]: value
+        });
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const formattedData = {
+                id: voucherData.id,
+                discountValue: Number(voucherData.discountValue),
+                minOrderAmount: Number(voucherData.minOrderAmount),
+                startDate: new Date(voucherData.startDate).toISOString(),
+                endDate: new Date(voucherData.endDate).toISOString(),
+                maxUsage: Number(voucherData.maxUsage)
+            };
+
+            await axios.post('http://localhost:8080/api/voucher/create', formattedData);
+            alert('Mã giảm giá đã được tạo thành công!');
+            navigate('/admin/voucher');
+        } catch (error) {
+            console.error('Lỗi khi tạo mã giảm giá:', error);
+            alert('Lỗi khi tạo mã giảm giá.');
+        }
+    };
 
     return(
         <main>
@@ -31,31 +66,31 @@ const CreateUser = () => {
                 <div className="board1">
                     <div className="column" style={{display:"flex", justifyContent:"space-between"}}>
                         <div className="row" style={{padding:"50px"}}>
-                            <label htmlFor="voucher-name" className="col-form-label" style={{padding:"10px"}}>Giá Trị:</label>
-                            <textarea className="txt-input form-control" id="voucher-name"></textarea>
+                            <label htmlFor="discountValue" className="col-form-label" style={{padding:"10px"}}>Giá Trị:</label>
+                            <textarea className="txt-input form-control" id="discountValue" value={voucherData.discountValue} onChange={handleChange}></textarea>
 
-                            <label htmlFor="voucher-phone" className="col-form-label" style={{padding:"10px"}}>Tối Thiểu:</label>
-                            <textarea className="txt-input form-control" id="voucher-phone"></textarea>
+                            <label htmlFor="minOrderAmount" className="col-form-label" style={{padding:"10px"}}>Tối Thiểu:</label>
+                            <textarea className="txt-input form-control" id="minOrderAmount" value={voucherData.minOrderAmount} onChange={handleChange}></textarea>
 
-                            <label htmlFor="voucher-password" className="col-form-label" style={{padding:"10px"}}>Số Lượng:</label>
-                            <textarea className="txt-input form-control" id="voucher-password"></textarea>                            
+                            <label htmlFor="maxUsage" className="col-form-label" style={{padding:"10px"}}>Số Lượng:</label>
+                            <textarea className="txt-input form-control" id="maxUsage" value={voucherData.maxUsage} onChange={handleChange}></textarea>                            
                         </div>
 
                         <div className="row" style={{padding:"50px"}}>
-                            <label htmlFor="date-start" className="col-form-label" style={{padding:"10px"}}>Ngày Bắt Đầu:</label>
-                            <input type="date" id="date-start" name="date" min={new Date().toISOString().split("T")[0]} style={{padding:"10px"}}/>                          
+                            <label htmlFor="startDate" className="col-form-label" style={{padding:"10px"}}>Ngày Bắt Đầu:</label>
+                            <input type="date" id="startDate" name="date" min={new Date().toISOString().split("T")[0]} value={voucherData.startDate} onChange={handleChange} style={{padding:"10px"}}/>                          
 
-                            <label htmlFor="date-end" className="col-form-label" style={{padding:"10px"}}>Ngày Kết Thúc:</label>
-                            <input type="date" id="date-end" name="date" min={new Date().toISOString().split("T")[0]} style={{padding:"10px"}}/>  
+                            <label htmlFor="endDate" className="col-form-label" style={{padding:"10px"}}>Ngày Kết Thúc:</label>
+                            <input type="date" id="endDate" name="date" min={new Date().toISOString().split("T")[0]} value={voucherData.endDate} onChange={handleChange} style={{padding:"10px"}}/>  
 
-                            <label htmlFor="voucher" className="col-form-label" style={{padding:"10px"}}>Mã:</label>
-                            <textarea className="txt-input form-control" id="voucher"></textarea>
+                            <label htmlFor="id" className="col-form-label" style={{padding:"10px"}}>Mã:</label>
+                            <textarea className="txt-input form-control" id="id" value={voucherData.id} onChange={handleChange}></textarea>
 
                             <div className="btn-form" style={{paddingTop:"40px"}}>
                                 <a href="/admin/voucher">
-                                    <button  className="btn-huy">Hủy</button>
+                                    <button className="btn-huy">Hủy</button>
                                 </a>
-                                <button className="btn-them">Thêm</button>
+                                <button className="btn-them" onClick={handleSubmit}>Thêm</button>
                             </div>
                         </div>
                     </div>

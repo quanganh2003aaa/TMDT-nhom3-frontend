@@ -87,11 +87,11 @@ function Admins() {
 
             <Route path="/products" element={<Products />} />
             <Route path="/create-products" element={<CreateProduct />} />
-             <Route path="/update-product" element={<UpdateProduct />} /> {/* :idProduct */}
+             <Route path="/update-product/:idProduct" element={<UpdateProduct />} /> {/* :idProduct */}
 
             <Route path="/voucher" element={<Voucher />} />
             <Route path="/create-voucher" element={<CreateVoucher />} />
-            <Route path="/update-voucher" element={<UpdateVoucher />} />
+            <Route path="/update-voucher/:idVoucher" element={<UpdateVoucher />} />
 
             <Route path="/revenue" element={<Revenue />} />
         </Routes>

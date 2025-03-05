@@ -1,11 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const User = () => {    
+    const [voucher, setVoucher] = useState([]);
     const [query, setQuery] = useState('');
     const [selectedFilter, setSelectedFilter] = useState(0);
     const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
+
+    const formatPrice = (price) => {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
+    };
+
+    useEffect(() => {
+        renderListVoucher();
+    }, [query, selectedFilter]);
+
+    const renderListVoucher = () => {
+    const url = `http://localhost:8080/api/voucher/getAll?query=${encodeURIComponent(query)}&select=${selectedFilter}`;
+    axios
+        .get(url  //, {
+        // headers: {
+        //     'Author': `Bearer ${token}`,
+        // },
+        // }
+        )
+        .then((response) => {
+        setVoucher(response.data.result);
+        })
+        .catch((error) => {
+        console.error('Error fetching products:', error);
+        });
+    };
     
     const handleSearchChange = (event) => {
         setQuery(event.target.value.toLowerCase());
@@ -16,27 +43,27 @@ const User = () => {
     };
 
     const handleEditUser = (idVoucher) => {
-        navigate(`/admin/update-voucher`);
-      };
+        navigate(`/admin/update-voucher/${idVoucher}`);
+    };    
 
-    // const handleDeleteUser = (idProduct) => {
-    //     if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idProduct} không?`)) {
-    //       axios
-    //         .delete(`http://localhost:8080/product/delete/${idProduct}`, {
-    //           headers: {
-    //             'Author': `Bearer ${token}`,
-    //           },
-    //         })
-    //         .then(() => {
-    //           alert('Xoá sản phẩm thành công!');
-    //           renderListProduct();
-    //         })
-    //         .catch((error) => {
-    //           console.error('Lỗi xóa sản phẩm:', error);
-    //           alert('Xóa sản phẩm thất bại');
-    //         });
-    //     }
-    //   };
+    const handleDeleteUser = (idVoucher) => {
+        if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idVoucher} không?`)) {
+          axios
+            .delete(`http://localhost:8080/api/voucher/delete/${idVoucher}`, {
+            //   headers: {
+            //     'Author': `Bearer ${token}`,
+            //   },
+            })
+            .then(() => {
+              alert('Xoá sản phẩm thành công!');
+              renderListVoucher();
+            })
+            .catch((error) => {
+              console.error('Lỗi xóa sản phẩm:', error);
+              alert('Xóa sản phẩm thất bại');
+            });
+        }
+      };
 
     return(
         <main>
@@ -91,30 +118,28 @@ const User = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr key={1} >
-                            <td>GiamGia20K</td>
-                            <td><p>100.000 đ </p></td>
-                            <td><p>500.000 đ</p></td>
-                            <td><p>18/02/2025</p></td>
-                            <td><p>28/02/2025</p></td>
-                            <td><p>20</p></td>
-                            <td><p>10</p></td>
+                    {voucher.map((voucher) => (
+                        <tr key={voucher.id} >
+                            <td>{voucher.id}</td>
+                            <td><p>{formatPrice(voucher.discountValue)}</p></td>
+                            <td><p>{formatPrice(voucher.minOrderAmount)}</p></td>
+                            <td><p>{voucher.startDate}</p></td>
+                            <td><p>{voucher.endDate}</p></td>
+                            <td><p>{voucher.maxUsage}</p></td>
+                            <td><p>{voucher.usedCount}</p></td>
                             <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                                 <div>
-                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditUser(1)}> 
+                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditUser(voucher.id)}> 
                                         
                                     <i className="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </div>
-                                <button type="button" className="btn btn-warning btn-delete-product" > 
-                                    {/* onClick={() => handleDeleteUser(product.id)} */}
-                                <i className="fa-solid fa-trash"></i>
+                                <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDeleteUser(voucher.id)}>                                     
+                                    <i className="fa-solid fa-trash"></i>
                                 </button>
                             </td>
-                        </tr>
-                    {/* {products.map((product) => (
-                        
-                    ))} */}
+                        </tr> 
+                    ))}
                     </tbody>
                 </table>
                 </div>   

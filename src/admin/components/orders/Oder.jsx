@@ -26,54 +26,54 @@ const Dashboard = () => {
     //     .catch(() => window.location.href = "/admin/404");
     // }, [token]);
 
-    useEffect(() => {
-        fetchOrders();
-    }, [currentPage, query, selectedStatus]);
+    // useEffect(() => {
+    //     fetchOrders();
+    // }, [currentPage, query, selectedStatus]);
 
     const fetchOrders = () => {
-        let url = `http://localhost:8080/order/getOrderSearch?page=${currentPage}`;
-        if (query) url += `&query=${encodeURIComponent(query)}`;
-        if (selectedStatus) url += `&select=${selectedStatus}`;
+        // let url = `http://localhost:8080/order/getOrderSearch?page=${currentPage}`;
+        // if (query) url += `&query=${encodeURIComponent(query)}`;
+        // if (selectedStatus) url += `&select=${selectedStatus}`;
 
-        fetch(url, {
-            method: "GET",
-            headers: { "Author": `Bearer ${token}` }
-        })
-        .then(res => res.json())
-        .then(data => {
-            setOrders(data.result.objectList);
-            setTotalPages(data.result.totalPages);
-        });
+        // fetch(url, {
+        //     method: "GET",
+        //     headers: { "Author": `Bearer ${token}` }
+        // })
+        // .then(res => res.json())
+        // .then(data => {
+        //     setOrders(data.result.objectList);
+        //     setTotalPages(data.result.totalPages);
+        // });
     };
 
     const fetchOrderProducts = (orderId) => {
-        fetch(`http://localhost:8080/order/getById/${orderId}`, {
-            method: "GET",
-            headers: { "Authorization": `Bearer ${token}` }
-        })
-        .then(res => res.json())
-        .then(data => setOrderProducts(data.result || []));
+        // fetch(`http://localhost:8080/order/getById/${orderId}`, {
+        //     method: "GET",
+        //     headers: { "Authorization": `Bearer ${token}` }
+        // })
+        // .then(res => res.json())
+        // .then(data => setOrderProducts(data.result || []));
     };
 
     const updateOrderStatus = (orderId, action) => {
-        fetch(`http://localhost:8080/order/${action}/${orderId}`, {
-            method: "PUT",
-            headers: { "Author": `Bearer ${token}` }
-        })
-        .then(() => {
-            alert("Cập nhật sản phẩm thành công!");
-            fetchOrders();
-        });
+        // fetch(`http://localhost:8080/order/${action}/${orderId}`, {
+        //     method: "PUT",
+        //     headers: { "Author": `Bearer ${token}` }
+        // })
+        // .then(() => {
+        //     alert("Cập nhật sản phẩm thành công!");
+        //     fetchOrders();
+        // });
     };
 
     const handleExpandOrder = (orderId) => {
-        if (expandedOrder === orderId) {
-            setExpandedOrder(null);
-            setOrderProducts([]);
-        } else {
-            setExpandedOrder(orderId);
-            fetchOrderProducts(orderId);
-        }
+        // if (expandedOrder === orderId) {
+        //     setExpandedOrder(null);
+        //     setOrderProducts([]);
+        // } else {
+        //     setExpandedOrder(orderId);
+        //     fetchOrderProducts(orderId);
+        // }
     };
 
     const formatCurrency = (amount) => {

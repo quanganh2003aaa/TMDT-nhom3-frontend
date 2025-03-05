@@ -23,30 +23,30 @@ const Dashboard = () => {
         // .catch(() => window.location.href = "/admin/404");
 
         // Lấy số lượng sản phẩm
-        fetch("http://localhost:8080/product/count", {
-            method: "GET",
-            headers: { "Author": `Bearer ${token}` }
-        })
-        .then(res => res.text())
-        .then(setProductCount);
-        console.log(setProductCount);
+    //     fetch("http://localhost:8080/product/count", {
+    //         method: "GET",
+    //         headers: { "Author": `Bearer ${token}` }
+    //     })
+    //     .then(res => res.text())
+    //     .then(setProductCount);
+    //     console.log(setProductCount);
         
 
-        // Lấy số lượng đơn hàng
-        fetch("http://localhost:8080/order/count", {
-            method: "GET",
-            headers: { "Author": `Bearer ${token}` }
-        })
-        .then(res => res.text())
-        .then(setOrderCount);
+    //     // Lấy số lượng đơn hàng
+    //     fetch("http://localhost:8080/order/count", {
+    //         method: "GET",
+    //         headers: { "Author": `Bearer ${token}` }
+    //     })
+    //     .then(res => res.text())
+    //     .then(setOrderCount);
 
-        // Lấy số lượng người dùng
-        fetch("http://localhost:8080/user/count", {
-            method: "GET",
-            headers: { "Author": `Bearer ${token}` }
-        })
-        .then(res => res.text())
-        .then(setUserCount);
+    //     // Lấy số lượng người dùng
+    //     fetch("http://localhost:8080/user/count", {
+    //         method: "GET",
+    //         headers: { "Author": `Bearer ${token}` }
+    //     })
+    //     .then(res => res.text())
+    //     .then(setUserCount);
     }, [token]);
 
     return (

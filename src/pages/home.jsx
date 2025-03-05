@@ -17,7 +17,7 @@ const Home = () => {
             </Helmet>
             <Hero />
             <Feature />
-            <ProductHighlight />
+            {/* <ProductHighlight /> */}
             <Banner />
             <NewProducts />
             <SmallBanner />

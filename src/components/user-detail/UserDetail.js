@@ -15,64 +15,64 @@ const UserDetails = () => {
         window.location.href = "/login";
         return;
       }
-      fetchOrders();
+      // fetchOrders();
     }, []);
   
     const fetchOrders = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/order/getOrderByUser/${idUser}`, {
-          headers: { Author: `Bearer ${token}` },
-        });
-        setOrders(response.data.result);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách đơn hàng:", error);
-        alert("Lỗi khi lấy danh sách đơn hàng!");
-      }
+      // try {
+      //   const response = await axios.get(`http://localhost:8080/order/getOrderByUser/${idUser}`, {
+      //     headers: { Author: `Bearer ${token}` },
+      //   });
+      //   setOrders(response.data.result);
+      // } catch (error) {
+      //   console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+      //   alert("Lỗi khi lấy danh sách đơn hàng!");
+      // }
     };
   
-    const fetchOrderDetails = async (orderId) => {
-      try {
-        const response = await axios.get(`http://localhost:8080/order/getById/${orderId}`, {
-          headers: { Author: `Bearer ${token}` },
-        });
-        setOrderDetails(response.data.result);
-        setSelectedOrder(orderId);
-      } catch (error) {
-        console.error("Lỗi khi lấy chi tiết đơn hàng:", error);
-        alert("Lỗi khi lấy chi tiết đơn hàng!");
-      }
-    };
+    // const fetchOrderDetails = async (orderId) => {
+      // try {
+      //   const response = await axios.get(`http://localhost:8080/order/getById/${orderId}`, {
+      //     headers: { Author: `Bearer ${token}` },
+      //   });
+      //   setOrderDetails(response.data.result);
+      //   setSelectedOrder(orderId);
+      // } catch (error) {
+      //   console.error("Lỗi khi lấy chi tiết đơn hàng:", error);
+      //   alert("Lỗi khi lấy chi tiết đơn hàng!");
+      // }
+    // };
   
     const cancelOrder = async (orderId) => {
-      const isConfirmed = window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
-      if (isConfirmed) {
-        try {
-          await axios.put(`http://localhost:8080/order/cancel/${orderId}`, null, {
-            headers: { Author: `Bearer ${token}` },
-          });
-          alert("Hủy đơn hàng thành công!");
-          fetchOrders();
-        } catch (error) {
-          console.error("Lỗi khi hủy đơn hàng:", error);
-          alert("Hủy đơn hàng thất bại!");
-        }
-      }
+      // const isConfirmed = window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
+      // if (isConfirmed) {
+      //   try {
+      //     await axios.put(`http://localhost:8080/order/cancel/${orderId}`, null, {
+      //       headers: { Author: `Bearer ${token}` },
+      //     });
+      //     alert("Hủy đơn hàng thành công!");
+      //     fetchOrders();
+      //   } catch (error) {
+      //     console.error("Lỗi khi hủy đơn hàng:", error);
+      //     alert("Hủy đơn hàng thất bại!");
+      //   }
+      // }
     };
   
     const completeOrder = async (orderId) => {
-      const isConfirmed = window.confirm("Bạn đã nhận đơn hàng này?");
-      if (isConfirmed) {
-        try {
-          await axios.put(`http://localhost:8080/order/success/${orderId}`, null, {
-            headers: { Author: `Bearer ${token}` },
-          });
-          alert("Cảm ơn bạn đã mua hàng thành công!");
-          fetchOrders();
-        } catch (error) {
-          console.error("Lỗi khi xác nhận đơn hàng:", error);
-          alert("Lỗi khi xác nhận đơn hàng!");
-        }
-      }
+      // const isConfirmed = window.confirm("Bạn đã nhận đơn hàng này?");
+      // if (isConfirmed) {
+      //   try {
+      //     await axios.put(`http://localhost:8080/order/success/${orderId}`, null, {
+      //       headers: { Author: `Bearer ${token}` },
+      //     });
+      //     alert("Cảm ơn bạn đã mua hàng thành công!");
+      //     fetchOrders();
+      //   } catch (error) {
+      //     console.error("Lỗi khi xác nhận đơn hàng:", error);
+      //     alert("Lỗi khi xác nhận đơn hàng!");
+      //   }
+      // }
     };
   
     const handleLogout = () => {
@@ -139,7 +139,7 @@ const UserDetails = () => {
                     <td>
                         <button
                         className="btn btn-outline-primary"
-                        onClick={() => fetchOrderDetails(order.id)}
+                        // onClick={() => fetchOrderDetails(order.id)}
                         >
                         Xem chi tiết
                         </button>
