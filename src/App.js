@@ -10,7 +10,9 @@ import Home from "./pages/home";
 import ProductList from "./pages/product-list";
 import SneakerList from "./pages/sneaker";
 import ClothesList from "./pages/clothes";
+import BrandsList from "./pages/brand";
 import Blog from "./pages/blog";
+import Vouchers from "./pages/voucher";
 import Contact from "./pages/contact";
 import ProductDetailPage from "./pages/sproduct";
 import Login from "./pages/login";
@@ -40,7 +42,9 @@ function App() {
           <Route path="/product-list" element={<ProductList />} />
           <Route path="/sneaker" element={<SneakerList />} />
           <Route path="/clothes" element={<ClothesList />} />
+          <Route path="/brands" element={<BrandsList />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/voucher" element={<Vouchers />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/sproduct" element={<ProductDetailPage />} />
           <Route path="/login" element={<Login />} />

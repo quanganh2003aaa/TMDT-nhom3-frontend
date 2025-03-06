@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import UserDetail from "../components/user-detail/UserDetail";
 
-const Accessories = () => {
+const UserDetails = () => {
     return(
         <div>
             <Helmet>
@@ -13,4 +13,4 @@ const Accessories = () => {
     );
 };
 
-export default Accessories;
+export default UserDetails;

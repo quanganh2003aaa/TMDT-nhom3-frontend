@@ -53,11 +53,13 @@
 #navbar .drop-menu {
     background: #e3e6f3ce;
     width: 180px;
+    height: 190px;
     top: 85px;
     line-height: 45px;
     position: absolute;
     opacity: 0;
     visibility: hidden;
+    padding-left: 0;
 }
 
 #navbar li:hover .drop-menu {
@@ -70,7 +72,6 @@
 .drop-menu li a {
     width: 100%;
     display: block;
-    padding: 0 0 0 15px;
     font-weight: 400;
     border-radius: 0px;
 

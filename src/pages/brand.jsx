@@ -1,15 +1,15 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import ProductList from "../components/product/ShoesList";
+import Brand from "../components/product/BrandList";
 import Newsletter from "../components/newsletter";
 
 const Sneaker = () => {
     return(
         <div>
             <Helmet>
-                <title>Danh sách giày - SneakerStudio</title>
+                <title>Danh sách thương hiệu - SneakerStudio</title>
             </Helmet>
-            <ProductList />
+            <Brand />
             <Newsletter />
         </div>
     );

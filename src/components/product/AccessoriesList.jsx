@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Product.css'
 
-const ProductList = () => {
+const AccssoriesList = () => {
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
   };
@@ -195,4 +195,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default AccssoriesList;

@@ -11,7 +11,6 @@ const Product = () => {
                 <title>Danh sách sản phẩm - SneakerStudio</title>
             </Helmet>
             <ProductList />
-            <Cart />
             <Newsletter />
         </div>
     );

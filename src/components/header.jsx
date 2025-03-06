@@ -49,7 +49,7 @@ const Header = ({ onCartClick }) => {
           </li>
           <li>
             <Link
-              className={isActive(["/product-list", "/sneaker", "/clothes", "/accessories"]) ? "active" : ""}
+              className={isActive(["/product-list", "/sneaker", "/clothes", "/accessories", "/brands"]) ? "active" : ""}
               to="/product-list"
               onClick={() => handleNavigation("/product-list")}
             >
@@ -65,6 +65,9 @@ const Header = ({ onCartClick }) => {
               <li>
                 <a href="/accessories" onClick={() => handleNavigation("/accessories")}>PHỤ KIỆN</a>
               </li>
+              <li>
+                <a href="/brands" onClick={() => handleNavigation("/brands")}>THƯƠNG HIỆU</a>
+              </li>
             </ul>
           </li>
           <li>
@@ -73,7 +76,16 @@ const Header = ({ onCartClick }) => {
                 to="/blog"
                 onClick={() => handleNavigation("/blog")}
               >
-                TIN TỨC - SỰ KIỆN
+                TIN TỨC
+              </Link>
+          </li>
+          <li>
+            <Link
+                className={isActive(["/voucher"]) ? "active" : ""}
+                to="/voucher"
+                onClick={() => handleNavigation("/voucher")}
+              >
+                KHUYẾN MÃI
               </Link>
           </li>
           <li>

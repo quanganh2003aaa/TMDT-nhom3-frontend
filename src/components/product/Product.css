@@ -53,7 +53,7 @@ h6 {
 
 .product .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 10px 12px;
     flex-wrap: wrap;
 }

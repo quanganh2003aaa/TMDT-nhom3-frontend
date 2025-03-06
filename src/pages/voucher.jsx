@@ -1,18 +1,18 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import ProductList from "../components/product/ShoesList";
+import Vouchers from "../components/voucher/Voucher";
 import Newsletter from "../components/newsletter";
 
-const Sneaker = () => {
+const Voucher = () => {
     return(
         <div>
             <Helmet>
-                <title>Danh sách giày - SneakerStudio</title>
+                <title>Danh sách Voucher - SneakerStudio</title>
             </Helmet>
-            <ProductList />
+            <Vouchers />
             <Newsletter />
         </div>
     );
 };
 
-export default Sneaker;
+export default Voucher;

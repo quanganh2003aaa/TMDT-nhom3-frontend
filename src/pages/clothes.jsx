@@ -11,7 +11,6 @@ const Accessories = () => {
                 <title>Danh sách quần áo - SneakerStudio</title>
             </Helmet>
             <ProductList />
-            <Cart />
             <Newsletter />
         </div>
     );
