@@ -10,7 +10,7 @@ const Accessories = () => {
             </Helmet>
             <section id="page-header" className="contact-header" >
                 <h1>Liên hệ</h1>
-                <p>THÔNG TIN VỀ SHOP CHÚNG TÔI</p>
+                <p>THÔNG TIN VỀ CỬA HÀNG CHÚNG TÔI</p>
             </section>
             <Body />
         </div>
