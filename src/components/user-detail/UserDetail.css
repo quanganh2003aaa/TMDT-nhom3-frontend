@@ -1,106 +1,128 @@
-.tab-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
-    margin: 0 30px;
+.udetail{
+    display: flex;
+    margin: 40px 0;
 }
 
-.tab-pane {
-    max-height: 315px;
-    overflow-y: auto;
+.udetail-sidebar{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    margin-left: 150px;
+    margin-right: 80px;
 }
 
-.tab-pane::-webkit-scrollbar {
-    width: 6px;
+.udetail-sidebar-item{
+    padding: 10px;
+    justify-items: center;
+    border: outset;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-.tab-pane::-webkit-scrollbar-track {
-    background: #f1f1f1;
+.udetail-sidebar-item:hover{
+    background-color: #008080;
 }
 
-.tab-pane::-webkit-scrollbar-thumb {
-    background: #008080;
-    border-radius: 3px;
+.udetail-sidebar-item:hover h4 {
+    color: white;
 }
 
-/* Đảm bảo tab-pane active hiển thị ngay từ đầu */
-.tab-pane.active {
-    display: block !important;
-    opacity: 1 !important;
+.udetail-sidebar-item h4{
+    font-size: larger;
+    color: black;
+    text-align: center;
+    width: 100%;
 }
 
-.status {
-    color: #fff;
-    padding: 3px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: .85em;
-  }
-  
-  /* Màu đỏ cho trạng thái "Đơn hàng đã hủy" */
-  .status-cancelled {
-    background-color: #e74c3c;
-  }
-  
-  /* Màu xanh biển cho trạng thái "Đang chuẩn bị" */
-  .status-preparing {
-    background-color: #3498db;
-  }
-  
-  /* Màu xanh lá cho trạng thái "Giao hàng thành công" */
-  .status-completed {
-    background-color: #2ecc71;
-  }
-  
-  /* Màu xám cho trạng thái "Chờ xác nhận" */
-  .status-pending {
-    background-color: #95a5a6;
-  }
-  
-  /* Màu vàng cho trạng thái "Đang giao hàng" */
-  .status-shipping {
-    background-color: #f1c40f;
-  }
-  
-  /* Màu xám mặc định cho trạng thái không xác định */
-  .status-default {
-    background-color: #7f8c8d;
-  }
-  
+.udetail-body{
+    width: 1000px;
+}
 
-.nav-pills .nav-link.active {
+.udetail-sidebar-active, .udetail-sidebar-active h4{
     background-color: #008080;
     color: white;
 }
 
-
-.btn-logout {
-  color: red;
-  padding: 15px 32px;
-  text-align: center;
-  font-size: 16px;
-  border: outset;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-left: 11px;
+.udetail-body-item{
+    padding: 30px;
+    border: 2px solid #cfcaca;
 }
 
-.btn-logout:hover{
-    background-color: red; /* Màu khi hover */
-  transform: scale(1.05); /* Hiệu ứng phóng to */
-  color: white;
+.udetail-body-btn{
+    display: flex;
+    justify-self: end;
 }
 
-.modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen với độ mờ */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1040; /* Đảm bảo lớp nền nằm sau modal */
-  }
-  
-  
+.udetail-body-btn button{
+    margin: 15px;
+    padding: 5px 20px;
+    border-radius: 7px;
+    color: white;
+}
+
+.udetail-body-item h5{
+    margin: 20px;
+}
+
+.udetail-body-item img{
+    width: 10%;
+    height: 10%;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.udetail-body-item h2{
+    color: #008080;
+}
+
+.oderdetail-container{
+    margin: 100px;
+}
+
+.oderdetail-header{
+    background-color: #008080;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.oderdetail-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.oderdetail-body-ship{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.oderdetail-body-ship-detail{
+    display: flex;
+    flex-direction: row;
+}
+
+.oderdetail-body-address{
+    padding: 0 20px;
+}
+
+.oderdetail-body-product{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.oderdetail-summary{
+    margin:20px;
+}
+
+.oderdetail-actions{
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+}
+
+.oderdetail-actions button{
+    padding: 20px 50px;
+    border-radius: 10px;
+}

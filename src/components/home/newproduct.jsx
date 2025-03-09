@@ -17,7 +17,7 @@ const NewProducts = () => {
 
   // Hàm xử lý chuyển trang chi tiết sản phẩm
   const detailProduct = (idProduct) => {
-    const url = `/sproduct.html?id=${idProduct}`;
+    const url = `/sproduct?id=${idProduct}`;
     window.location.href = url;
   };
 

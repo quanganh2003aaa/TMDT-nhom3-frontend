@@ -53,7 +53,7 @@ const Body = () => {
   return (
     <section id="contact-details" className="section-p1">
       <div className="details">
-        <img src="./images/contact_2.png" alt="Contact" />
+        <img src="./images/contact_2.png" alt="Contact" style={{width:"100%"}}/>
         <br />
         <span>
           Sneaker Studio international được thành lập từ năm 2015, là chuỗi bán lẻ Sneaker, Streetwear và phụ kiện thời trang

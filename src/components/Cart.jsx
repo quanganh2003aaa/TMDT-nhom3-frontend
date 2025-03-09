@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./cart.css";
+import "./cart.css"; 
 
-const Cart = ({ isVisible, onClose }) => {
+const Cart = () => {
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Load cart data from sessionStorage
   useEffect(() => {
     const loadCart = () => {
       const storedCart = JSON.parse(sessionStorage.getItem("cart")) || {
@@ -19,9 +18,8 @@ const Cart = ({ isVisible, onClose }) => {
       setTotalPrice(storedCart.totalPrice || 0);
     };
     loadCart();
-  }, [isVisible]);
+  }, []);
 
-  // Remove an item from the cart
   const removeItem = (index) => {
     const updatedCart = [...cartItems];
     const removedItem = updatedCart.splice(index, 1);
@@ -40,26 +38,27 @@ const Cart = ({ isVisible, onClose }) => {
     );
   };
 
-  // Hàm kiểm tra idUser trong sessionStorage
   const handleUserNavigation = () => {
     const idUser = sessionStorage.getItem("idUser");
     if (idUser) {
-      navigate("/pay"); // Chuyển tới trang thanh toán
+      navigate("/pay");
     } else {
-      alert("Bạn cần đăng nhập trước!"); // Hiển thị thông báo
-      navigate("/login"); // Chuyển tới trang login
+      alert("Bạn cần đăng nhập trước!");
+      navigate("/login");
     }
   };
 
   return (
-    <section className={`cart ${isVisible ? "show" : ""}`} id="cart">
-      <i className="fa-solid fa-xmark" id="close-cart" onClick={onClose}></i>
-      <h2 className={"cartH2"}>Giỏ Hàng</h2>
-      <div id="cart-index">
-        <table className="table" id="table">
+    <section className="cart-page-container">
+      <div className="cart-page-header">
+        <h2>Giỏ Hàng</h2>
+      </div>
+
+      <div className="cart-page-content">
+        <table className="cart-page-table">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th>#</th>
               <th>Ảnh</th>
               <th>Tên Sản Phẩm</th>
               <th>Size</th>
@@ -68,7 +67,7 @@ const Cart = ({ isVisible, onClose }) => {
               <th>Xóa</th>
             </tr>
           </thead>
-          <tbody id="list-cart">
+          <tbody>
             {cartItems.length > 0 ? (
               cartItems.map((item, index) => (
                 <tr key={index}>
@@ -77,7 +76,7 @@ const Cart = ({ isVisible, onClose }) => {
                     <img
                       src={`images/product/${item.img}`}
                       alt={item.name}
-                      style={{ width: "100px", height: "100px", objectFit: "contain" }}
+                      style={{ width: "80px", height: "80px", objectFit: "contain" }}
                     />
                   </td>
                   <td>{item.name}</td>
@@ -88,7 +87,6 @@ const Cart = ({ isVisible, onClose }) => {
                     <button
                       className="btn btn-danger"
                       onClick={() => removeItem(index)}
-                      style={{backgroundColor: "red"}}
                     >
                       X
                     </button>
@@ -104,23 +102,20 @@ const Cart = ({ isVisible, onClose }) => {
             )}
           </tbody>
         </table>
-      </div>
 
-      <div
-        className="price-total"
-        id="price-total"
-        style={{ textAlign: "right", padding: "0 15px" }}
-      >
-        <p style={{ fontWeight: "bold", color: "black" }}>
-          Tổng Tiền:{" "}
-          <span style={{ color: "green" }}>
-            {totalPrice.toLocaleString()} VND
-          </span>
-        </p>
+        <div className="cart-page-total">
+          <p>
+            Tổng Tiền:{" "}
+            <span>{totalPrice.toLocaleString()} VND</span>
+          </p>
+        </div>
+
+        <div className="cart-page-actions">
+          <button className="btn btn-primary" onClick={handleUserNavigation}>
+            Tiến hành thanh toán
+          </button>
+        </div>
       </div>
-      <a href="" onClick={handleUserNavigation}>
-        <button className="btn-pay">Tiến hành thanh toán</button>
-      </a>
     </section>
   );
 };

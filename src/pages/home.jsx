@@ -19,7 +19,7 @@ const Home = () => {
             <Feature />
             {/* <ProductHighlight /> */}
             <Banner />
-            <NewProducts />
+            {/* <NewProducts /> */}
             <SmallBanner />
             <Banner3 />
             <Newsletter />

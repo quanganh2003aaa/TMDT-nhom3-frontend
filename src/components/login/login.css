@@ -1,0 +1,112 @@
+.login-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #06695D;
+}
+
+.login-container{
+    width: 800px;
+    height: 500px;
+    background: #088178;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    flex-direction: row-reverse;
+}
+
+.login-signinform,
+.login-registerform {
+    width: 50%;
+    height: 100%;
+    padding: 40px;
+    position: absolute;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    z-index: 1;
+    left: 100%; 
+}
+
+.login-formTitle{
+    font-size: 37px;
+    margin-bottom: 20px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+}
+
+.login-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.login-button {
+    width: 100%;
+    height: 45px;
+    background: white;
+    color: #2a7f00;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.login-toggle-text {
+    text-align: center;
+    margin-top: 10px;
+    color: #fff;
+}
+
+
+.login-toggle-link {
+    color: #ffcc00;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.login-img-container {
+    flex: 1;
+    background-image: url('/public/images/noen.jpeg');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0; /* Ảnh mặc định ở bên phải */
+    transition: transform 0.5s ease-in-out;
+}
+
+.login-img-move-left {
+    transform: translateX(-100%);
+}
+
+.login-welcome-text {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 36px;
+    color: #fff;
+    font-family: 'Parisienne', cursive;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.login-active {
+    left: 0%;
+    opacity: 1;
+    z-index: 2;
+}
+
+.login-register-active {
+    left: 50%;
+    opacity: 1;
+    z-index: 2;
+}

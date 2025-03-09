@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './header.css';
 import { Link, useNavigate, useLocation} from "react-router-dom";
 
-const Header = ({ onCartClick }) => {
+const Header = () => {
   const navigate = useNavigate();
 
   const isActive = (paths) => paths.includes(location.pathname);
@@ -33,6 +33,10 @@ const Header = ({ onCartClick }) => {
       window.location.href = `/product-list?query=${encodeURIComponent(searchText)}`;
     }
   };
+
+  const onCartClick = () =>{
+    navigate("/cart");
+  }
 
   return (
     <section id="header">
@@ -112,22 +116,13 @@ const Header = ({ onCartClick }) => {
             </form>
           </li>
           <li id="lg-bag">
-            <div className="navbar-cart-icon" onClick={() => onCartClick()}>
+            <div className="navbar-cart-icon" onClick={onCartClick}>
               <i className="fa-solid fa-shopping-cart"></i>
               <span id="cart-notification" className="notification-badge">0</span>
             </div>
           </li>
           <a href="#" id="close"><i className="fa-solid fa-xmark"></i></a>
         </ul>
-      </div>
-      <div id="mobile">
-        <a href="#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-          <i className="fa-solid fa-magnifying-glass"></i>
-        </a>
-        <a href="#" onClick={() => handleNavigation("/cart")}>
-          <i className="fa-solid fa-basket-shopping"></i>
-        </a>
-        <i id="bar" className="fas fa-outdent"></i>
       </div>
     </section>
   );

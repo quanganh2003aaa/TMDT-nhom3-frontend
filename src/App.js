@@ -17,6 +17,10 @@ import Contact from "./pages/contact";
 import ProductDetailPage from "./pages/sproduct";
 import Login from "./pages/login";
 import UserDetails from "./pages/userdetail";
+import UserDetailsHistory from "./pages/userdetail-history";
+import UserDetailsComment from "./pages/userdetail-comment";
+import UserDetailsRate from "./pages/userdetail-rate";
+import UserDetailsOrder from "./pages/OrderDetail";
 import Pay from "./pages/pay";
 import Thankyou from "./pages/thankyou";
 
@@ -33,11 +37,11 @@ function App() {
     
   return (
     <>
-      <Header onCartClick={handleCartClick}/>
-      <Cart isVisible={isCartVisible} onClose={handleCloseCart} />
+      <Header/>
       <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/accessories" element={<Accessories />} />
           <Route path="/product-list" element={<ProductList />} />
           <Route path="/sneaker" element={<SneakerList />} />
@@ -49,6 +53,10 @@ function App() {
           <Route path="/sproduct" element={<ProductDetailPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user-detail" element={<UserDetails />} />
+          <Route path="/user-detail/history" element={<UserDetailsHistory />} />
+          <Route path="/user-detail/comment" element={<UserDetailsComment />} />
+          <Route path="/user-detail/rate" element={<UserDetailsRate />} />
+          <Route path="/user-detail/order-detail/:id" element={<UserDetailsOrder />} />
           <Route path="/pay" element={<Pay />} />
           <Route path="/thankyou" element={<Thankyou />} />
       </Routes>

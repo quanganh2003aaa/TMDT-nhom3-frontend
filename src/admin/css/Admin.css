@@ -23,7 +23,7 @@ td {
 /* Wrapper chứa 2 thẻ div */
 
 :root {
-    --status-pending: #f1c40f;
+    --status-pending: #95a5a6;
     --status-processing: #3498db;
     --status-shipped: rgb(255, 143, 255);
     --status-done: #2ecc71;

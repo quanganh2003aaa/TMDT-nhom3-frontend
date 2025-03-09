@@ -1,75 +1,93 @@
-.cart {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 50%;
-    height: 100%;
+.cart-page-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
     background-color: mintcream;
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
-    transition: right 0.3s ease;
-    z-index: 1000;
-    margin: auto;
-    text-align: center;
-    padding-top: 30px;
-}
-
-.cart.show {
-    right: 0;
-}
-
-.cart #close-cart {
-    display: flex;
-    align-items: flex-start;
-    padding: 10px 10px;
-    font-size: 30px;
-}
-
-.cart button {
-    bottom: 10px;
-    right: 10px;
-    background-color: #050505d1;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 10%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-
-.cart i {
-    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  .cart-page-header {
+    text-align: center;
     margin-bottom: 30px;
-    width: 50px;
-}
-
-
-.cartH2{
-    margin-top: -70px ;
-    margin-bottom: 100px;
+  }
+  
+  .cart-page-header h2 {
     font-weight: 500;
     font-size: 46px;
-    line-height: 54px;
     color: black;
-}
-
-.cart table {
+  }
+  
+  .cart-page-content {
     width: 100%;
-}
-
-.cart table thead tr th:first-child {
-    text-align: left;
-    margin-left: 10px;
-}
-
-.cart table tr td {
-    padding: 12px 10px;
-}
-
-.cart table thead tr th:last-child {
+  }
+  
+  .cart-page-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+  
+  .cart-page-table th,
+  .cart-page-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-page-table th {
+    background-color: #f8f8f8;
+  }
+  
+  .cart-page-table img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+  
+  .cart-page-total {
     text-align: right;
-}
-
-.cart table tbody tr td:last-child {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .cart-page-total p {
+    font-size: 20px;
+    color: black;
+  }
+  
+  .cart-page-total span {
+    color: green;
+  }
+  
+  .cart-page-actions {
     text-align: right;
-}
+  }
+  
+  .cart-page-actions .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cart-page-actions .btn:hover {
+    background-color: #555;
+  }
+  
+  .btn-danger {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-danger:hover {
+    background-color: darkred;
+  }
+  
