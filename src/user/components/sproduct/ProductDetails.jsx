@@ -6,6 +6,7 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
   const productId = new URLSearchParams(window.location.search).get("id");
 
@@ -17,9 +18,12 @@ const ProductDetails = () => {
 
   const fetchProductDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/product/detail/${productId}`);
+      const response = await fetch(`http://localhost:8080/api/product/id/${productId}`);
       const data = await response.json();
-      console.log(data);
+
+      const sortedImages = data.result.img.sort((a, b) => a.indexImg - b.indexImg);
+      data.result.img = sortedImages;
+
       setProduct(data.result);
     } catch (error) {
       console.error("Lỗi khi lấy chi tiết sản phẩm:", error);
@@ -28,7 +32,7 @@ const ProductDetails = () => {
 
   const fetchRelatedProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8080/product/getIndex");
+      const response = await fetch("http://localhost:8080/api/product/getIndex");
       const data = await response.json();
       setRelatedProducts(data.result);
     } catch (error) {
@@ -38,7 +42,7 @@ const ProductDetails = () => {
 
   const fetchRatings = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/rate/getByProduct/${productId}`);
+      const response = await fetch(`http://localhost:8080/api/rate/${productId}`);
       const data = await response.json();
       setRatings(data.result.objectList);
     } catch (error) {
@@ -76,13 +80,33 @@ const ProductDetails = () => {
     alert(`Sản phẩm "${product.name}" (Size: ${selectedSize}) đã được thêm vào giỏ hàng!`);
   };
 
+  const changeImage = (index) => {
+    setCurrentImgIndex(index);
+  };
+
   return (
     <section id="prodetails">
         {product ? (
             <>
             <div className="single-pro-img">
-                <img src={`images/product/${product.img}`} alt={product.name} />
+              <img
+                src={`images/product/${product.img[currentImgIndex].img}`}
+                alt={product.name}
+                className="main-image"
+              />
+              <div className="thumbnail-container">
+                {product.img.map((image, index) => (
+                  <img
+                    key={index}
+                    src={`images/product/${image.img}`}
+                    alt={`Thumbnail ${index}`}
+                    className={`thumbnail ${index === currentImgIndex ? "active" : ""}`}
+                    onClick={() => changeImage(index)}
+                  />
+                ))}
+              </div>
             </div>
+
             <div className="single-pro-details">
                 <h6>Home / {product.category}</h6>
                 <h4>{product.name}</h4>
@@ -103,10 +127,10 @@ const ProductDetails = () => {
                 onChange={(e) => setSelectedSize(e.target.value)}
                 >
                 <option value="">Chọn size</option>
-                  {product.sizeDTOList && product.sizeDTOList.length > 0 &&
-                    product.sizeDTOList.map((size) => (
-                      <option key={size.size} value={size.size}>
-                        {size.size}
+                  {product.sizeList && product.sizeList.length > 0 &&
+                    product.sizeList.map((size) => (
+                      <option key={size} value={size}>
+                        {size}
                       </option>
                 ))}
                 </select>

@@ -28,7 +28,7 @@
 }
 
 #hero_1 {
-    background-image: url("../../../public/images/hero4.png");
+    background-image: url("/public/images/hero4.png");
     height: 90vh;
     width: 100%;
     background-size: cover;
@@ -71,7 +71,7 @@
 }
 
 #hero_1 .content button {
-    background-image: url("../../../public/images/button.png");
+    background-image: url("/public/images/button.png");
     background-color: transparent;
     border: 0;
     padding: 10px 80px 14px 65px;

@@ -1,7 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './user.css'
 
 const CreateUser = () => {
+    const navigate = useNavigate();
+    const [Data, setData] = useState({
+        tel: "",
+        password: "",
+        gmail: "",
+        name: ""
+    });
+
+    const handleChange = (e) => {
+        setData({ ...Data, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("http://localhost:8080/api/user/createAdmin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(Data)
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert("Tạo tài khoản thành công!");
+                window.location.href = "/admin/user";
+            } else {
+                alert(`Lỗi: ${result.message}`);
+            }
+        } catch (error) {
+            console.error("Lỗi khi gửi dữ liệu:", error);
+            alert("Đã có lỗi xảy ra, vui lòng thử lại!");
+        }
+    };
+
+    const HuyBtn = () => {
+        navigate("/admin/user");
+    }
+
     return(
         <main>
             <div className="head-title">
@@ -26,20 +67,55 @@ const CreateUser = () => {
             <div className="board">
                 <div className="board1">
                     <div className="row" style={{padding:"50px"}}>
-                        <label htmlFor="user-name" className="col-form-label" style={{padding:"10px"}}>Tên tài khoản:</label>
-                        <textarea className="txt-input form-control" id="user-name"></textarea>
+                        <label htmlFor="name" className="col-form-label" style={{padding:"10px"}}>Tên tài khoản:</label>
+                        <textarea 
+                            type="text" 
+                            className="txt-input form-control" 
+                            id="name" 
+                            name="name"
+                            value={Data.name}
+                            onChange={handleChange}
+                            required
+                        />
 
-                        <label htmlFor="user-phone" className="col-form-label" style={{padding:"10px"}}>Số điện thoại:</label>
-                        <textarea className="txt-input form-control" id="user-phone"></textarea>
+                        <label htmlFor="tel" className="col-form-label" style={{padding:"10px"}}>Số điện thoại:</label>
+                        <textarea 
+                            type="text" 
+                            className="txt-input form-control" 
+                            id="tel" 
+                            name="tel"
+                            value={Data.tel}
+                            onChange={handleChange}
+                            required
+                        />
+
+                        <label htmlFor="gmail" className="col-form-label" style={{padding:"10px"}}>Email:</label>
+                        <textarea 
+                            type="gmail" 
+                            className="txt-input form-control" 
+                            id="gmail" 
+                            name="gmail"
+                            value={Data.gmail}
+                            onChange={handleChange}
+                            required
+                        />
 
                         <label htmlFor="user-password" className="col-form-label" style={{padding:"10px"}}>Mật khẩu:</label>
-                        <textarea className="txt-input form-control" id="user-password"></textarea>
+                        <textarea 
+                            type="password" 
+                            className="txt-input form-control" 
+                            id="password" 
+                            name="password"
+                            value={Data.password}
+                            onChange={handleChange}
+                            required
+                        />
 
                         <div className="btn-form" style={{paddingTop:"40px"}}>
                             <a href="/admin/user">
-                                <button  className="btn-huy">Hủy</button>
+                                <button type="button" className="btn-huy" onClick={HuyBtn}>Hủy</button>
                             </a>
-                            <button className="btn-them">Thêm</button>
+                            <button type="submit" className="btn-them" onClick={handleSubmit}>Thêm</button>
                         </div>
                     </div>
                 </div>

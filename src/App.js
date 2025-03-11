@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import './css/style.css';
-import './css/style1.css';
+import './user/css/style.css';
+import './user/css/style1.css';
 import { BrowserRouter as Navigate, Routes, Route } from "react-router-dom";
-import Header from './components/header'
-import Footer from './components/footer'
-import Cart from "./components/Cart";
-import Accessories from "./pages/accessories";
-import Home from "./pages/home";
-import ProductList from "./pages/product-list";
-import SneakerList from "./pages/sneaker";
-import ClothesList from "./pages/clothes";
-import BrandsList from "./pages/brand";
-import Blog from "./pages/blog";
-import Vouchers from "./pages/voucher";
-import Contact from "./pages/contact";
-import ProductDetailPage from "./pages/sproduct";
-import Login from "./pages/login";
-import UserDetails from "./pages/userdetail";
-import UserDetailsHistory from "./pages/userdetail-history";
-import UserDetailsComment from "./pages/userdetail-comment";
-import UserDetailsRate from "./pages/userdetail-rate";
-import UserDetailsOrder from "./pages/OrderDetail";
-import Pay from "./pages/pay";
-import Thankyou from "./pages/thankyou";
+import Header from './user/components/header'
+import Footer from './user/components/footer'
+import Cart from "./user/components/Cart";
+import Accessories from "./user/pages/accessories";
+import Home from "./user/pages/home";
+import ProductList from "./user/pages/product-list";
+import SneakerList from "./user/pages/sneaker";
+import ClothesList from "./user/pages/clothes";
+import BrandsList from "./user/pages/brand";
+import Blog from "./user/pages/blog";
+import Vouchers from "./user/pages/voucher";
+import Contact from "./user/pages/contact";
+import ProductDetailPage from "./user/pages/sproduct";
+import Login from "./user/pages/login";
+import UserDetails from "./user/pages/userdetail";
+import UserDetailsHistory from "./user/pages/userdetail-history";
+import UserDetailsComment from "./user/pages/userdetail-comment";
+import UserDetailsRate from "./user/pages/userdetail-rate";
+import UserDetailsOrder from "./user/pages/OrderDetail";
+import Pay from "./user/pages/pay";
+import Thankyou from "./user/pages/thankyou";
 
 function App() {
     const [isCartVisible, setCartVisible] = useState(false);

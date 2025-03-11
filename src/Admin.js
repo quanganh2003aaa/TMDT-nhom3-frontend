@@ -80,14 +80,14 @@ function Admins() {
             <Route path="/update-tintuc" element={<UpdateTinTuc />} />
 
             <Route path="/user" element={<Users />} />
-            <Route path="/create-user" element={<UpdateUsers />} />
-            <Route path="/update-user" element={<CreateUsers />} />
+            <Route path="/create-user" element={<CreateUsers />} />
+            <Route path="/update-user/:idUser" element={<UpdateUsers />} />
 
             <Route path="/orders" element={<Orders />} />
 
             <Route path="/products" element={<Products />} />
             <Route path="/create-products" element={<CreateProduct />} />
-             <Route path="/update-product/:idProduct" element={<UpdateProduct />} /> {/* :idProduct */}
+             <Route path="/update-product/:idProduct" element={<UpdateProduct />} />
 
             <Route path="/voucher" element={<Voucher />} />
             <Route path="/create-voucher" element={<CreateVoucher />} />

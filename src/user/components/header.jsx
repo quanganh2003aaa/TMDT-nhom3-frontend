@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import './header.css';
 import { Link, useNavigate, useLocation} from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchText, setSearchText] = useState("");
+  const [cartVisible, setCartVisible] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [TotalPrice, setTotalPrice] = useState([]);
 
   const isActive = (paths) => paths.includes(location.pathname);
-  const location = useLocation();
-
-  const [searchText, setSearchText] = useState("");
 
   // Hàm điều hướng và cuộn về đầu trang
   const handleNavigation = (url) => {
@@ -37,6 +40,26 @@ const Header = () => {
   const onCartClick = () =>{
     navigate("/cart");
   }
+
+  useEffect(() => {
+    const idUser = sessionStorage.getItem("idUser");
+    if (idUser) {
+      axios
+        .get(`http://localhost:8080/api/cart/getByUser/${idUser}`)
+        .then((response) => {
+          if (response.data.result && response.data.result.productCartDTOList) {
+            setCartItems(response.data.result.productCartDTOList);
+            setTotalPrice(response.data.result.totalPrice)
+          } else {
+            setCartItems([]); 
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching cart data:", error);
+          setCartItems([]);
+        });
+    }
+  }, []);
 
   return (
     <section id="header">
@@ -115,13 +138,33 @@ const Header = () => {
               </button>
             </form>
           </li>
-          <li id="lg-bag">
-            <div className="navbar-cart-icon" onClick={onCartClick}>
-              <i className="fa-solid fa-shopping-cart"></i>
-              <span id="cart-notification" className="notification-badge">0</span>
+          <li id="lg-bag" onClick={onCartClick}>
+            <div className="cart-container">
+              <div className="navbar-cart-icon">
+                <i className="fa-solid fa-shopping-cart"></i>
+              </div>
+              
+              <div className="cart-dropdown">
+                {cartItems.length > 0 ? (
+                  <ul>
+                    {cartItems.map((item, index) => (
+                      <li key={index}>
+                        <img src={item.img} alt="Product Image" />
+                        <div>
+                          <p>ID: {item.id}</p>
+                          <p>Size: {item.size}</p>
+                          <p>Số lượng: {item.quantity}</p>
+                        </div>
+                      </li>
+                    ))}
+                    <h6>Tổng tiền: {TotalPrice}</h6>
+                  </ul>
+                ) : (
+                  <p>Giỏ hàng trống</p>
+                )}
+              </div>
             </div>
           </li>
-          <a href="#" id="close"><i className="fa-solid fa-xmark"></i></a>
         </ul>
       </div>
     </section>

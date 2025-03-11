@@ -1,41 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./cart.css"; 
 
 const Cart = () => {
   const navigate = useNavigate();
-
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const loadCart = () => {
-      const storedCart = JSON.parse(sessionStorage.getItem("cart")) || {
-        detailOrderRequestList: [],
-        totalPrice: 0,
-      };
-      setCartItems(storedCart.detailOrderRequestList || []);
-      setTotalPrice(storedCart.totalPrice || 0);
+    const fetchCart = async () => {
+      const idUser = sessionStorage.getItem("idUser");
+      if (!idUser) {
+        alert("Bạn cần đăng nhập để xem giỏ hàng!");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`http://localhost:8080/api/cart/getByUser/${idUser}`);
+        const fetchedCart = response.data.result.productCartDTOList || [];
+        setCartItems(fetchedCart);
+        setTotalPrice(response.data.result.totalPrice);
+      } catch (error) {
+        console.error("Lỗi khi lấy giỏ hàng từ API:", error);
+      }
     };
-    loadCart();
-  }, []);
 
-  const removeItem = (index) => {
-    const updatedCart = [...cartItems];
-    const removedItem = updatedCart.splice(index, 1);
+    fetchCart();
+  }, [navigate]);
 
-    const newTotalPrice =
-      totalPrice - removedItem[0].price * removedItem[0].quantity;
-    setCartItems(updatedCart);
-    setTotalPrice(newTotalPrice);
+  const removeItem = async (productId) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/cart/remove/${productId}`);
+      setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
 
-    sessionStorage.setItem(
-      "cart",
-      JSON.stringify({
-        detailOrderRequestList: updatedCart,
-        totalPrice: newTotalPrice,
-      })
-    );
+      const newTotalPrice = cartItems
+        .filter((item) => item.id !== productId)
+        .reduce((acc, item) => acc + item.price * item.quantity, 0);
+      setTotalPrice(newTotalPrice);
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
+    }
   };
 
   const handleUserNavigation = () => {
@@ -72,9 +78,9 @@ const Cart = () => {
               cartItems.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>
+                  <td style={{ textAlign: "center", verticalAlign: "middle", paddingLeft:"20px" }}>
                     <img
-                      src={`images/product/${item.img}`}
+                      src={`images/product/1004184-1A02718-2X04V.png`}
                       alt={item.name}
                       style={{ width: "80px", height: "80px", objectFit: "contain" }}
                     />
@@ -82,7 +88,7 @@ const Cart = () => {
                   <td>{item.name}</td>
                   <td>{item.size}</td>
                   <td>{item.quantity}</td>
-                  <td>{item.price.toLocaleString()} VND</td>
+                  <td>{item.price.toLocaleString()}đ VND</td>
                   <td>
                     <button
                       className="btn btn-danger"
@@ -106,7 +112,7 @@ const Cart = () => {
         <div className="cart-page-total">
           <p>
             Tổng Tiền:{" "}
-            <span>{totalPrice.toLocaleString()} VND</span>
+            <span>{totalPrice} VND</span>
           </p>
         </div>
 

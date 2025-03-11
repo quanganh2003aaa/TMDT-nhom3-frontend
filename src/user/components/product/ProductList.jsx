@@ -45,14 +45,12 @@ const ProductList = () => {
 
   // Fetch products and pagination data
   const fetchProducts = async (page, priceFilter, sortFilter, query) => {
-    const url = `http://localhost:8080/product/getProduct?page=${page}&filterSort=${sortFilter}&filterPrice=${priceFilter}&query=${encodeURIComponent(
-      query
-    )}`;
+    const url = `http://localhost:8080/api/product/admin/getAll`;
 
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setProducts(data.result.objectList);
+      setProducts(data.result);
       setTotalPages(data.result.totalPages);
     } catch (error) {
       console.error("Lỗi khi lọc sản phẩm:", error);

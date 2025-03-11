@@ -11,7 +11,7 @@
 }
 
 #page-header.contact-header {
-    background-image: url("../../../public/images/contact_3.png");
+    background-image: url("/public/images/contact_3.png");
 }
 
 #contact-details {

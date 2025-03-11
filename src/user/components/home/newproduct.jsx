@@ -7,7 +7,7 @@ const NewProducts = () => {
   // Hàm fetch dữ liệu từ API
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8080/product/getIndex");
+      const response = await fetch("http://localhost:8080/api/product/getIndex");
       const data = await response.json();
       setProducts(data.result); // Lưu kết quả vào state
     } catch (error) {

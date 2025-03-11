@@ -14,15 +14,23 @@ const UpdateUser = () => {
     const [selectedDistrict, setSelectedDistrict] = useState("");
     const [selectedWard, setSelectedWard] = useState("");
     
+    const fetchUser = () => {
+        axios .get(
+            "http://localhost:8080/api/user/"
+        )
+        .then((respone) => setUser(respone.data))
+        .catch((error) => console.error("Error fetching User: ", error))
+    }
 
     useEffect(() => {
-        // Fetch cities
         axios
             .get(
             "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
             )
             .then((response) => setCities(response.data))
             .catch((error) => console.error("Error fetching cities:", error));
+
+        fetchUser();
     }, []);
 
     useEffect(() => {
@@ -61,7 +69,7 @@ const UpdateUser = () => {
                         </li>
                         <li><i className='bx bx-chevron-right'></i></li>
                         <li>
-                            <a className="active" href="/admin/upadte-user">Chỉnh SỬa Thông Tin</a>
+                            <a className="active" href="/admin/upadte-user">Chỉnh Sửa Thông Tin</a>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +87,7 @@ const UpdateUser = () => {
                     <div className="row">
                         <div className="col-8 col-sm-10">
                             <label htmlFor="product-email" className="col-form-label">Email:</label>
-                            <textarea className="txt-input form-control" id="product-eamil"></textarea>
+                            <textarea className="txt-input form-control" id="product-email"></textarea>
                         </div>
                     </div>
 

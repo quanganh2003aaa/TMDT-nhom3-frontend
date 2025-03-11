@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const User = () => {    
     const [query, setQuery] = useState('');
     const [selectedFilter, setSelectedFilter] = useState(0);
     const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
+    const [user, setUser] = useState([]);
     
     const handleSearchChange = (event) => {
         setQuery(event.target.value.toLowerCase());
@@ -16,28 +18,55 @@ const User = () => {
     };
 
     const handleEditUser = (idUser) => {
-        navigate(`/admin/update-user`);
+        navigate(`/admin/update-user/${idUser}`);
       };
 
-    // const handleDeleteUser = (idProduct) => {
-    //     if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idProduct} không?`)) {
-    //       axios
-    //         .delete(`http://localhost:8080/product/delete/${idProduct}`, {
-    //           headers: {
-    //             'Author': `Bearer ${token}`,
-    //           },
-    //         })
-    //         .then(() => {
-    //           alert('Xoá sản phẩm thành công!');
-    //           renderListProduct();
-    //         })
-    //         .catch((error) => {
-    //           console.error('Lỗi xóa sản phẩm:', error);
-    //           alert('Xóa sản phẩm thất bại');
-    //         });
-    //     }
-    //   };
+    const fetchUser = () =>{
+        fetch("http://localhost:8080/api/user/list", {
+            method: "GET"
+        })
+        .then(res => res.json())
+        .then(setUser);
+    }
 
+    const handleDeleteUser = (idUser) => {
+        if (window.confirm(`Bạn chắc chắn muốn xóa người dùng ${idUser} không?`)) {
+          fetch(`http://localhost:8080/api/user/delete/${idUser}`, {
+            method: "DELETE",
+            headers: {
+                'Author': `Bearer ${token}`,
+              },
+            })
+            .then(() => {
+              alert('Xoá người dùng thành công!');
+              fetchUser();
+            })
+            .catch((error) => {
+              console.error('Lỗi xóa người dùng:', error);
+              alert('Xóa người dùng thất bại');
+            });
+        }
+      };
+
+    useEffect(() => {
+        // Xác thực người dùng
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
+
+        fetchUser();
+        
+    }, [token]);
+    
     return(
         <main>
             <div className="head-title">
@@ -90,29 +119,28 @@ const User = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr key={1}>
-                            <td style={{padding:"0px 70px"}}>1</td>
-                            <td><p style={{fontSize:"20px"}}>Nguyễn Tấn Hưng </p></td>
-                            <td><p>0869507729</p></td>
-                            <td><p>hung@gmail.com</p></td>
-                            <td><p>Đống Đa, HaNoi</p></td>
-                            <td><p>Admin</p></td>
+                    {user.map((user, index) => (
+                        <tr key={index}>
+                            <td style={{padding:"0"}}>{user.id}</td>
+                            <td><p style={{fontSize:"20px"}}>{user.name}</p></td>
+                            <td><p>{user.tel}</p></td>
+                            <td><p>{user.gmail}</p></td>
+                            <td><p>{user.ward}, {user.district}, {user.city}</p></td>
+                            <td><p>{user.role}</p></td>
                             <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                                 <div>
-                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditUser(1)}> 
+                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditUser(user.id)}> 
                                         
                                     <i className="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </div>
-                                <button type="button" className="btn btn-warning btn-delete-product" style={{}}> 
-                                    {/* onClick={() => handleDeleteUser(product.id)} */}
+                                <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDeleteUser(user.id)}> 
+                                    
                                 <i className="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                    {/* {products.map((product) => (
-                        
-                    ))} */}
+                    ))}
                     </tbody>
                 </table>
                 </div>   
