@@ -15,24 +15,47 @@ const ProductManagement = () => {
   };
 
   useEffect(() => {
-    renderListProduct();
+    fetchProducts();
   }, [query, selectedFilter]);
 
-  const renderListProduct = () => {
-    const url = `http://localhost:8080/api/product/admin/getAll?query=${encodeURIComponent(query)}&select=${selectedFilter}`;
-    axios
-      .get(url, {
-        // headers: {
-        //   'Author': `Bearer ${token}`,
-        // },
-      })
-      .then((response) => {
-        setProducts(response.data.result);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
-  };
+  const fetchProducts = async () => {
+    try {
+        // Bước 1: Lấy danh sách ID sản phẩm
+        const response = await axios.get('http://localhost:8080/api/product/admin/getAll');
+        const productIds = response.data.result.map(product => product.id);
+
+        // Bước 2: Dùng Promise.all để gọi API chi tiết từng sản phẩm
+        const productDetails = await Promise.all(
+            productIds.map(async (id) => {
+                try {
+                    const productResponse = await axios.get(`http://localhost:8080/api/product/id/${id}`);
+                    const product = productResponse.data.result;
+
+                    // Lọc ảnh có indexImg === 0
+                    const filteredImage = product.img.find(image => image.indexImg === 0)?.img || '';
+
+                    return {
+                        id: product.id,
+                        name: product.name,
+                        brand: product.brand,
+                        category: product.category,
+                        price: product.price,
+                        quantity: product.quantity,
+                        img: filteredImage
+                    };
+                } catch (error) {
+                    console.error(`Lỗi khi lấy sản phẩm ID ${id}:`, error);
+                    return null;
+                }
+            })
+        );
+
+        // Lọc bỏ sản phẩm null (lỗi khi fetch)
+        setProducts(productDetails.filter(product => product !== null));
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách sản phẩm:', error);
+    }
+};
 
   const handleSearchChange = (event) => {
     setQuery(event.target.value.toLowerCase());
@@ -103,7 +126,7 @@ const ProductManagement = () => {
         })
         .then(() => {
           alert('Xoá sản phẩm thành công!');
-          renderListProduct();
+          fetchProducts();
         })
         .catch((error) => {
           console.error('Lỗi xóa sản phẩm:', error);
@@ -172,7 +195,7 @@ const ProductManagement = () => {
               {products.map((product) => (
                 <tr key={product.id} >
                   <td>{product.id}</td>
-                  <td><img src={`/images/${product.img}`}  className="adminProimg"/></td> 
+                  <td><img src={`/images/product/${product.img}`}  className="adminProimg"/></td> 
                   <td><p style={{fontSize:"20px"}}>{product.name}</p></td>
                   <td><p>{product.brand}</p></td>
                   <td><p>{product.category}</p></td>
@@ -180,11 +203,11 @@ const ProductManagement = () => {
                   <td><p>{formatPrice(product.price)}</p></td>
                   <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                     <div>
-                        <button type="button" className="btn btn-success btn-product-modal" onClick={() => handleEditProduct(1)}>
+                        <button type="button" className="btn btn-success btn-product-modal" onClick={() => handleEditProduct(product.id)}>
                         <i className="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>
-                    <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDeleteProduct(1)}>
+                    <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDeleteProduct(product.id)}>
                       <i className="fa-solid fa-trash"></i>
                     </button>
                   </td>
