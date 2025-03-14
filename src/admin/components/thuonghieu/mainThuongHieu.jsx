@@ -1,11 +1,47 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
     const navigate = useNavigate();
+    const [brand, setBrand] = useState([]);
+
     const handleEditThuongHieu = (idThuongHieu) => {
-        navigate(`/admin/update-thuonghieu`);  ///${idProduct}
-      };
+        navigate(`/admin/update-thuonghieu/${idThuongHieu}`);  
+    };
+
+    const handleDeleteThuongHieu = (idThuongHieu) => {
+        const url = `http://localhost:8080/api/brand/delete/${idThuongHieu}`;
+
+        axios 
+            .delete(url)
+            .then((response) => {
+                alert("Xóa thương hiệu thành công");
+                fetchBrand();
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("Lỗi khi xóa dữ liệu", errorMessage);
+            })
+    };
+
+    const fetchBrand = () => {
+        const url = "http://localhost:8080/api/brand/getAll";
+
+        axios 
+            .get(url)
+            .then((response) => {
+                setBrand(response.data.result)
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("Lỗi khi fetch dữ liệu", errorMessage);
+            })
+    }
+
+    useEffect( () => {
+        fetchBrand();
+    }, []);
 
     return(
         <main>
@@ -42,25 +78,23 @@ const Main = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr key={1}>
-                            <td style={{padding:"0px 70px"}}>1</td>
-                            <td><p style={{fontSize:"20px"}}>Nike </p></td>
+                    {brand.map((brand) => (
+                        <tr key={brand.id}>
+                            <td style={{padding:"0px 70px"}}>{brand.id}</td>
+                            <td><p style={{fontSize:"20px"}}>{brand.name} </p></td>
                             <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                                 <div>
-                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditThuongHieu(1)}> 
+                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditThuongHieu(brand.id)}> 
                                         
                                     <i className="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </div>
-                                <button type="button" className="btn btn-warning btn-delete-product" style={{}}> 
-                                    {/* onClick={() => handleDeleteThuongHieu(product.id)} */}
-                                <i className="fa-solid fa-trash"></i>
+                                <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDeleteThuongHieu(brand.id)}> 
+                                    <i className="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                    {/* {products.map((product) => (
-                        
-                    ))} */}
+                    ))}
                     </tbody>
                 </table>
                 </div>   

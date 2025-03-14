@@ -6,7 +6,7 @@ import './login.css'
 const Wrapper = () => {
   const [isLoginActive, setIsLoginActive] = useState(true); 
   const [loginForm, setLoginForm] = useState({ tel: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({ tel: "", password: "", name: "" });
+  const [registerForm, setRegisterForm] = useState({ name:"", tel: "", password: "", gmail: "" });
 
   // Toggle giữa login và register form
   const toggleForms = () => {
@@ -16,7 +16,8 @@ const Wrapper = () => {
   // Xử lý logic đăng nhập
   const handleLogin = async (event) => {
     event.preventDefault();
-    const { tel, password } = loginForm;
+    const tel = loginForm.tel.trim();
+    const password = loginForm.password.trim();
 
     if (!tel || !password) {
       alert("Vui lòng nhập đầy đủ thông tin!");
@@ -33,7 +34,8 @@ const Wrapper = () => {
         window.location.href = decodedToken.scope === "ADMIN" ? "/admin/admin" : "/home";
       }
     } catch (error) {
-      alert("Đăng nhập thất bại!");
+      const errorMessage = error.response.data.message
+      alert(`Đăng nhập thất bại: ${errorMessage}`);
       console.error("Đăng nhập lỗi:", error);
     }
   };
@@ -41,22 +43,25 @@ const Wrapper = () => {
   // Xử lý logic đăng ký
   const handleRegister = async (event) => {
     event.preventDefault();
-    const { tel, password, name } = registerForm;
+    const tel = registerForm.tel.trim();
+    const password = registerForm.password.trim();
+    const gmail = registerForm.gmail.trim();
 
-    if (!tel || !password || !name) {
+    if (!tel || !password || !gmail) {
       alert("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/user/create", { tel, password, name });
+      const response = await axios.post("http://localhost:8080/api/user/create", { tel, password, gmail });
       if (response.data.code === 200) {
         alert("Đăng ký tài khoản thành công!");
-        setIsLoginActive(true); // Chuyển về màn hình đăng nhập
+        setRegisterForm({ name: "", tel: "", password: "", gmail: "" })
+        setIsLoginActive(true); 
       }
     } catch (error) {
-      alert("Đăng ký thất bại!");
-      console.error("Đăng ký lỗi:", error);
+      const errorMessage = error.response.data.message
+      alert(`Đăng ký thất bại: ${errorMessage}`);
     }
   };
 
@@ -108,6 +113,13 @@ const Wrapper = () => {
               className="login-input"
               value={registerForm.tel}
               onChange={(e) => setRegisterForm({ ...registerForm, tel: e.target.value })}
+            />
+            <input
+              type="email"
+              placeholder="Gmail"
+              className="login-input"
+              value={registerForm.gmail}
+              onChange={(e) => setRegisterForm({ ...registerForm, gmail: e.target.value })}
             />
             <input
               type="password"

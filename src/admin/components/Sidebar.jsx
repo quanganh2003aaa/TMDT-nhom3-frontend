@@ -10,7 +10,7 @@ const Sidebar = () => {
 
   const handleNavigation = (url) => {
     navigate(url);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Cuộn về đầu trang
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
   };
 
   const handleLogout = () => {

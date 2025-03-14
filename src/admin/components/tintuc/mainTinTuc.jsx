@@ -1,11 +1,47 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
     const navigate = useNavigate();
-    const handleEditTinTuc = (idTinTuc) => {
-        navigate(`/admin/update-tintuc`);  ///${idProduct}
-      };
+    const [news, setNews] = useState([]);
+
+    const handleEditTintuc = (idTintuc) => {
+        navigate(`/admin/update-tintuc/${idTintuc}`);  
+    };
+
+    const handleDeleteTintuc = (idTintuc) => {
+        const url = `http://localhost:8080/api/blog/delete/${idTintuc}`;
+
+        axios 
+            .delete(url)
+            .then((response) => {
+                alert("Xóa tin tức thành công");
+                fetchNews();
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("Lỗi khi xóa dữ liệu", errorMessage);
+            })
+    };
+
+    const fetchNews = () => {
+        const url = "http://localhost:8080/api/blog/getAll";
+
+        axios 
+            .get(url)
+            .then((response) => {
+                setNews(response.data.result)
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("Lỗi khi fetch dữ liệu", errorMessage);
+            })
+    }
+
+    useEffect( () => {
+        fetchNews();
+    }, []);
 
     return(
         <main>
@@ -36,7 +72,7 @@ const Main = () => {
                 <table className="table">
                     <thead>
                     <tr>
-                        <th>Mã </th>
+                        <th style={{textAlign:"center"}}>Mã</th>
                         <th>Tiêu đề</th>
                         <th>Ngày</th>
                         <th>Tác giả</th>
@@ -45,28 +81,27 @@ const Main = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr key={1}>
-                            <td style={{padding:"0px 70px"}}>1</td>
-                            <td><p>Sneaker được thành lập năm 2025 by Nguyễn Hưng </p></td>
-                            <td><p>19/02/2025</p></td>
-                            <td><p>Nguyễn Hưng</p></td>
-                            <td><p>Mới đây nhất, sneaker đã nổi lên như 1 cơn</p></td>
+                    {news.map((news) => (
+                        <tr key={news.id}>
+                            <td style={{textAlign:"center"}}>{news.id}</td>
+                            <td><p>{news.title}</p></td>
+                            <td><p>{news.createdAt}</p></td>
+                            <td><p>{news.authorName}</p></td>
+                            <td><p>{news.content}</p></td>
                             <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                                 <div>
-                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditTinTuc(1)}> 
+                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditTintuc(news.id)}> 
                                         
                                     <i className="fa-solid fa-pen-to-square"></i>
                                     </button>
                                 </div>
-                                <button type="button" className="btn btn-warning btn-delete-product" style={{}}> 
-                                    {/* onClick={() => handleDeleteTinTuc(product.id)} */}
+                                <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDeleteTintuc(news.id)}> 
+                                    
                                 <i className="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                    {/* {products.map((product) => (
-                        
-                    ))} */}
+                    ))}
                     </tbody>
                 </table>
                 </div>   

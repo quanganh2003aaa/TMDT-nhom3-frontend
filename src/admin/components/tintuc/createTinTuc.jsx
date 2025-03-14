@@ -1,7 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Create = () => {
+    const navigate = useNavigate();
+    const idUser = sessionStorage.getItem("idUser");
+    const [news, setNews] = useState({
+        authorId: idUser
+    })
+
+    const handleHuy = () => {
+        navigate("/admin/tintuc");
+    }
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+
+        setNews((prevNews) => ({
+            ...prevNews,
+            [id]: value, 
+        }));
+    };
+
+    const handleCreate = () => {
+        const url = "http://localhost:8080/api/blog/create";
+        axios 
+            .post(url, news)
+            .then((response) => {
+                alert("Thêm Danh mục thành công");
+                navigate("/admin/tintuc");
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.message;
+                console.log("Lỗi khi gửi dữ liệu: ", errorMessage);
+            })
+    }
+
     return(
         <main>
             <div className="head-title">
@@ -26,23 +60,20 @@ const Create = () => {
             <div className="board">
                 <div className="board1">
                     <div className="row">
-                        <label htmlFor="user-head" className="col-form-label" style={{padding:"10px"}}>Tiêu Đề:</label>
-                        <textarea className="txt-input form-control" id="user-head"></textarea>
+                        <label htmlFor="title" className="col-form-label" style={{padding:"20px 10px"}}>Tiêu Đề:</label>
+                        <textarea className="txt-input form-control" id="title" value={news.title} onChange={handleChange}></textarea>
 
-                        <label htmlFor="date-start" className="col-form-label" style={{padding:"10px"}}>Ngày:</label>
-                        <input type="date" id="date-start" name="date" min={new Date().toISOString().split("T")[0]} style={{padding:"10px"}}/>
+                        <label htmlFor="authorId" className="col-form-label" style={{padding:"20px 10px"}}>Tác Giả:</label>
+                        <textarea className="txt-input form-control" id="authorId" value={idUser} ></textarea>
 
-                        <label htmlFor="user-name" className="col-form-label" style={{padding:"10px"}}>Tác Giả:</label>
-                        <textarea className="txt-input form-control" id="user-name"></textarea>
-
-                        <label htmlFor="user-body" className="col-form-label" style={{padding:"30px"}}>Nội Dung:</label>
-                        <textarea className="txt-input form-control" id="user-body"></textarea>
+                        <label htmlFor="content" className="col-form-label" style={{padding:"20px 10px"}}>Nội Dung:</label>
+                        <textarea className="txt-input form-control" id="content" value={news.content} onChange={handleChange}></textarea>
 
                         <div className="btn-form" style={{paddingTop:"10px"}}>
                             <a href="/admin/tintuc">
-                                <button  className="btn-huy">Hủy</button>
+                                <button  className="btn-huy" onClick={handleHuy}>Hủy</button>
                             </a>
-                            <button className="btn-them">Thêm</button>
+                            <button className="btn-them" onClick={handleCreate}>Thêm</button>
                         </div>
                     </div>
                 </div>

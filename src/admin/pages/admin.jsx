@@ -8,7 +8,7 @@ const AdminPage = () => {
   return (
     <section id="admin-page">
       <Sidebar />
-      <section id="content">
+      <section id="conTent">
         <Navbar />
         <Homes />
       </section>

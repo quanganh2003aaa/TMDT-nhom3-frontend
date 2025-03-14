@@ -7,7 +7,7 @@ const Dashboard = () => {
   return (
     <section id="admin-page">
       <Sidebar />
-      <section id="content">
+      <section id="conTent">
         <Navbar />
         <RevenueChart />
       </section>

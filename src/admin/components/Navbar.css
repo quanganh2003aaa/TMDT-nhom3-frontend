@@ -1,4 +1,4 @@
-#content nav {
+#conTent nav {
     height: 56px;
     background: var(--light);
     padding: 0 24px;
@@ -12,7 +12,7 @@
     z-index: 1000;
 }
 
-#content nav::before {
+#conTent nav::before {
     content: '';
     position: absolute;
     width: 40px;
@@ -23,22 +23,22 @@
     box-shadow: -20px -20px 0 var(--light);
 }
 
-#content nav a {
+#conTent nav a {
     color: var(--dark);
 }
 
-#content nav .bx.bx-menu {
+#conTent nav .bx.bx-menu {
     cursor: pointer;
     color: var(--dark);
     margin-right: auto;
 }
 
-#content nav .nav-link {
+#conTent nav .nav-link {
     font-size: 16px;
     transition: .3s ease;
 }
 
-#content nav .nav-link:hover {
+#conTent nav .nav-link:hover {
     color: var(--blue);
 }
 
@@ -81,12 +81,12 @@
     cursor: pointer;
 } */
 
-#content nav .notification {
+#conTent nav .notification {
     font-size: 20px;
     position: relative;
 }
 
-#content nav .notification .num {
+#conTent nav .notification .num {
     position: absolute;
     top: -6px;
     right: -6px;
@@ -103,14 +103,14 @@
     align-items: center;
 }
 
-#content nav .profile img {
+#conTent nav .profile img {
     width: 36px;
     height: 36px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-#content nav .switch-mode {
+#conTent nav .switch-mode {
     display: block;
     min-width: 50px;
     height: 25px;
@@ -120,7 +120,7 @@
     position: relative;
 }
 
-#content nav .switch-mode::before {
+#conTent nav .switch-mode::before {
     content: '';
     position: absolute;
     top: 2px;
@@ -132,6 +132,6 @@
     transition: all .3s ease;
 }
 
-#content nav #switch-mode:checked+.switch-mode::before {
+#conTent nav #switch-mode:checked+.switch-mode::before {
     left: calc(100% - (25px - 4px) - 2px);
 }

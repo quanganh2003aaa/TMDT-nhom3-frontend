@@ -7,31 +7,28 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchText, setSearchText] = useState("");
-  const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [TotalPrice, setTotalPrice] = useState([]);
 
   const isActive = (paths) => paths.includes(location.pathname);
 
-  // Hàm điều hướng và cuộn về đầu trang
   const handleNavigation = (url) => {
     navigate(url);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Cuộn về đầu trang
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
   };
 
-  // Hàm kiểm tra idUser trong sessionStorage
   const handleUserNavigation = () => {
     const idUser = sessionStorage.getItem("idUser");
     if (idUser) {
-      navigate("/user-detail"); // Chuyển tới trang user-detail
+      navigate("/user-detail"); 
     } else {
-      alert("Bạn cần đăng nhập trước!"); // Hiển thị thông báo
-      navigate("/login"); // Chuyển tới trang login
+      alert("Bạn cần đăng nhập trước!"); 
+      navigate("/login"); 
     }
   };
 
   const handleSearch = (e) => {
-    e.preventDefault(); // Ngăn chặn reload trang mặc định của form
+    e.preventDefault(); 
     if (searchText.trim()) {
       window.location.href = `/product-list?query=${encodeURIComponent(searchText)}`;
     }
@@ -140,8 +137,11 @@ const Header = () => {
           </li>
           <li id="lg-bag" onClick={onCartClick}>
             <div className="cart-container">
-              <div className="navbar-cart-icon">
-                <i className="fa-solid fa-shopping-cart"></i>
+              <div className="notification-cart">
+                <span className="num-cart">{cartItems.length}</span>
+                <div className="navbar-cart-icon">
+                  <i className="fa-solid fa-shopping-cart"></i>
+                </div>
               </div>
               
               <div className="cart-dropdown">
@@ -149,7 +149,7 @@ const Header = () => {
                   <ul>
                     {cartItems.map((item, index) => (
                       <li key={index}>
-                        <img src={item.img} alt="Product Image" />
+                        <img src={`images/product/${item.img}`} alt="Product Image" />
                         <div>
                           <p>ID: {item.id}</p>
                           <p>Size: {item.size}</p>

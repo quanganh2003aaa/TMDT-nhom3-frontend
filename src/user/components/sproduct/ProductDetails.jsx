@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './ProductDetail.css'
+import axios from "axios";
+import { error } from "jquery";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState(null);
@@ -54,31 +56,35 @@ const ProductDetails = () => {
     if (product.sizeDTOList && product.sizeDTOList.length > 0 && !selectedSize) {
       alert("Vui lòng chọn size trước khi thêm vào giỏ hàng.");
       return;
-    }  
-
-    const cart = JSON.parse(sessionStorage.getItem("cart")) || { totalPrice: 0, detailOrderRequestList: [] };
-
-    const existingProduct = cart.detailOrderRequestList.find(
-      (item) => item.idProduct === product.id && item.size === selectedSize
-    );
-
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      cart.detailOrderRequestList.push({
-        idProduct: product.id,
-        name: product.name,
-        price: product.price,
-        size: selectedSize,
-        img: product.img,
-        quantity: 1,
-      });
     }
-
-    cart.totalPrice += product.price;
-    sessionStorage.setItem("cart", JSON.stringify(cart));
-    alert(`Sản phẩm "${product.name}" (Size: ${selectedSize}) đã được thêm vào giỏ hàng!`);
+  
+    const idUser = sessionStorage.getItem("idUser");
+    if (!idUser) {
+      alert("Bạn cần đăng nhập trước khi thêm vào giỏ hàng.");
+      return;
+    }
+  
+    const cartItem = {
+      idUser: idUser,
+      idProduct: product.id,
+      size: selectedSize,
+      quantity: 1,
+    };
+  
+    console.log("Dữ liệu gửi API:", cartItem);
+  
+    axios
+      .post("http://localhost:8080/api/cart/add", cartItem)
+      .then((response) => {
+        alert(`Sản phẩm "${product.name}" (Size: ${selectedSize}) đã được thêm vào giỏ hàng!`);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Lỗi API:", error.response?.data?.errorMessage || error.message);
+        alert("Lỗi không thêm được sản phẩm");
+      });
   };
+  
 
   const changeImage = (index) => {
     setCurrentImgIndex(index);

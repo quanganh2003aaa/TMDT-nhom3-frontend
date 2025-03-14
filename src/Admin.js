@@ -59,7 +59,7 @@ function Admins() {
 
             <Route path="/danhmuc" element={<DanhMuc />} />
             <Route path="/create-danhmuc" element={<CreateDanhMuc />} />
-            <Route path="/update-danhmuc" element={<UpdateDanhMuc />} />
+            <Route path="/update-danhmuc/:idDanhMuc" element={<UpdateDanhMuc />} />
 
             <Route path="/deliver" element={<Deliver />} />
             <Route path="/create-deliver" element={<CreateDeliver />} />
@@ -73,11 +73,11 @@ function Admins() {
 
             <Route path="/thuonghieu" element={<ThuongHieu />} />
             <Route path="/create-thuonghieu" element={<CreateThuongHieu />} />
-            <Route path="/update-thuonghieu" element={<UpdateThuongHieu />} />
+            <Route path="/update-thuonghieu/:idThuongHieu" element={<UpdateThuongHieu />} />
 
             <Route path="/tintuc" element={<TinTuc />} />
             <Route path="/create-tintuc" element={<CreateTinTuc />} />
-            <Route path="/update-tintuc" element={<UpdateTinTuc />} />
+            <Route path="/update-tintuc/:idTintuc" element={<UpdateTinTuc />} />
 
             <Route path="/user" element={<Users />} />
             <Route path="/create-user" element={<CreateUsers />} />

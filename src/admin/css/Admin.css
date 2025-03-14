@@ -130,14 +130,14 @@ body.dark {
     margin-bottom: 10px;
 }
 /* MAIN */
-#content main {
+#conTent main {
     width: 100%;
     padding: 36px 24px;
     max-height: calc(100vh - 56px);
     overflow-y: auto;
 }
 
-#content main .head-title {
+#conTent main .head-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -145,34 +145,34 @@ body.dark {
     flex-wrap: wrap;
 }
 
-#content main .head-title .left h1 {
+#conTent main .head-title .left h1 {
     font-size: 36px;
     font-weight: 600;
     margin-bottom: 10px;
     color: var(--dark);
 }
 
-#content main .head-title .left .breadcrumb {
+#conTent main .head-title .left .breadcrumb {
     display: flex;
     align-items: center;
     grid-gap: 16px;
 }
 
-#content main .head-title .left .breadcrumb li {
+#conTent main .head-title .left .breadcrumb li {
     color: var(--dark);
 }
 
-#content main .head-title .left .breadcrumb li a {
+#conTent main .head-title .left .breadcrumb li a {
     color: var(--dark-grey);
     pointer-events: unset;
 }
 
-#content main .head-title .left .breadcrumb li a.active {
+#conTent main .head-title .left .breadcrumb li a.active {
     color: var(--blue);
     pointer-events: none;
 }
 
-#content main .head-title .btn-download {
+#conTent main .head-title .btn-download {
     height: 36px;
     padding: 0 16px;
     border-radius: 36px;
@@ -185,12 +185,7 @@ body.dark {
     font-weight: 500;
 }
 
-
-
-
-
-
-#content main .table-data {
+#conTent main .table-data {
     display: flex;
     flex-wrap: wrap;
     grid-gap: 24px;
@@ -199,37 +194,37 @@ body.dark {
     color: var(--dark);
 }
 
-#content main .table-data>div {
+#conTent main .table-data>div {
     border-radius: 20px;
     background: #fff;
     padding: 24px;
     overflow-x: auto;
 }
 
-#content main .table-data .head {
+#conTent main .table-data .head {
     display: flex;
     align-items: center;
     grid-gap: 16px;
     margin-bottom: 24px;
 }
 
-#content main .table-data .head h3 {
+#conTent main .table-data .head h3 {
     margin-right: auto;
     font-size: 24px;
     font-weight: 600;
 }
 
-#content main .table-data .head .bx {
+#conTent main .table-data .head .bx {
     cursor: pointer;
 }
 
-#content main .table-data .order {
+#conTent main .table-data .order {
     flex-grow: 1;
     flex-basis: 100%;
     
 }
 
-#content main .table-data .order table {
+#conTent main .table-data .order table {
     width: 100%;
     border-collapse: collapse;
     color: #545555;
@@ -245,7 +240,7 @@ body.dark {
 
 
 
-#content main .table-data .order table td p {
+#conTent main .table-data .order table td p {
     white-space: nowrap;       
     overflow: hidden;          
     text-overflow: ellipsis;   
@@ -255,16 +250,16 @@ body.dark {
 
 
 
-#content main .table-data .order table td img {
+#conTent main .table-data .order table td img {
     width: 100px;
     height: auto;
 }
 
-#content main .table-data .order table tbody tr:hover {
+#conTent main .table-data .order table tbody tr:hover {
     background: #fbfbfb;
 }
 
-#content main .table-data .order table tr td .status {
+#conTent main .table-data .order table tr td .status {
     font-size: 18px;
     padding: 6px 16px;
     color: var(--light);
@@ -272,29 +267,29 @@ body.dark {
     font-weight: 700;
 }
 
-#content main .table-data .order table tr td .status.completed {
+#conTent main .table-data .order table tr td .status.completed {
     background: var(--blue);
 }
 
-#content main .table-data .order table tr td .status.process {
+#conTent main .table-data .order table tr td .status.process {
     background: var(--yellow);
 }
 
-#content main .table-data .order table tr td .status.pending {
+#conTent main .table-data .order table tr td .status.pending {
     background: var(--orange);
 }
 
 
-#content main .table-data .todo {
+#conTent main .table-data .todo {
     flex-grow: 1;
     flex-basis: 300px;
 }
 
-#content main .table-data .todo .todo-list {
+#conTent main .table-data .todo .todo-list {
     width: 100%;
 }
 
-#content main .table-data .todo .todo-list li {
+#conTent main .table-data .todo .todo-list li {
     width: 100%;
     margin-bottom: 16px;
     background: var(--grey);
@@ -305,19 +300,19 @@ body.dark {
     align-items: center;
 }
 
-#content main .table-data .todo .todo-list li .bx {
+#conTent main .table-data .todo .todo-list li .bx {
     cursor: pointer;
 }
 
-#content main .table-data .todo .todo-list li.completed {
+#conTent main .table-data .todo .todo-list li.completed {
     border-left: 10px solid var(--blue);
 }
 
-#content main .table-data .todo .todo-list li.not-completed {
+#conTent main .table-data .todo .todo-list li.not-completed {
     border-left: 10px solid var(--orange);
 }
 
-#content main .table-data .todo .todo-list li:last-child {
+#conTent main .table-data .todo .todo-list li:last-child {
     margin-bottom: 0;
 }
 
@@ -501,12 +496,12 @@ body.dark {
         width: 200px;
     }
 
-    #content {
+    #conTent {
         width: calc(100% - 60px);
         left: 200px;
     }
 
-    #content nav .nav-link {
+    #conTent nav .nav-link {
         display: none;
     }
 }
@@ -517,11 +512,11 @@ body.dark {
 
 
 @media screen and (max-width: 576px) {
-    #content nav form .form-input input {
+    #conTent nav form .form-input input {
         display: none;
     }
 
-    #content nav form .form-input button {
+    #conTent nav form .form-input button {
         width: auto;
         height: auto;
         background: transparent;
@@ -529,12 +524,12 @@ body.dark {
         color: var(--dark);
     }
 
-    #content nav form.show .form-input input {
+    #conTent nav form.show .form-input input {
         display: block;
         width: 100%;
     }
 
-    #content nav form.show .form-input button {
+    #conTent nav form.show .form-input button {
         width: 36px;
         height: 100%;
         border-radius: 0 36px 36px 0;
@@ -542,24 +537,24 @@ body.dark {
         background: var(--red);
     }
 
-    #content nav form.show~.notification,
-    #content nav form.show~.profile {
+    #conTent nav form.show~.notification,
+    #conTent nav form.show~.profile {
         display: none;
     }
 
-    #content main .box-info {
+    #conTent main .box-info {
         grid-template-columns: 1fr;
     }
 
-    #content main .table-data .head {
+    #conTent main .table-data .head {
         min-width: 420px;
     }
 
-    #content main .table-data .order table {
+    #conTent main .table-data .order table {
         min-width: 420px;
     }
 
-    #content main .table-data .todo .todo-list {
+    #conTent main .table-data .todo .todo-list {
         min-width: 420px;
     }
 }

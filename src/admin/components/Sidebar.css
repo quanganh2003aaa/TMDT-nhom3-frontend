@@ -119,14 +119,14 @@
     justify-content: center;
 }
 
-#content {
+#conTent {
     position: relative;
     width: calc(100% - 280px);
     left: 280px;
     transition: .3s ease;
 }
 
-#sidebar.hide~#content {
+#sidebar.hide~#conTent {
     width: calc(100% - 60px);
     left: 60px;
 }
