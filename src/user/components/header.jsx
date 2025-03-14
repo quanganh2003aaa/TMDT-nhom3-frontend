@@ -157,7 +157,7 @@ const Header = () => {
                         </div>
                       </li>
                     ))}
-                    <h6>Tổng tiền: {TotalPrice}</h6>
+                    <h6 style={{fontSize:"15px", paddingTop:"10px"}}>Tổng tiền: {TotalPrice}</h6>
                   </ul>
                 ) : (
                   <p>Giỏ hàng trống</p>

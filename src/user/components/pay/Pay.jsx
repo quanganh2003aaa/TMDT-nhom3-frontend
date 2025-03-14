@@ -11,19 +11,26 @@ const CheckoutComponent = () => {
   const [selectedWard, setSelectedWard] = useState("");
   const [cart, setCart] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cash");
+  const idUser = sessionStorage.getItem("idUser")
+
+  const fetchCart = () => {
+    axios
+    .get(
+      `http://localhost:8080/api/cart/getByUser/${idUser}`
+    )
+    .then((response) => setCart(response.data.result))
+    .catch((error) => console.error("Lỗi lấy ra cart:", error.response.data.message));
+  }
 
   useEffect(() => {
-    // Fetch cities
     axios
       .get(
         "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json"
       )
       .then((response) => setCities(response.data))
-      .catch((error) => console.error("Error fetching cities:", error));
+      .catch((error) => console.error("Lỗi fetch city:", error));
 
-    // Load cart from sessionStorage
-    const savedCart = JSON.parse(sessionStorage.getItem("cart"));
-    if (savedCart) setCart(savedCart);
+    fetchCart();
   }, []);
 
   useEffect(() => {
@@ -37,7 +44,6 @@ const CheckoutComponent = () => {
   }, [selectedCity, cities]);
 
   useEffect(() => {
-    // Reset wards when the district changes
     setWards([]);
     if (selectedDistrict) {
       const district = districts.find(
@@ -210,7 +216,7 @@ const CheckoutComponent = () => {
 
         <div className="container-pay-product">
           <div className="order-container">
-            {cart?.detailOrderRequestList.map((item) => (
+            {cart?.productCartDTOList.map((item) => (
               <div key={item.idProduct} className="order-item">
                 <img
                   src={`images/product/${item.img}`}

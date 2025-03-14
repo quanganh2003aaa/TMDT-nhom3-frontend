@@ -56,7 +56,8 @@ const Wrapper = () => {
       const response = await axios.post("http://localhost:8080/api/user/create", { tel, password, gmail });
       if (response.data.code === 200) {
         alert("Đăng ký tài khoản thành công!");
-        setRegisterForm({ name: "", tel: "", password: "", gmail: "" })
+        setRegisterForm({ name: "", tel: "", password: "", gmail: "" });
+        setLoginForm({tel: "", password: "" });
         setIsLoginActive(true); 
       }
     } catch (error) {

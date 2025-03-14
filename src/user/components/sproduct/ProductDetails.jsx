@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import './ProductDetail.css'
 import axios from "axios";
-import { error } from "jquery";
 
 const ProductDetails = () => {
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [ratings, setRatings] = useState([]);
@@ -61,7 +62,7 @@ const ProductDetails = () => {
     const idUser = sessionStorage.getItem("idUser");
     if (!idUser) {
       alert("Bạn cần đăng nhập trước khi thêm vào giỏ hàng.");
-      return;
+      return navigate("/login");
     }
   
     const cartItem = {
