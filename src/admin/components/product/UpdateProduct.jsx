@@ -31,7 +31,7 @@ const UpdateProduct = () => {
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/product/id/${idProduct}`, {
-                    // headers: { Authorization: `Bearer ${token}` }
+                    headers: { Authorization: `Bearer ${token}` }
                 });
 
                 const data = response.data.result;
@@ -41,8 +41,8 @@ const UpdateProduct = () => {
                     id: data.id,
                     name: data.name,
                     img: imageURLs,
-                    brand: brand.id,
-                    category: category.id,
+                    brand: data.brand,
+                    category: data.category,
                     size: data.sizeList.join(", "),
                     price: data.price,
                     quantity: data.quantity,
@@ -112,7 +112,7 @@ const UpdateProduct = () => {
     
         setProduct({
             ...product,
-            [id]: value // Lưu trực tiếp ID của brand hoặc category
+            [id]: value 
         });
     };
     
@@ -236,7 +236,7 @@ const UpdateProduct = () => {
                         <div className="col-8 col-sm-6">
                             <label htmlFor="brand" className="col-form-label">Thương Hiệu:</label>
                             <select className="txt-input form-control" id="brand" value={product.brand} onChange={handleSelectChange}>
-                                <option value="">Chọn thương hiệu</option>
+                                <option value="">{product.brand}</option>
                                 {brand.map((a) => (
                                     <option key={a.id} value={a.id}>
                                         {a.name}
@@ -248,7 +248,7 @@ const UpdateProduct = () => {
                         <div className="col-8 col-sm-6">
                             <label htmlFor="category" className="col-form-label">Danh Mục:</label>
                             <select className="txt-input form-control" id="category" value={product.category} onChange={handleSelectChange}>
-                                <option value="">Chọn danh mục</option>
+                                <option value="">{product.category}</option>
                                 {category.map((a) => (
                                     <option key={a.id} value={a.id}>
                                         {a.name}

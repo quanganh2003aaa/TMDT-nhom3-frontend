@@ -22,7 +22,6 @@ const Header = () => {
     if (idUser) {
       navigate("/user-detail"); 
     } else {
-      alert("Bạn cần đăng nhập trước!"); 
       navigate("/login"); 
     }
   };

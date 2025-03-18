@@ -63,7 +63,7 @@ function Admins() {
 
             <Route path="/deliver" element={<Deliver />} />
             <Route path="/create-deliver" element={<CreateDeliver />} />
-            <Route path="/update-deliver" element={<UpdateDeliver />} />
+            <Route path="/update-deliver/:idDeli" element={<UpdateDeliver />} />
 
             <Route path="/refund" element={<Refund />} />
 

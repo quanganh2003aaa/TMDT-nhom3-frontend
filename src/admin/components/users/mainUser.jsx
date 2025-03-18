@@ -95,15 +95,14 @@ const User = () => {
                 </div>
                 <div className="filter d-flex justify-content-between">
                     <select className="form-select productFilterSelect" value={selectedFilter} onChange={handleFilterChange} style={{ width: '30%' }}>
-                    <option value="0">Tất cả</option>
-                    <option value="1">Admin</option>
-                    <option value="2">Người dùng</option>
+                    <option value="0">Admin</option>
+                    <option value="1">Khách hàng</option>
                     </select>
                     <form action="#" id="idSearch" >
-                    <div className="form-input">
-                        <input type="search" placeholder="Tìm kiếm..." value={query} onChange={handleSearchChange} />
-                        <button type="submit" className="search-btn"><i className='bx bx-search'></i></button>
-                    </div>
+                        <div className="form-input">
+                            <input type="search" placeholder="Tìm kiếm..." value={query} onChange={handleSearchChange} />
+                            <button type="submit" className="search-btn"><i className='bx bx-search'></i></button>
+                        </div>
                     </form>
                 </div>
                 <table className="table">
@@ -113,8 +112,6 @@ const User = () => {
                         <th>Họ Tên</th>
                         <th>Số điện thoại</th>
                         <th>Gmail</th>
-                        <th>Địa chỉ</th>
-                        <th>Vai trò</th>
                         <th>Hành động</th>
                     </tr>
                     </thead>
@@ -125,8 +122,6 @@ const User = () => {
                             <td><p style={{fontSize:"20px"}}>{user.name}</p></td>
                             <td><p>{user.tel}</p></td>
                             <td><p>{user.gmail}</p></td>
-                            <td><p>{user.ward}, {user.district}, {user.city}</p></td>
-                            <td><p>{user.role}</p></td>
                             <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                                 <div>
                                     <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditUser(user.id)}> 

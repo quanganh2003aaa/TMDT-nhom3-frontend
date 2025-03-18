@@ -91,12 +91,7 @@ const User = () => {
                 <div className="head">
                     <h3>Danh Sách Mã Giảm Giá</h3>
                 </div>
-                <div className="filter d-flex justify-content-between">
-                    <select className="form-select productFilterSelect" value={selectedFilter} onChange={handleFilterChange} style={{ width: '30%' }}>
-                    <option value="0">Tất cả</option>
-                    <option value="1">50K</option>
-                    <option value="2">100K</option>
-                    </select>
+                <div className="filter d-flex" style={{justifyContent:"flex-end"}}>
                     <form action="#" id="idSearch" >
                     <div className="form-input">
                         <input type="search" placeholder="Tìm kiếm..." value={query} onChange={handleSearchChange} />

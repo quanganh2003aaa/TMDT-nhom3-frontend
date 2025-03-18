@@ -1,11 +1,40 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
     const navigate = useNavigate();
+
+    const [deliver, setDeliver] = useState([]);
+
+    const fetchDeliver = () => {
+        axios 
+            .get("http://localhost:8080/api/delivery/getAll")
+            .then((response) => {
+                setDeliver(response.data.result);
+            })
+            .catch((error) => {
+                const errorMessage = error.response.data.Message;
+                console.log(errorMessage);
+            })
+    }
+
     const handleEditDeli = (idDeli) => {
-        navigate(`/admin/update-deliver`);  //  /${idProduct}
+        navigate(`/admin/update-deliver/${idDeli}`);  
       };
+
+    const deleteDeliver = (idDeli) => {
+        axios 
+            .delete(`http://localhost:8080/api/delivery/delete/${idDeli}`)
+            .catch((error) => {
+                const errorMessage = error.response.data.Message;
+                console.log(errorMessage);
+            })
+    }
+
+    useEffect(()=>{
+        fetchDeliver();
+    }, [])
 
     return(
         <main>
@@ -44,27 +73,25 @@ const Main = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr key={1}>
-                            <td style={{padding:"0px 70px"}}>1</td>
-                            <td><p>Giao Hàng Nhanh </p></td>
-                            <td><p>30.000 đ</p></td>
-                            <td><p>1-3 ngày</p></td>
-                            <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
-                                <div>
-                                    <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditDeli(1)}> 
-                                        
-                                    <i className="fa-solid fa-pen-to-square"></i>
+                        {deliver.map((deliver) => (
+                            <tr key={deliver.id}>
+                                <td style={{padding:"0px 70px"}}>{deliver.id}</td>
+                                <td><p>{deliver.name}</p></td>
+                                <td><p>{deliver.price}</p></td>
+                                <td><p>{deliver.info}</p></td>
+                                <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
+                                    <div>
+                                        <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditDeli(deliver.id)}> 
+                                            
+                                        <i className="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </div>
+                                    <button type="button" className="btn btn-warning btn-delete-product" onClick={deleteDeliver(deliver.id)}>
+                                    <i className="fa-solid fa-trash"></i>
                                     </button>
-                                </div>
-                                <button type="button" className="btn btn-warning btn-delete-product" style={{}}> 
-                                    {/* onClick={() => handleDeleteDeli(product.id)} */}
-                                <i className="fa-solid fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {/* {products.map((product) => (
-                        
-                    ))} */}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 </div>   

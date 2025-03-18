@@ -60,7 +60,7 @@ const CreateVoucher = () => {
 
         try {
             await axios.put(`http://localhost:8080/api/voucher/update/${idVoucher}`, updatedData, {
-                // headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
             alert("Cập nhật thành công!");
             navigate("/admin/voucher");

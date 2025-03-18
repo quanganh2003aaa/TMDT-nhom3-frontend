@@ -30,7 +30,6 @@ const Wrapper = () => {
         const decodedToken = jwtDecode(response.data.result.token);
         sessionStorage.setItem("token", response.data.result.token);
         sessionStorage.setItem("idUser", response.data.result.id);
-        alert("Đăng nhập thành công!");
         window.location.href = decodedToken.scope === "ADMIN" ? "/admin/admin" : "/home";
       }
     } catch (error) {

@@ -5,6 +5,7 @@ import './user.css'
 const CreateUser = () => {
     const navigate = useNavigate();
     const [Data, setData] = useState({
+        name: "",
         tel: "",
         password: "",
         gmail: "",

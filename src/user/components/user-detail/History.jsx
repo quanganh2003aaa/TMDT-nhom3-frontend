@@ -8,8 +8,7 @@ import './UserDetailCu.css'
 const Body = () => {
     const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
-    const [selectedOrder, setSelectedOrder] = useState(null); // Lưu ID đơn hàng đang được xem chi tiết
-    const [orderDetails, setOrderDetails] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null); 
     const token = sessionStorage.getItem("token");
     const idUser = sessionStorage.getItem("idUser");
 
@@ -92,45 +91,52 @@ const Body = () => {
                 </tr>
                 </thead>
                 <tbody >
-                {orders.map((order) => (
-                    <tr key={order.id}>
-                        <td style={{textAlign:"center"}}>{order.id}</td>
-                        <td style={{textAlign:"center"}}>{order.date}</td>
-                        <td style={{textAlign:"center"}}>{order.finalAmount}</td>
-                        <td style={{textAlign:"center"}}>
-                            <span
-                                className= {`status ${
-                                    order.status === "Đơn hàng đã hủy"
-                                    ? "status-cancelled"
-                                    :order.status === "Đơn hoàn bị từ chối"
-                                    ? "status-cancelled"
-                                    : order.status === "Đang chuẩn bị"
-                                    ? "status-preparing"
-                                    : order.status === "Giao hàng thành công"
-                                    ? "status-preparing"
-                                    : order.status === "Hoàn đơn thành công"
-                                    ? "status-completed"
-                                    : order.status === "Chờ xác nhận"
-                                    ? "status-pending"
-                                    : order.status === "Đang giao hàng"
-                                    ? "status-shipping"
-                                    : "status-default"
-                                }`}
-                            >
-                                {order.status}
-                            </span>
-                            </td>
+                {orders.length > 0 ? 
+                  (orders.map((order) => (
+                      <tr key={order.id}>
+                          <td style={{textAlign:"center"}}>{order.id}</td>
+                          <td style={{textAlign:"center"}}>{order.date}</td>
+                          <td style={{textAlign:"center"}}>{order.finalAmount}</td>
+                          <td style={{textAlign:"center"}}>
+                              <span
+                                  className= {`status ${
+                                      order.status === "Đơn hàng đã hủy"
+                                      ? "status-cancelled"
+                                      :order.status === "Đơn hoàn bị từ chối"
+                                      ? "status-cancelled"
+                                      : order.status === "Đang chuẩn bị"
+                                      ? "status-preparing"
+                                      : order.status === "Giao hàng thành công"
+                                      ? "status-preparing"
+                                      : order.status === "Hoàn đơn thành công"
+                                      ? "status-completed"
+                                      : order.status === "Chờ xác nhận"
+                                      ? "status-pending"
+                                      : order.status === "Đang giao hàng"
+                                      ? "status-shipping"
+                                      : "status-default"
+                                  }`}
+                              >
+                                  {order.status}
+                              </span>
+                              </td>
 
-                        <td>
-                            <button
-                            className="btn btn-outline-primary" style={{margin:"0 0 0 40px"}}
-                            onClick={() => fetchOrderDetails(order.id)}
-                            >
-                            Xem chi tiết
-                            </button>
+                          <td>
+                              <button
+                              className="btn btn-outline-primary" style={{margin:"0 0 0 40px"}}
+                              onClick={() => fetchOrderDetails(order.id)}
+                              >
+                              Xem chi tiết
+                              </button>
+                          </td>
+                      </tr>
+                  ))) : (
+                    <tr>
+                        <td colSpan="5" style={{ textAlign: "center", padding: "20px", fontWeight: "bold" }}>
+                            Bạn chưa có đơn hàng nào
                         </td>
                     </tr>
-                ))} 
+                )}
                 </tbody>
             </table>
         </div>

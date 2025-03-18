@@ -32,13 +32,8 @@ const Cart = () => {
 
   const removeItem = async (productId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/cart/remove/${productId}`);
-      setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
-
-      const newTotalPrice = cartItems
-        .filter((item) => item.id !== productId)
-        .reduce((acc, item) => acc + item.price * item.quantity, 0);
-      setTotalPrice(newTotalPrice);
+      await axios.delete(`http://localhost:8080/api/cart/delete/${productId}`);
+      window.location.reload();
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error);
     }
@@ -112,7 +107,7 @@ const Cart = () => {
         <div className="cart-page-total">
           <p>
             Tổng Tiền:{" "}
-            <span>{totalPrice} VND</span>
+            <span>{totalPrice.toLocaleString()} VND</span>
           </p>
         </div>
 

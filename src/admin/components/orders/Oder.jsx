@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './order.css'
+import { error } from "jquery";
+import axios from "axios";
 
 const Dashboard = () => {
     const [orders, setOrders] = useState([]);
@@ -11,69 +13,76 @@ const Dashboard = () => {
     const [orderProducts, setOrderProducts] = useState([]);
     const token = sessionStorage.getItem("token");
 
-    // useEffect(() => {
-    //     fetch("http://localhost:8080/auth/introspect", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ token })
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         if (!data.result.valid || data.result.scope !== "ADMIN") {
-    //             window.location.href = "/admin/404";
-    //         }
-    //     })
-    //     .catch(() => window.location.href = "/admin/404");
-    // }, [token]);
+    useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
+    }, [token]);
 
-    // useEffect(() => {
-    //     fetchOrders();
-    // }, [currentPage, query, selectedStatus]);
+    useEffect(() => {
+        fetchOrders();
+        fetchOrderProducts();
+    }, [currentPage, query, selectedStatus]);
 
     const fetchOrders = () => {
-        // let url = `http://localhost:8080/order/getOrderSearch?page=${currentPage}`;
-        // if (query) url += `&query=${encodeURIComponent(query)}`;
-        // if (selectedStatus) url += `&select=${selectedStatus}`;
+        let url = `http://localhost:8080/api/order/getAll?page=${currentPage}`;
+    
+        if (query) {
+            url = `http://localhost:8080/api/order/getOrderSearch?query=${encodeURIComponent(query)}&page=${currentPage}`;
+        } else if (selectedStatus) {
+            url = `http://localhost:8080/api/order/getById/${selectedStatus}?page=${currentPage}`;
+        }
 
-        // fetch(url, {
-        //     method: "GET",
-        //     headers: { "Author": `Bearer ${token}` }
-        // })
-        // .then(res => res.json())
-        // .then(data => {
-        //     setOrders(data.result.objectList);
-        //     setTotalPages(data.result.totalPages);
-        // });
+        fetch(url, {
+            method: "GET",
+            headers: { "Author": `Bearer ${token}` }
+        })
+        .then(res => res.json())
+        .then(data => {
+            setOrders(data.result.objectList);
+            setTotalPages(data.result.totalPages);
+        });
     };
 
     const fetchOrderProducts = (orderId) => {
-        // fetch(`http://localhost:8080/order/getById/${orderId}`, {
-        //     method: "GET",
-        //     headers: { "Authorization": `Bearer ${token}` }
-        // })
-        // .then(res => res.json())
-        // .then(data => setOrderProducts(data.result || []));
+        axios
+            .get(`http://localhost:8080/api/order/getById/${orderId}`)
+            .then((response) => {
+                setOrderProducts([response.data.result]);
+            })
+            .catch((error)=> {
+                console.log(error.response?.data?.message || "Lỗi không xác định");
+            })
     };
 
     const updateOrderStatus = (orderId, action) => {
-        // fetch(`http://localhost:8080/order/${action}/${orderId}`, {
-        //     method: "PUT",
-        //     headers: { "Author": `Bearer ${token}` }
-        // })
-        // .then(() => {
-        //     alert("Cập nhật sản phẩm thành công!");
-        //     fetchOrders();
-        // });
+        fetch(`http://localhost:8080/api/order/${action}/${orderId}`, {
+            method: "PUT",
+            headers: { "Author": `Bearer ${token}` }
+        })
+        .then(() => {
+            alert("Cập nhật sản phẩm thành công!");
+            fetchOrders();
+        });
     };
 
     const handleExpandOrder = (orderId) => {
-        // if (expandedOrder === orderId) {
-        //     setExpandedOrder(null);
-        //     setOrderProducts([]);
-        // } else {
-        //     setExpandedOrder(orderId);
-        //     fetchOrderProducts(orderId);
-        // }
+        if (expandedOrder === orderId) {
+            setExpandedOrder(null);
+            setOrderProducts([]);
+        } else {
+            setExpandedOrder(orderId);
+            fetchOrderProducts(orderId);
+        }
     };
 
     const formatCurrency = (amount) => {
@@ -121,27 +130,29 @@ const Dashboard = () => {
                         </form>
                     </div>
                     <div className="accordion">
-                        {orders.map((order, index) => (
-                            <div key={index} className="accordion-item">
+                        {orders.map((order) => (
+                            <div key={order.id} className="accordion-item">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed btn-detail-order" type="button"
                                             onClick={() => handleExpandOrder(order.id)}
                                     >
                                         <span>#{order.id} - {new Date(order.date).toLocaleDateString()}</span>
-                                        <div style={{marginLeft: "50px", padding:"5px", borderRadius:"10px",
+                                        <div style={{marginLeft: "50px", padding:"5px 10px", borderRadius:"10px",
                                             color:  order.status === "Đang giao hàng" ? "black" :
-                                            "white",
-                                            backgroundColor: order.status === "Đang giao hàng" ? "yellow" :
-                                            order.status === "Đang chuẩn bị" ? "green" :
+                                            order.status === "Đang chuẩn bị" ? "black"
+                                            : "white",
+                                            backgroundColor: order.status === "Đang giao hàng" ? "#ffff70" :
+                                            order.status === "Đang chuẩn bị" ? "orange" :
                                             order.status === "Chờ xác nhận" ? "gray" :
                                             order.status === "Đơn hàng đã hủy" ? "red" :
-                                            "transparent"
+                                            "green"
                                         }}>
                                             {order.status}
                                         </div>
                                     </button>
                                 </h2>
-                                {expandedOrder === order.id && (
+                            
+                                {expandedOrder === order.id && orderProducts.map((product) => (
                                     <div id="collapse" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                         <div className="accordion-body row">
                                             <div className="card col-5">
@@ -149,22 +160,27 @@ const Dashboard = () => {
                                                     <div className="mb-3">
                                                         <label htmlFor="nameUser" className="form-label">Họ tên</label>
                                                         <input type="text" className="form-control" id="nameUser"
-                                                            value={order.nameUser} readOnly />
+                                                            value={product.nameUser} readOnly />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="tel" className="form-label">Số điện thoại</label>
                                                         <input type="tel" className="form-control" id="tel"
-                                                            value={order.tel} readOnly />
+                                                            value={product.tel} readOnly />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="address" className="form-label">Địa chỉ</label>
                                                         <input type="text" className="form-control" id="address"
-                                                            value={order.address} readOnly />
+                                                            value={product.address} readOnly />
+                                                    </div>
+                                                    <div className="mb-3">
+                                                        <label htmlFor="address" className="form-label">Phương thức giao hàng</label>
+                                                        <input type="text" className="form-control" id="address"
+                                                            value={product.deliveryMethod} readOnly />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="note" className="form-label">Ghi chú</label>
                                                         <textarea className="form-control" id="note"
-                                                            rows="3" value={order.note} readOnly />
+                                                            rows="3" value={product.note} readOnly />
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,18 +196,22 @@ const Dashboard = () => {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {orderProducts.map(product => (
-                                                                <tr key={product.idProduct}>
-                                                                    <td style={{fontWeight:"bold"}}>{product.idProduct}</td>
-                                                                    <td>{product.size}</td>
-                                                                    <td>{product.quantity}</td>
-                                                                    <td>{formatCurrency(product.price)}</td>
+                                                            {product.detailOrderDTOList.map((item) => (
+                                                                <tr key={item.idProduct}>
+                                                                    <td>{item.idProduct}</td>
+                                                                    <td>{item.size}</td>
+                                                                    <td>{item.quantity}</td>
+                                                                    <td>{formatCurrency(item.price)}</td>
                                                                 </tr>
                                                             ))}
                                                         </tbody>
                                                     </table>
-                                                    <div className="total" style={{padding: "10px", paddingBottom:"20px"}}>
-                                                        <span>Thành tiền: {formatCurrency(order.totalPrice)}</span>
+                                                    <div className="total" style={{padding: "10px"}}>
+                                                        <span>Thành tiền: {formatCurrency(product.totalPrice)}</span>
+                                                        
+                                                    </div>
+                                                    <div className="total" style={{padding:"0 10px 200px 0", color: product.paymentStatus==="PAID"? "#088176" : "red"}}>
+                                                        <span>{product.paymentStatus=="PAID"?"Đã thanh toán":"Chưa thanh toán"}</span>
                                                     </div>
                                                     {order.status === "Chờ xác nhận" && (
                                                         <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "confirm")}>Xác nhận đơn hàng</button>
@@ -199,11 +219,17 @@ const Dashboard = () => {
                                                     {order.status === "Đang chuẩn bị" && (
                                                         <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Vận chuyển đơn hàng</button>
                                                     )}
+                                                    {order.status === "Giao hàng thành công" && (
+                                                        <button className="btnAdmin">Đơn hàng đã giao</button>
+                                                    )}
+                                                    {order.status === "Đơn hàng đã hủy" && (
+                                                        <button className="btnAdmin">Đơn hàng đã hủy</button>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                ))}
                             </div>
                         ))}
                     </div>
@@ -214,8 +240,7 @@ const Dashboard = () => {
                             <button
                             key={i}
                             onClick={() => {
-                                setCurrentPage(i + 1);
-                                window.location.reload();
+                                setCurrentPage(i +1);
                             }}
                         >
                             {i + 1}
