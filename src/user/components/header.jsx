@@ -148,7 +148,7 @@ const Header = () => {
                   <ul>
                     {cartItems.map((item, index) => (
                       <li key={index}>
-                        <img src={`images/product/${item.img}`} alt="Product Image" />
+                        <img src={`images/product/${item.img}`} alt="Product Image" style={{objectFit:"scale-down"}}/>
                         <div>
                           <p>ID: {item.id}</p>
                           <p>Size: {item.size}</p>

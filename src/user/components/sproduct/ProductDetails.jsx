@@ -72,8 +72,6 @@ const ProductDetails = () => {
       quantity: 1,
     };
   
-    console.log("Dữ liệu gửi API:", cartItem);
-  
     axios
       .post("http://localhost:8080/api/cart/add", cartItem)
       .then((response) => {
@@ -127,23 +125,31 @@ const ProductDetails = () => {
                     )
                 )}
                 </h2>
-                <select
-                name="size"
-                className="custom-select"
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
-                >
-                <option value="">Chọn size</option>
-                  {product.sizeList && product.sizeList.length > 0 &&
-                    product.sizeList.map((size) => (
-                      <option key={size} value={size}>
-                        {size}
-                      </option>
-                ))}
-                </select>
-                <button className="btn-add-cart normal" onClick={() => addToCart(product)}>
-                Thêm vào giỏ hàng
-                </button>
+
+                {product.status === "ACTIVE" ? (
+                  <>
+                    <select
+                      name="size"
+                      className="custom-select"
+                      value={selectedSize}
+                      onChange={(e) => setSelectedSize(e.target.value)}
+                    >
+                      <option value="">Chọn size</option>
+                      {product.sizeList && product.sizeList.length > 0 &&
+                        product.sizeList.map((size) => (
+                          <option key={size} value={size}>
+                            {size}
+                          </option>
+                      ))}
+                    </select>
+                    <button className="btn-add-cart normal" onClick={() => addToCart(product)}>
+                      Thêm vào giỏ hàng
+                    </button>
+                  </>
+                ) : (
+                  <p className="out-of-stock">Sản phẩm hết hàng</p>
+                )}
+                
                 <h4>Mô tả sản phẩm</h4>
                 <p>{product.description}</p>
             </div>

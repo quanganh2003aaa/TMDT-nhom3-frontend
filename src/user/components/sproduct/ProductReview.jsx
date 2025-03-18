@@ -61,7 +61,7 @@ const ProductReview = () => {
 
   const fetchRatings = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/rate/getByProduct/${productId}`);
+      const response = await fetch(`http://localhost:8080/api/rate/getByProduct/${productId}`);
       const data = await response.json();
       setRatings(data.result.objectList);
     } catch (error) {

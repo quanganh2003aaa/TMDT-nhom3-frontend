@@ -20,38 +20,13 @@ const ProductManagement = () => {
 
   const fetchProducts = async () => {
     try {
-        // Bước 1: Lấy danh sách ID sản phẩm
-        const response = await axios.get('http://localhost:8080/api/product/admin/getAll');
-        const productIds = response.data.result.map(product => product.id);
-
-        // Bước 2: Dùng Promise.all để gọi API chi tiết từng sản phẩm
-        const productDetails = await Promise.all(
-            productIds.map(async (id) => {
-                try {
-                    const productResponse = await axios.get(`http://localhost:8080/api/product/id/${id}`);
-                    const product = productResponse.data.result;
-
-                    // Lọc ảnh có indexImg === 0
-                    const filteredImage = product.img.find(image => image.indexImg === 0)?.img || '';
-
-                    return {
-                        id: product.id,
-                        name: product.name,
-                        brand: product.brand,
-                        category: product.category,
-                        price: product.price,
-                        quantity: product.quantity,
-                        img: filteredImage
-                    };
-                } catch (error) {
-                    console.error(`Lỗi khi lấy sản phẩm ID ${id}:`, error);
-                    return null;
-                }
-            })
-        );
-
-        // Lọc bỏ sản phẩm null (lỗi khi fetch)
-        setProducts(productDetails.filter(product => product !== null));
+        axios 
+         .get("http://localhost:8080/api/product/admin/getAll")
+         .then((response) => {
+          setProducts(response.data.result)
+         })
+         .catch((error) => console.log("Lỗi fetch product", error.response.data.message))
+        
     } catch (error) {
         console.error('Lỗi khi lấy danh sách sản phẩm:', error);
     }
@@ -65,64 +40,17 @@ const ProductManagement = () => {
     setSelectedFilter(event.target.value);
   };
 
-  // const handleAddProduct = () => {
-  //   const formData = new FormData();
-  //   formData.append('id', document.getElementById('product-id').value);
-  //   formData.append('name', document.getElementById('product-name').value);
-  //   formData.append('size', document.getElementById('product-size').value);
-  //   formData.append('price', Number(document.getElementById('product-price').value));
-  //   formData.append('quantity', Number(document.getElementById('product-quantity').value));
-  //   formData.append('description', document.getElementById('product-description').value);
-  //   formData.append('category', Number(document.getElementById('product-category').value));
-  //   formData.append('file', document.getElementById('product-image').files[0]);
-
-  //   axios
-  //     .post('http://localhost:8080/product/create', formData, {
-  //       headers: {
-  //         'Author': `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       alert('Thêm sản phẩm thành công!');
-  //       renderListProduct();
-  //     })
-  //     .catch((error) => {
-  //       console.error('Lỗi thêm sản phẩm:', error);
-  //       alert('Thêm sản phẩm thất bại');
-  //     });
-  // };
-
   const handleEditProduct = (idProduct) => {
     navigate(`/admin/update-product/${idProduct}`);  
   };
-
-  // const handleSaveProduct = (formDataToSend) => {
-  //       axios
-  //           .put(`http://localhost:8080/product/update/${selectedProductId}`, formDataToSend, {
-  //               data: formDataToSend,
-  //               headers: {
-  //                   "Content-Type": "multipart/form-data",
-  //                   "Author": `Bearer ${token}`
-  //               },
-  //           })
-  //           .then(() => {
-  //               alert("Cập nhật sản phẩm thành công!");
-  //               renderListProduct(); // Load lại danh sách sản phẩm
-  //               setSelectedProduct(null); // Reset selected product
-  //           })
-  //           .catch((error) => {
-  //               console.error("Lỗi khi cập nhật sản phẩm:", error);
-  //               alert("Cập nhật sản phẩm thất bại.");
-  //           });
-  //   };
 
   const handleDeleteProduct = (idProduct) => {
     if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idProduct} không?`)) {
       axios
         .delete(`http://localhost:8080/api/product/delete/${idProduct}`, {
-          // headers: {
-          //   'Author': `Bearer ${token}`,
-          // },
+          headers: {
+            'Author': `Bearer ${token}`,
+          },
         })
         .then(() => {
           alert('Xoá sản phẩm thành công!');
@@ -184,9 +112,7 @@ const ProductManagement = () => {
                 <th>Mã Sản Phẩm</th>
                 <th>Ảnh</th>
                 <th>Tên</th>
-                <th>Thương hiệu</th>
-                <th>Danh mục</th>
-                <th>Kho</th>
+                <th>Trạng thái</th>
                 <th>Giá</th>
                 <th>Hành động</th>
               </tr>
@@ -197,9 +123,11 @@ const ProductManagement = () => {
                   <td>{product.id}</td>
                   <td><img src={`/images/product/${product.img}`}  className="adminProimg"/></td> 
                   <td><p style={{fontSize:"20px"}}>{product.name}</p></td>
-                  <td><p>{product.brand}</p></td>
-                  <td><p>{product.category}</p></td>
-                  <td><p>{product.quantity}</p></td>
+                  <td>
+                    <p style={{ color: product.statusProduct === "ACTIVE" ? "green" : "gray", fontWeight:"600"}}>
+                      {product.statusProduct}
+                    </p>
+                  </td>
                   <td><p>{formatPrice(product.price)}</p></td>
                   <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                     <div>

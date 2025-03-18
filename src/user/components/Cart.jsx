@@ -5,12 +5,12 @@ import "./cart.css";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const idUser = sessionStorage.getItem("idUser");
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const fetchCart = async () => {
-      const idUser = sessionStorage.getItem("idUser");
       if (!idUser) {
         alert("Bạn cần đăng nhập để xem giỏ hàng!");
         navigate("/login");
@@ -30,12 +30,14 @@ const Cart = () => {
     fetchCart();
   }, [navigate]);
 
-  const removeItem = async (productId) => {
+  const removeItem = async (idCart) => {
     try {
-      await axios.delete(`http://localhost:8080/api/cart/delete/${productId}`);
+      await axios.delete(`http://localhost:8080/api/cart/delete`, {
+        params: { idUser: idUser, idCart: idCart }
+      });
       window.location.reload();
     } catch (error) {
-      console.error("Lỗi khi xóa sản phẩm:", error);
+      console.error("Lỗi khi xóa sản phẩm:", error.response.data.message);
     }
   };
 
@@ -73,11 +75,15 @@ const Cart = () => {
               cartItems.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td style={{ textAlign: "center", verticalAlign: "middle", paddingLeft:"20px" }}>
+                  <td >
                     <img
-                      src={`images/product/1004184-1A02718-2X04V.png`}
+                      src={`images/product/${item.img}`}
                       alt={item.name}
-                      style={{ width: "80px", height: "80px", objectFit: "contain" }}
+                      style={{ display: "block",
+                        margin: "0 auto",
+                        width: "80%", 
+                        height: "80px", 
+                        objectFit: "contain"}}
                     />
                   </td>
                   <td>{item.name}</td>
@@ -87,7 +93,7 @@ const Cart = () => {
                   <td>
                     <button
                       className="btn btn-danger"
-                      onClick={() => removeItem(index)}
+                      onClick={() => removeItem(item.id)}
                     >
                       X
                     </button>

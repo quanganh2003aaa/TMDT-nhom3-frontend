@@ -1,33 +1,85 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { error } from "jquery";
 
 const Body = () => {
-    const { id } = useParams(); // Lấy ID từ đường dẫn URL
+    const { id } = useParams(); 
     const [order, setOrder] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [idOrder, setIdOrder] = useState(null);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/order/getById/${id}`)
             .then(response => {
                 setOrder(response.data.result);
-                setLoading(false);
+                setIdOrder(response.data.result.id);
             })
             .catch(error => {
-                console.error("Lỗi khi lấy dữ liệu:", error);
-                setError(error);
-                setLoading(false);
+                console.error("Lỗi khi lấy dữ liệu:", error.response.data.message);
             });
     }, [id]);
 
-    if (loading) return <h3>Đang tải...</h3>;
-    if (error) return <h3>Lỗi khi tải dữ liệu!</h3>;
+    const receiveOrder = () => {
+        try{
+            axios 
+                .put(`http://localhost:8080/api/order/success/${idOrder}`)
+            window.location.reload();
+        }
+        catch{
+            console.log("Lỗi nút xác nhận nhận hàng", error);
+        }
+    }
+
+    const cancelOrder = () => {
+        try{
+            axios 
+                .put(`http://localhost:8080/api/order/cancel/${idOrder}`)
+            window.location.reload();
+        }
+        catch{
+            console.log("Lỗi nút hủy hàng", error);
+        }
+    }
+
+    const renderActionButtons = () => {
+        if (!order) return null;
+
+        if (order.status === "Đang giao hàng") {
+            return (
+                <button className="btn-received" style={{backgroundColor:"#28a745", color:"white"}} onClick={receiveOrder}>
+                    Đã nhận được hàng
+                </button>
+            );
+        } else if (order.status === "Giao hàng thành công") {
+            return (
+                <>
+                    <button className="btn-return" style={{backgroundColor:"#007bff", color:"white"}}>
+                        Hoàn trả
+                    </button>
+                    <button className="btn-review" style={{backgroundColor:"#008080", color:"white"}}>
+                        Đánh giá
+                    </button>
+                </>
+            );
+        } else if (order.status === "Đơn hàng đã hủy") {
+            return (
+                <></>
+            );
+        } else {
+            return (
+                <button className="btn-cancel" style={{backgroundColor:"#dc3545", color:"white"}}  onClick={cancelOrder}>
+                    Hủy đơn hàng
+                </button>
+            );
+        }
+    };
+
+    if (!order) return <h3>Đang tải...</h3>; 
 
     return (
         <div className="oderdetail-container">
             <div className="oderdetail-header">
-                <h3 style={{ color: "white" }}>Đang giao hàng</h3>
+                <h3 style={{ color: "white" }}>{order.status}</h3>
             </div>
 
             <div className="oderdetail-body">
@@ -35,7 +87,6 @@ const Body = () => {
                     <h5>Thông tin vận chuyển</h5>
                     <div className="oderdetail-body-ship-detail">
                         <h5>{order.deliveryMethod}</h5>
-                        <h5 style={{ color: "GrayText", marginLeft: "10px" }}>Thời gian dự kiến: 2 ngày</h5>
                     </div>
                 </div>
 
@@ -87,12 +138,13 @@ const Body = () => {
                         <h3 style={{color:"black", marginRight:"20px"}}><strong>Thành tiền:</strong> </h3>
                         <h3 style={{color:"black"}}>{order.finalAmount.toLocaleString()}đ</h3>
                     </div>
+                    <h3 style={{color: order.paymentStatus === "PAID" ? "green" : "red", marginLeft:"10px", fontWeight:"650",display:"flex", justifyContent:"flex-end"}}>
+                        {order.paymentStatus === "PAID" ? "Đã Thanh Toán" : "Chưa Thanh Toán"}
+                    </h3>
                 </div>
 
                 <div className="oderdetail-actions">
-                    <button className="btn-cancel">Hoàn trả</button>
-                    <button className="btn-review" style={{backgroundColor:"#008080", color:"white"}}>Đánh giá</button>
-                    <button className="btn-delete">Hủy đơn hàng</button>
+                    {renderActionButtons()}
                 </div>
             </div>
         </div>

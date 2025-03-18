@@ -109,7 +109,7 @@ const CheckoutComponent = () => {
       paymentMethod: paymentMethod === "cash" ? 1 : 2,
       voucherCode: selectedVoucher || "",
       detailOrderRequestList: cart?.productCartDTOList.map((item) => ({
-        id: item.id,
+        id: item.idProduct,
         quantity: item.quantity,
         size: item.size,
       })),
@@ -120,34 +120,37 @@ const CheckoutComponent = () => {
     if (paymentMethod === "cash") {
       console.log("➡️ paymentInfo gửi lên:", paymentInfo);
       axios
-        .post("http://localhost:8080/api/order/create", paymentInfo, {
-          headers: { Author: `Bearer ${token}` },
-        })
+        .post("http://localhost:8080/api/order/create", paymentInfo)
         .then(() => {
           alert("Thanh toán thành công!");
           window.location.href = "/thankyou";
         })
         .catch((error) => {
-          console.error("Error:", error);
+          console.error("Error:", error.response.data.message);
           alert("Thanh toán thất bại!");
         });
     } else if (paymentMethod === "vnpay") {
       axios
-        .post("http://localhost:8080/api/order/create", paymentInfo, {
-          headers: { Author: `Bearer ${token}` },
-        })
+        .post("http://localhost:8080/api/order/create", paymentInfo)
         .then((response) => {
-          const message = response.data?.result?.message;
-          if(message === "true"){
+          if (response.data && response.data.result && response.data.result.success) {
+            const idOrder = response.data.result.idOrder;
+            
             axios
-              .post(
-                `http://localhost:8080/vnpay/create/`,
-                { headers: { Author: `Bearer ${token}` } }
-              )
+              .post(`http://localhost:8080/vnpay/create/${idOrder}`)
               .then((response) => {
-                window.location.href = response.data.result;
+                if (response.data && response.data.result) {
+                  window.location.href = response.data.result;
+                } else {
+                  console.error("Lỗi khi chuyển hướng thanh toán VNPay:", response.data);
+                }
               })
-              .catch((error) => console.error("Error:", error.response.data.message));
+              .catch((error) => {
+                console.error("Lỗi khi tạo thanh toán VNPay:", error.response?.data?.message || error.message);
+              });
+          } else {
+            console.error("Lỗi thanh toán VNPay: Dữ liệu phản hồi không hợp lệ");
+            alert("Lỗi khi thanh toán với VNPay");
           }
         })
         .catch((error) => console.error("Error:", error.response.data.message));

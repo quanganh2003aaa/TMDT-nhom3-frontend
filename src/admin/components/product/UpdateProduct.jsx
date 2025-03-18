@@ -16,7 +16,7 @@ const UpdateProduct = () => {
         category: "",
         size: "",
         price: "",
-        quantity: "",
+        status: "",
         description: ""
     });
     const [brand, setBrand] = useState([]);
@@ -30,9 +30,7 @@ const UpdateProduct = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/product/id/${idProduct}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const response = await axios.get(`http://localhost:8080/api/product/id/${idProduct}`);
 
                 const data = response.data.result;
                 const imageURLs = data.img.map(item => `/images/product/${item.img}`);
@@ -45,7 +43,7 @@ const UpdateProduct = () => {
                     category: data.category,
                     size: data.sizeList.join(", "),
                     price: data.price,
-                    quantity: data.quantity,
+                    status: data.status,
                     description: data.description
                 });
 
@@ -56,7 +54,7 @@ const UpdateProduct = () => {
                         const url = `/images/${item.img}`;
                         const response = await fetch(url);
                         const blob = await response.blob();
-                        const filename = item.img.split('/').pop(); // lấy tên file từ đường dẫn
+                        const filename = item.img.split('/').pop(); 
                         return new File([blob], filename, { type: blob.type });
                     })
                 );
@@ -69,9 +67,7 @@ const UpdateProduct = () => {
 
         const fetchBrand = async () => {
             try{
-                const response = await axios.get(`http://localhost:8080/api/brand/getAll`, {
-                    // headers: { Authorization: `Bearer ${token}` }
-                });
+                const response = await axios.get(`http://localhost:8080/api/brand/getAll`);
 
                 const data = response.data.result;
                 setBrand(data);
@@ -82,9 +78,7 @@ const UpdateProduct = () => {
 
         const fetchCate = async () => {
             try{
-                const response = await axios.get(`http://localhost:8080/api/category/getAll`, {
-                    // headers: { Authorization: `Bearer ${token}` }
-                });
+                const response = await axios.get(`http://localhost:8080/api/category/getAll`);
 
                 const data = response.data.result;
                 setCategory(data);
@@ -139,15 +133,13 @@ const UpdateProduct = () => {
         formData.append("brand", brandId);
         formData.append("category", categoryId);
         formData.append("price", product.price);
-        formData.append("quantity", product.quantity);
+        formData.append("status", product.status === "INACTIVE" ? 0 : 1);
         formData.append("description", product.description);
         
         if (product.size) {
             product.size.split(",").forEach((s) => formData.append("size", s.trim()));
         }
-        console.log("Danh sách ảnh:", imageFiles);
     
-        // Nếu có ảnh mới được chọn, thêm vào formData với key "files"
         if (imageFiles.length > 0) {
             imageFiles.forEach((file, index) => {
                 console.log(`File ${index}:`, file);
@@ -158,11 +150,13 @@ const UpdateProduct = () => {
             formData.append("files", new Blob([]), "empty.png");
         }
 
-        console.log("Dữ liệu gửi đi:", [...formData.entries()]);
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+        }
+
         try {
             await axios.put(`http://localhost:8080/api/product/update/${idProduct}`, formData, {
                 headers: {
-                    // Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data" 
                 }
             });
@@ -227,8 +221,11 @@ const UpdateProduct = () => {
                         </div>
 
                         <div className="col-8 col-sm-6">
-                            <label htmlFor="quantity" className="col-form-label">Kho:</label>
-                            <textarea className="txt-input form-control" id="quantity" value={product.quantity} onChange={handleChange}></textarea>
+                            <label htmlFor="status" className="col-form-label">Trạng thái sản phẩm:</label>
+                            <select className="txt-input form-control" id="status" value={product.status} onChange={handleSelectChange}>
+                                <option value="ACTIVE" selected={product.status === "ACTIVE"}>ACTIVE</option>
+                                <option value="INACTIVE" selected={product.status === "INACTIVE"}>INACTIVE</option>
+                            </select>
                         </div>
                     </div>
 
@@ -236,7 +233,6 @@ const UpdateProduct = () => {
                         <div className="col-8 col-sm-6">
                             <label htmlFor="brand" className="col-form-label">Thương Hiệu:</label>
                             <select className="txt-input form-control" id="brand" value={product.brand} onChange={handleSelectChange}>
-                                <option value="">{product.brand}</option>
                                 {brand.map((a) => (
                                     <option key={a.id} value={a.id}>
                                         {a.name}
@@ -248,7 +244,6 @@ const UpdateProduct = () => {
                         <div className="col-8 col-sm-6">
                             <label htmlFor="category" className="col-form-label">Danh Mục:</label>
                             <select className="txt-input form-control" id="category" value={product.category} onChange={handleSelectChange}>
-                                <option value="">{product.category}</option>
                                 {category.map((a) => (
                                     <option key={a.id} value={a.id}>
                                         {a.name}
