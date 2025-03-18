@@ -11,6 +11,12 @@ const CheckoutComponent = () => {
   const [selectedWard, setSelectedWard] = useState("");
   const [cart, setCart] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [deliverMethod, setdeliverMethod] = useState([]);
+  const [selectedDeliverMethod, setSelectedDeliverMethod] = useState("");
+  const [voucher, setVoucher] = useState([])
+  const [selectedVoucher, setSelectedVoucher] = useState("");
+  const [shippingFee, setShippingFee] = useState(0);
+  const [discountValue, setDiscountValue] = useState(0);
   const idUser = sessionStorage.getItem("idUser")
 
   const fetchCart = () => {
@@ -22,6 +28,20 @@ const CheckoutComponent = () => {
     .catch((error) => console.error("Lỗi lấy ra cart:", error.response.data.message));
   }
 
+  const fetchDeliver = () =>{
+    axios
+      .get("http://localhost:8080/api/delivery/getAll")
+      .then((response) => setdeliverMethod(response.data.result))
+      .catch((error) => console.error("Lỗi lấy ra delivery:", error.response.data.message));
+  }
+
+  const fetchVoucher = () =>{
+    axios
+      .get("http://localhost:8080/api/voucher/getAll")
+      .then((response) => setVoucher(response.data.result))
+      .catch((error) => console.error("Lỗi lấy ra voucher:", error.response.data.message));
+  }
+
   useEffect(() => {
     axios
       .get(
@@ -31,10 +51,11 @@ const CheckoutComponent = () => {
       .catch((error) => console.error("Lỗi fetch city:", error));
 
     fetchCart();
+    fetchVoucher();
+    fetchDeliver();
   }, []);
 
   useEffect(() => {
-    // Reset districts and wards when the city changes
     setDistricts([]);
     setWards([]);
     if (selectedCity) {
@@ -53,6 +74,26 @@ const CheckoutComponent = () => {
     }
   }, [selectedDistrict, districts]);
 
+  const handleDeliverChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedDeliverMethod(selectedId);
+  
+    const selectedDelivery = deliverMethod.find((deli) => deli.id.toString() === selectedId);
+    if (selectedDelivery) {
+      setShippingFee(selectedDelivery.price);
+    }
+  };
+  
+  
+  const handleApplyVoucher = (e) => {
+    e.preventDefault();
+    const selectedVoucherObj = voucher.find((v) => v.id === selectedVoucher);
+    if (selectedVoucherObj) {
+      setDiscountValue(selectedVoucherObj.discountValue);
+    }
+  };
+  
+
   const handlePayment = () => {
     if (!selectedCity || !selectedDistrict || !selectedWard || !paymentMethod) {
       alert("Vui lòng điền đầy đủ thông tin và chọn phương thức thanh toán.");
@@ -64,8 +105,11 @@ const CheckoutComponent = () => {
       tel: document.getElementById("tel-user").value,
       address: `${document.getElementById("number-address").value}, ${document.getElementById("ward").options[document.getElementById("ward").selectedIndex].text}, ${document.getElementById("district").options[document.getElementById("district").selectedIndex].text}, ${document.getElementById("city").options[document.getElementById("city").selectedIndex].text}`,
       note: document.querySelector("textarea").value,
-      detailOrderRequestList: cart?.detailOrderRequestList.map((item) => ({
-        id: item.idProduct,
+      deliveryMethod: Number(selectedDeliverMethod),
+      paymentMethod: paymentMethod === "cash" ? 1 : 2,
+      voucherCode: selectedVoucher || "",
+      detailOrderRequestList: cart?.productCartDTOList.map((item) => ({
+        id: item.id,
         quantity: item.quantity,
         size: item.size,
       })),
@@ -74,8 +118,9 @@ const CheckoutComponent = () => {
     const token = sessionStorage.getItem("token");
 
     if (paymentMethod === "cash") {
+      console.log("➡️ paymentInfo gửi lên:", paymentInfo);
       axios
-        .post("http://localhost:8080/order/create", paymentInfo, {
+        .post("http://localhost:8080/api/order/create", paymentInfo, {
           headers: { Author: `Bearer ${token}` },
         })
         .then(() => {
@@ -88,15 +133,24 @@ const CheckoutComponent = () => {
         });
     } else if (paymentMethod === "vnpay") {
       axios
-        .post(
-          `http://localhost:8080/vnpay/create?amount=${cart.totalPrice}`,
-          paymentInfo,
-          { headers: { Author: `Bearer ${token}` } }
-        )
-        .then((response) => {
-          window.location.href = response.data.result;
+        .post("http://localhost:8080/api/order/create", paymentInfo, {
+          headers: { Author: `Bearer ${token}` },
         })
-        .catch((error) => console.error("Error:", error));
+        .then((response) => {
+          const message = response.data?.result?.message;
+          if(message === "true"){
+            axios
+              .post(
+                `http://localhost:8080/vnpay/create/`,
+                { headers: { Author: `Bearer ${token}` } }
+              )
+              .then((response) => {
+                window.location.href = response.data.result;
+              })
+              .catch((error) => console.error("Error:", error.response.data.message));
+          }
+        })
+        .catch((error) => console.error("Error:", error.response.data.message));
     }
   };
 
@@ -201,6 +255,43 @@ const CheckoutComponent = () => {
                   placeholder="Số nhà..."
                 />
               </div>
+              <div style={{display:"flex", alignItems:"flex-end", marginTop:"15px"}}>
+                <div style={{marginRight:"30px"}}>
+                  <label className="label-default">Mã giảm giá:</label>
+                  <select style={{padding:"10px 150px 10px 15px"}}
+                    className="form-select select-address"
+                    id="voucherSelect"
+                    value={selectedVoucher}
+                    onChange={(e) => setSelectedVoucher(e.target.value)}
+                  >
+                    <option value="">Chọn mã giảm giá</option>
+                    {voucher.map((voucher) => (
+                      <option key={voucher.id} value={voucher.id}>
+                        {voucher.id}, giảm: {voucher.discountValue.toLocaleString()}đ
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button style={{borderRadius:"5px", padding:"10px 20px", backgroundColor:"#088176", color:"white", fontWeight:"bold"}}
+                        onClick={handleApplyVoucher}>
+                  Áp dụng
+                </button>
+              </div>  
+              
+              <label className="label-default" style={{margin:"20px 0 3px 13px"}}>Hình thức giao hàng:</label>
+              <select style={{margin:"3px 12px 10px 12px"}}
+                  className="form-select select-address"
+                  id="deliveryMethod"
+                  value={selectedDeliverMethod}
+                  onChange={handleDeliverChange}
+                >
+                  <option value="">Chọn hình thức giao hàng</option>
+                  {deliverMethod.map((deli) => (
+                    <option key={deli.id} value={deli.id}>
+                      {deli.name}, giá: {deli.price.toLocaleString()}đ
+                    </option>
+                  ))}
+                </select>
               <div className="card-number">
                 <label className="label-default">Ghi Chú:</label>
                 <textarea
@@ -241,14 +332,17 @@ const CheckoutComponent = () => {
               <span>{cart?.totalPrice.toLocaleString()}đ</span>
             </div>
             <div className="shipping">
-              <span>Phí Giao Hàng</span> <span>0đ</span>
+              <span>Phí Giao Hàng</span> <span>{shippingFee.toLocaleString()}đ</span>
+            </div>
+            <div className="voucher">
+              <span>Giảm Giá</span> <span>{discountValue.toLocaleString()}đ</span>
             </div>
             <div className="total">
               <span>Tổng</span>{" "}
-              <span>{cart?.totalPrice.toLocaleString()}đ</span>
+              <span>{(cart?.totalPrice + shippingFee - discountValue).toLocaleString()}đ</span>
             </div>
           </div>
-          <button className="btn btn-primary btn-pay" onClick={handlePayment}>
+          <button className="btn btn-primary btn-pay" style={{width:"100%", fontSize:"20px"}} onClick={handlePayment}>
             <b>Thanh Toán</b>
           </button>
         </div>
