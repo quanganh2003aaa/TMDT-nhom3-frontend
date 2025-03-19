@@ -5,14 +5,14 @@ import axios from 'axios';
 const Update = () => {
     const {idThuongHieu} = useParams();
     const navigate = useNavigate();
-    const [brand, setBrand] = useState([])
+    const [brand, setBrand] = useState({name: ""})
 
     const fecthBrand = () => {
-        const url = "";
+        const url = `http://localhost:8080/api/brand/${idThuongHieu}`;
         axios 
             .get(url)
             .then((response) => {
-                setBrand(response.data.result)
+                setBrand({name: response.data.result.name})
             })
             .catch((error) => {
                 const errorMessage = error.response.data.message;
@@ -36,7 +36,7 @@ const Update = () => {
         const formData = new FormData();
         formData.append("name", brand.name);
 
-        const url = `http://localhost:8080/api/category/update/${idThuongHieu}`;
+        const url = `http://localhost:8080/api/brand/update/${idThuongHieu}`;
         axios
             .put(url, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -75,7 +75,7 @@ const Update = () => {
                 <div className="board1">
                 <div className="row">
                         <label htmlFor="name" className="col-form-label" style={{padding:"10px"}}>Tên thương hiệu:</label>
-                        <textarea className="txt-input form-control" id="name" onClick={handleChange} value={brand.name}></textarea>
+                        <textarea className="txt-input form-control" id="name" onChange={handleChange} value={brand.name}></textarea>
 
                         <div className="btn-form" style={{paddingTop:"40px"}}>
                             <a href="/admin/thuonghieu">
