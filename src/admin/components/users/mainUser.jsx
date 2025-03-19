@@ -21,12 +21,18 @@ const User = () => {
         navigate(`/admin/update-user/${idUser}`);
       };
 
-    const fetchUser = () =>{
-        fetch("http://localhost:8080/api/user/list", {
-            method: "GET"
+    const fetchUser = (filter) =>{
+        let url = "http://localhost:8080/api/user/list/admin";
+        if (filter === "1") {
+            url = "http://localhost:8080/api/user/list/client";
+        }
+        
+        fetch(url, {
+            method: "GET",
         })
         .then(res => res.json())
-        .then(setUser);
+        .then(setUser)
+        .catch(error => console.error("Lỗi lấy danh sách người dùng:", error));
     }
 
     const handleDeleteUser = (idUser) => {
@@ -49,7 +55,6 @@ const User = () => {
       };
 
     useEffect(() => {
-        // Xác thực người dùng
         fetch("http://localhost:8080/api/auth/introspect", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -63,9 +68,13 @@ const User = () => {
         })
         .catch(() => window.location.href = "/admin/404");
 
-        fetchUser();
+        fetchUser(selectedFilter);
         
     }, [token]);
+
+    useEffect(() => {
+        fetchUser(selectedFilter);
+    }, [selectedFilter]);
     
     return(
         <main>

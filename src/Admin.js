@@ -59,7 +59,7 @@ function Admins() {
 
             <Route path="/danhmuc" element={<DanhMuc />} />
             <Route path="/create-danhmuc" element={<CreateDanhMuc />} />
-            <Route path="/update-danhmuc/:idDanhMuc" element={<UpdateDanhMuc />} />
+            <Route path="/update-danhmuc/:idCate" element={<UpdateDanhMuc />} />
 
             <Route path="/deliver" element={<Deliver />} />
             <Route path="/create-deliver" element={<CreateDeliver />} />

@@ -5,14 +5,18 @@ import { useParams, useNavigate } from "react-router-dom";
 const Update = () => {
     const { idCate } = useParams(); 
     const navigate = useNavigate();
-    const [cate, setCate] = useState([])
+    const [cate, setCate] = useState({ name: "" })
 
     const fecthCate = () => {
-        const url = "";
+        const url = `http://localhost:8080/api/category/id/${idCate}`;
         axios 
             .get(url)
             .then((response) => {
-                setCate(response.data.result)
+                if (response.data && response.data.result) {
+                    setCate({ name: response.data.result.name });
+                } else {
+                    console.error("Dữ liệu danh mục không hợp lệ:", response.data);
+                }
             })
             .catch((error) => {
                 const errorMessage = error.response.data.message;

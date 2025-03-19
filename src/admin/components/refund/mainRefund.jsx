@@ -63,7 +63,7 @@ const Dashboard = () => {
     };
 
     const updateOrderStatus = (orderId, action) => {
-        fetch(`http://localhost:8080/order/${action}/${orderId}`, {
+        fetch(`http://localhost:8080/api/refund/${action}/${orderId}`, {
             method: "PUT",
             headers: { "Author": `Bearer ${token}` }
         })
@@ -134,13 +134,12 @@ const Dashboard = () => {
                                     <button className="accordion-button collapsed btn-detail-order" type="button"
                                             onClick={() => handleExpandOrder(order.id)}
                                     >
-                                        <span>#{order.id} - {new Date(order.date).toLocaleDateString()}</span>
+                                        <span>#{order.id} - {new Date(order.createdAt).toLocaleDateString()}</span>
                                         <div style={{marginLeft: "50px", padding:"5px", borderRadius:"10px",
-                                            color:  order.status === "Đang giao hàng" ? "black" : "white",
-                                            backgroundColor: order.status === "Đang giao hàng" ? "yellow" :
-                                            order.status === "Đang chuẩn bị" ? "green" :
+                                            color: "white",
+                                            backgroundColor: 
                                             order.status === "Chờ xác nhận" ? "gray" :
-                                            order.status === "Đơn hàng đã hủy" ? "red" :
+                                            order.status === "Đơn hoàn bị từ chối" ? "red" :
                                             "black"
                                         }}>
                                             {order.status}

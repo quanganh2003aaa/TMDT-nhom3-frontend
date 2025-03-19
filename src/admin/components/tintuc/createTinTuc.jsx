@@ -63,9 +63,6 @@ const Create = () => {
                         <label htmlFor="title" className="col-form-label" style={{padding:"20px 10px"}}>Tiêu Đề:</label>
                         <textarea className="txt-input form-control" id="title" value={news.title} onChange={handleChange}></textarea>
 
-                        <label htmlFor="authorId" className="col-form-label" style={{padding:"20px 10px"}}>Tác Giả:</label>
-                        <textarea className="txt-input form-control" id="authorId" value={idUser} ></textarea>
-
                         <label htmlFor="content" className="col-form-label" style={{padding:"20px 10px"}}>Nội Dung:</label>
                         <textarea className="txt-input form-control" id="content" value={news.content} onChange={handleChange}></textarea>
 

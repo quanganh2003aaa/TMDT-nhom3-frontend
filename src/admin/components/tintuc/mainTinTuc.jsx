@@ -76,7 +76,6 @@ const Main = () => {
                         <th>Tiêu đề</th>
                         <th>Ngày</th>
                         <th>Tác giả</th>
-                        <th>Nội Dung</th>
                         <th>Hành động</th>
                     </tr>
                     </thead>
@@ -87,7 +86,6 @@ const Main = () => {
                             <td><p>{news.title}</p></td>
                             <td><p>{news.createdAt}</p></td>
                             <td><p>{news.authorName}</p></td>
-                            <td><p>{news.content}</p></td>
                             <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px"}} >
                                 <div>
                                     <button type="button" className="btn btn-success btn-product-modal"  onClick={() => handleEditTintuc(news.id)}> 
