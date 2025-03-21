@@ -34,12 +34,12 @@ const Dashboard = () => {
     }, [currentPage, query, selectedStatus]);
 
     const fetchOrders = () => {
-        let url = `http://localhost:8080/api/order/getAll?page=${currentPage}`;
+        let url = `http://localhost:8080/api/order/getOrderSearch?page=${currentPage}`;
     
         if (query) {
-            url = `http://localhost:8080/api/order/getOrderSearch?query=${encodeURIComponent(query)}&page=${currentPage}`;
+            url += `&query=${encodeURIComponent(query)}`;
         } else if (selectedStatus) {
-            url = `http://localhost:8080/api/order/getById/${selectedStatus}?page=${currentPage}`;
+            url += `&select=${selectedStatus}`;
         }
 
         fetch(url, {
@@ -124,7 +124,7 @@ const Dashboard = () => {
                         </select>
                         <form action="#" id="idSearch" className="search-order-form">
                             <div className="form-input">
-                                <input type="search" placeholder="Tìm kiếm..." value={query} onChange={(e) => setQuery(e.target.value)} />
+                                <input type="search" placeholder="Tìm kiếm theo mã đơn hàng..." value={query} onChange={(e) => setQuery(e.target.value)} />
                                 <button type="submit" className="search-btn"><i className='bx bx-search'></i></button>
                             </div>
                         </form>
@@ -206,9 +206,17 @@ const Dashboard = () => {
                                                             ))}
                                                         </tbody>
                                                     </table>
-                                                    <div className="total" style={{padding: "10px"}}>
+                                                    <div className="total" style={{padding: "10px 10px 0 0"}}>
                                                         <span>Thành tiền: {formatCurrency(product.totalPrice)}</span>
-                                                        
+                                                    </div>
+                                                    <div className="total" style={{padding: "5px 10px"}}>
+                                                        <span>Phí ship: {formatCurrency(product.shippingFee)}</span>
+                                                    </div>
+                                                    <div className="total" style={{padding: "5px 10px"}}>
+                                                        <span>Giảm giá: {formatCurrency(product.discountAmount)}</span>
+                                                    </div>
+                                                    <div className="total" style={{padding: "5px 10px"}}>
+                                                        <span>Tổng thanh toán: {formatCurrency(product.finalAmount)}</span>
                                                     </div>
                                                     <div className="total" style={{padding:"0 10px 200px 0", color: product.paymentStatus==="PAID"? "#088176" : "red"}}>
                                                         <span>{product.paymentStatus=="PAID"?"Đã thanh toán":"Chưa thanh toán"}</span>

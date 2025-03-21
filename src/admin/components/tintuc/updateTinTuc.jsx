@@ -83,7 +83,7 @@ const Update = () => {
                         <textarea className="txt-input form-control" id="title" value={news.title} onChange={handleChange}></textarea>
 
                         <label htmlFor="author" className="col-form-label" style={{padding:"20px 10px"}}>Tác Giả:</label>
-                        <textarea className="txt-input form-control" id="author" value={news.authorName} ></textarea>
+                        <textarea className="txt-input form-control" readOnly id="author" value={news.authorName} ></textarea>
 
                         <label htmlFor="content" className="col-form-label" style={{padding:"20px 10px"}}>Nội Dung:</label>
                         <textarea className="txt-input form-control" id="content" value={news.content} onChange={handleChange}></textarea>

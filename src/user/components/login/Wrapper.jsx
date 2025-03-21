@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import './login.css'
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = () => {
+  const navigate = useNavigate();
   const [isLoginActive, setIsLoginActive] = useState(true); 
   const [loginForm, setLoginForm] = useState({ tel: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ name:"", tel: "", password: "", gmail: "" });
@@ -12,6 +14,10 @@ const Wrapper = () => {
   const toggleForms = () => {
     setIsLoginActive(!isLoginActive);
   };
+
+  const ForgetPass = () => {
+    navigate("/forget-password");
+  }
 
   // Xử lý logic đăng nhập
   const handleLogin = async (event) => {
@@ -92,6 +98,9 @@ const Wrapper = () => {
               Bạn chưa có tài khoản?{" "}
               <span className="login-toggle-link" onClick={toggleForms}>
                 Đăng ký
+              </span>
+              <span className="login-toggle-link" onClick={ForgetPass}>
+              Quên mật khẩu?
               </span>
             </p>
           </form>

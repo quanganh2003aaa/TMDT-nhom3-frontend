@@ -16,6 +16,7 @@ import Vouchers from "./user/pages/voucher";
 import Contact from "./user/pages/contact";
 import ProductDetailPage from "./user/pages/sproduct";
 import Login from "./user/pages/login";
+import Forgetpassword from "./user/pages/forgetpass";
 import UserDetails from "./user/pages/userdetail";
 import UserDetailsHistory from "./user/pages/userdetail-history";
 import UserDetailsComment from "./user/pages/userdetail-comment";
@@ -52,6 +53,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/sproduct" element={<ProductDetailPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forget-password" element={<Forgetpassword />} />
           <Route path="/user-detail" element={<UserDetails />} />
           <Route path="/user-detail/history" element={<UserDetailsHistory />} />
           <Route path="/user-detail/comment" element={<UserDetailsComment />} />

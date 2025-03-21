@@ -3,15 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const User = () => {    
-    const [query, setQuery] = useState('');
     const [selectedFilter, setSelectedFilter] = useState(0);
     const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
-    
-    const handleSearchChange = (event) => {
-        setQuery(event.target.value.toLowerCase());
-      };
     
     const handleFilterChange = (event) => {
     setSelectedFilter(event.target.value);
@@ -107,12 +102,6 @@ const User = () => {
                     <option value="0">Admin</option>
                     <option value="1">Khách hàng</option>
                     </select>
-                    <form action="#" id="idSearch" >
-                        <div className="form-input">
-                            <input type="search" placeholder="Tìm kiếm..." value={query} onChange={handleSearchChange} />
-                            <button type="submit" className="search-btn"><i className='bx bx-search'></i></button>
-                        </div>
-                    </form>
                 </div>
                 <table className="table">
                     <thead>

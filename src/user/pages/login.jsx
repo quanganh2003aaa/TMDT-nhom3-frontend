@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import Wrapper from "../components/login/Wrapper";
 
-const Accessories = () => {
+const Login = () => {
     return(
         <div>
             <Helmet>
@@ -13,4 +13,4 @@ const Accessories = () => {
     );
 };
 
-export default Accessories;
+export default Login;

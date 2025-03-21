@@ -35,9 +35,9 @@ const Dashboard = () => {
         let url = `http://localhost:8080/api/refund/getAll?page=${currentPage}`;
     
         if (query) {
-            url = `http://localhost:8080/api/order/getOrderSearch?query=${encodeURIComponent(query)}&page=${currentPage}`;
+            url += `&query=${encodeURIComponent(query)}`;
         } else if (selectedStatus) {
-            url = `http://localhost:8080/api/order/getById/${selectedStatus}?page=${currentPage}`;
+            url += `&select=${selectedStatus}`;
         }
 
         fetch(url, {
@@ -114,11 +114,11 @@ const Dashboard = () => {
                                 style={{width: "30%"}} 
                                 onChange={(e) => setSelectedStatus(e.target.value)}>
                             <option value="0">Tất cả đơn hàng</option>
-                            <option value="1">Chờ xác nhận</option>
-                            <option value="2">Đang chuẩn bị</option>
-                            <option value="3">Đang giao hàng</option>
-                            <option value="4">Giao hàng thành công</option>
-                            <option value="5">Đơn hàng đã hủy</option>
+                            <option value="6">Chờ xác nhận hoàn trả</option>
+                            <option value="7">Hoàn đơn được chấp nhận</option>
+                            <option value="8">Đang trả hàng</option>
+                            <option value="9">Hoàn đơn thành công</option>
+                            <option value="10">Đơn hàng bị từ chối</option>
                         </select>
                         <form action="#" id="idSearch" className="search-order-form">
                             <div className="form-input">

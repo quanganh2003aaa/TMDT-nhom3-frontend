@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const User = () => {    
     const [voucher, setVoucher] = useState([]);
-    const [query, setQuery] = useState('');
-    const [selectedFilter, setSelectedFilter] = useState(0);
-    const token = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     const formatPrice = (price) => {
@@ -15,31 +12,18 @@ const User = () => {
 
     useEffect(() => {
         renderListVoucher();
-    }, [query, selectedFilter]);
+    }, []);
 
     const renderListVoucher = () => {
-    const url = `http://localhost:8080/api/voucher/getAll?query=${encodeURIComponent(query)}&select=${selectedFilter}`;
+    const url = `http://localhost:8080/api/voucher/getAll`;
     axios
-        .get(url  //, {
-        // headers: {
-        //     'Author': `Bearer ${token}`,
-        // },
-        // }
-        )
+        .get(url)
         .then((response) => {
         setVoucher(response.data.result);
         })
         .catch((error) => {
         console.error('Error fetching products:', error);
         });
-    };
-    
-    const handleSearchChange = (event) => {
-        setQuery(event.target.value.toLowerCase());
-      };
-    
-    const handleFilterChange = (event) => {
-    setSelectedFilter(event.target.value);
     };
 
     const handleEditUser = (idVoucher) => {
@@ -49,11 +33,7 @@ const User = () => {
     const handleDeleteUser = (idVoucher) => {
         if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idVoucher} không?`)) {
           axios
-            .delete(`http://localhost:8080/api/voucher/delete/${idVoucher}`, {
-            //   headers: {
-            //     'Author': `Bearer ${token}`,
-            //   },
-            })
+            .delete(`http://localhost:8080/api/voucher/delete/${idVoucher}`)
             .then(() => {
               alert('Xoá sản phẩm thành công!');
               renderListVoucher();
@@ -90,14 +70,6 @@ const User = () => {
                 <div className="order">
                 <div className="head">
                     <h3>Danh Sách Mã Giảm Giá</h3>
-                </div>
-                <div className="filter d-flex" style={{justifyContent:"flex-end"}}>
-                    <form action="#" id="idSearch" >
-                    <div className="form-input">
-                        <input type="search" placeholder="Tìm kiếm..." value={query} onChange={handleSearchChange} />
-                        <button type="submit" className="search-btn"><i className='bx bx-search'></i></button>
-                    </div>
-                    </form>
                 </div>
                 <table className="table">
                     <thead>

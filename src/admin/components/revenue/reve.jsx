@@ -29,34 +29,34 @@ const RevenueChart = () => {
   });
 
   useEffect(() => {
-    // const fetchRevenueData = async () => {
-    //   try {
-    //     const token = sessionStorage.getItem("token");
-    //     const response = await axios.get("http://localhost:8080/revenue/getChart", {
-    //       headers: {
-    //         Author: `Bearer ${token}`,
-    //       },
-    //     });
+    const fetchRevenueData = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const response = await axios.get("http://localhost:8080/revenue/getChart", {
+          headers: {
+            Author: `Bearer ${token}`,
+          },
+        });
 
-    //     if (response.data && response.data.result) {
-    //       const revenues = response.data.result.map(item => item.revenue);
-    //       const categories = response.data.result.map(item => `Tháng ${item.month}/${item.year}`);
+        if (response.data && response.data.result) {
+          const revenues = response.data.result.map(item => item.revenue);
+          const categories = response.data.result.map(item => `Tháng ${item.month}/${item.year}`);
 
-    //       setChartData({
-    //         series: [{ name: "Doanh thu", data: revenues }],
-    //         options: {
-    //           ...chartData.options,
-    //           xaxis: { categories: categories },
-    //         },
-    //       });
-    //     }
-    //   } catch (error) {
-    //     console.error("Lỗi khi lấy dữ liệu biểu đồ:", error);
-    //   }
-    // };
+          setChartData({
+            series: [{ name: "Doanh thu", data: revenues }],
+            options: {
+              ...chartData.options,
+              xaxis: { categories: categories },
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu biểu đồ:", error);
+      }
+    };
 
-    // fetchRevenueData();
-  }, []); // Chỉ chạy 1 lần khi component mount
+    fetchRevenueData();
+  }, []); 
 
   return (
     <main>

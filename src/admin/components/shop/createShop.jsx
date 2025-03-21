@@ -26,14 +26,14 @@ const Create = () => {
             <div className="board">
                 <div className="board1">
                     <div className="row">
-                        <label htmlFor="user-head" className="col-form-label" style={{padding:"10px"}}>Địa Chỉ:</label>
-                        <textarea className="txt-input form-control" id="user-head"></textarea>
+                        <label htmlFor="address" className="col-form-label" style={{padding:"10px"}}>Địa Chỉ:</label>
+                        <textarea className="txt-input form-control" id="address"></textarea>
 
                         <label htmlFor="user-head" className="col-form-label" style={{padding:"10px"}}>Tọa Độ:</label>
                         <textarea className="txt-input form-control" id="user-head"></textarea>
 
-                        <label htmlFor="date-start" className="col-form-label" style={{padding:"10px"}}>Số Điện Thoại:</label>
-                        <input type="date" id="date-start" name="date" min={new Date().toISOString().split("T")[0]} style={{padding:"10px"}}/>
+                        <label htmlFor="tel" className="col-form-label" style={{padding:"10px"}}>Số Điện Thoại:</label>
+                        <input type="number" id="tel" style={{padding:"10px"}}/>
 
                         <label htmlFor="user-name" className="col-form-label" style={{padding:"10px"}}>Chủ Cửa Hàng:</label>
                         <textarea className="txt-input form-control" id="user-name"></textarea>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Product.css'
@@ -6,22 +6,38 @@ import './Product.css'
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [query, setQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState(0);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
+  const debounceTimeoutRef = useRef(null);
 
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
   };
 
   useEffect(() => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    debounceTimeoutRef.current = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 500); 
+  }, [query]);
+
+  useEffect(() => {
     fetchProducts();
-  }, [query, selectedFilter]);
+  }, [debouncedQuery]);
 
   const fetchProducts = async () => {
+    let url = "http://localhost:8080/api/product/admin/getAll";
+
+    if(query) {
+      url += `?query=${debouncedQuery}`
+    }
     try {
         axios 
-         .get("http://localhost:8080/api/product/admin/getAll")
+         .get(url)
          .then((response) => {
           setProducts(response.data.result)
          })
@@ -33,11 +49,9 @@ const ProductManagement = () => {
 };
 
   const handleSearchChange = (event) => {
-    setQuery(event.target.value.toLowerCase());
-  };
-
-  const handleFilterChange = (event) => {
-    setSelectedFilter(event.target.value);
+    setQuery(event.target.value);
+    console.log(query);
+    
   };
 
   const handleEditProduct = (idProduct) => {
@@ -89,19 +103,10 @@ const ProductManagement = () => {
           <div className="head">
             <h3>Danh Sách Sản Phẩm</h3>
           </div>
-          <div className="filter d-flex justify-content-between">
-            <select className="form-select productFilterSelect" value={selectedFilter} onChange={handleFilterChange} style={{ width: '30%' }}>
-              <option value="0">Tất cả sản phẩm</option>
-              <option value="1">Giày</option>
-              <option value="2">Quần Áo</option>
-              <option value="3">Phụ Kiện</option>
-              <option value="4">Sản phẩm số lượng thấp</option>
-              <option value="5">Giá từ thấp đến cao</option>
-              <option value="6">Giá từ cao đến thấp</option>
-            </select>
+          <div className="filter d-flex" style={{justifyContent:"flex-end"}}>
             <form action="#" id="idSearch" >
               <div className="form-input">
-                <input type="search" placeholder="Tìm kiếm..." value={query} onChange={handleSearchChange} />
+                <input type="search" placeholder="Tìm kiếm theo mã sản phẩm..." value={query} onChange={handleSearchChange} />
                 <button type="submit" className="search-btn"><i className='bx bx-search'></i></button>
               </div>
             </form>
