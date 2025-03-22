@@ -8,11 +8,6 @@ const Sidebar = () => {
   const isActive = (paths) => paths.includes(location.pathname);
   const location = useLocation();
 
-  const handleNavigation = (url) => {
-    navigate(url);
-    window.scrollTo({ top: 0, behavior: "smooth" }); 
-  };
-
   const handleLogout = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("idUser");

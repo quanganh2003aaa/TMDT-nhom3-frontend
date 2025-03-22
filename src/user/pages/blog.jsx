@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import Body from "../components/blog/body";
 
-const Accessories = () => {
+const Blog = () => {
     return(
         <div>
             <Helmet>
@@ -17,4 +17,4 @@ const Accessories = () => {
     );
 };
 
-export default Accessories;
+export default Blog;

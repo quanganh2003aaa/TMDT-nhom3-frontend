@@ -6,13 +6,12 @@ const Footer = () => {
         <section className="footer bg-light text-dark py-4">
             <div className="container">
                 <div className="row">
-                    {/* Logo và giới thiệu */}
                     <div className="col-md-5">
                         <div className="img-inner dark">
                             <img
                                 width="300"
                                 height="90"
-                                src="images/logo_s.png"
+                                src="/images/logo_s.png"
                                 className="attachment-original size-original"
                                 alt=""
                                 decoding="async"
@@ -41,7 +40,6 @@ const Footer = () => {
                         </div>
                     </div>
                     
-                    {/* Về chúng tôi */}
                     <div className="col-md-3">
                         <h4 style={{ color: "black" }}>Về chúng tôi</h4>
                         <ul className="list menu">

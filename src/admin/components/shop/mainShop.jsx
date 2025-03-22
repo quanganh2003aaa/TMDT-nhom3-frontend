@@ -27,11 +27,14 @@ const Main = () => {
     };
 
     const handleDeleteStore = (idStore) => {
-        try{
-            axios .delete(`http://localhost:8080/api/store/delete/${idStore}`)
-        }catch{
-            alert("Lỗi xóa sản phẩm");
-            console.log("Lỗi xóa sản phẩm", error);
+        if (window.confirm(`Bạn chắc chắn muốn xóa cửa hàng ${idStore} không?`)) {
+            try{
+                axios .delete(`http://localhost:8080/api/store/delete/${idStore}`)
+                fecthStore();
+            }catch{
+                alert("Xóa sản phẩm thất bại");
+                console.log("Lỗi xóa sản phẩm", error);
+            }
         }
     };
 

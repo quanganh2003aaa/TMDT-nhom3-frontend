@@ -74,7 +74,7 @@ const ProductDetails = () => {
   
     axios
       .post("http://localhost:8080/api/cart/add", cartItem)
-      .then((response) => {
+      .then(() => {
         alert(`Sản phẩm "${product.name}" (Size: ${selectedSize}) đã được thêm vào giỏ hàng!`);
         window.location.reload();
       })

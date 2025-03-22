@@ -1,7 +1,60 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Update = () => {
+    const {idStore} = useParams();
+    const navigate = useNavigate();
+    const [store, setStore] = useState([]);
+
+    const fecthStore = () => {
+        axios
+            .get(`http://localhost:8080/api/store/id/${idStore}`)
+            .then((response) => {
+                setStore(response.data.result);
+            })
+            .catch((error) => {
+                console.log("Lỗi fecth store detail: ", error.response.data.message);
+            })
+    }
+
+    useEffect( () => {
+        fecthStore();
+    }, []);
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setStore({
+            ...store,
+            [id]: value
+        });
+    };
+
+    const handleHuy = () => {
+        navigate("/admin/shop");
+    };
+
+    const handleUpdate = () => {
+        const formData = new FormData();
+        formData.append("address", store.address);
+        formData.append("tel", store.tel);
+
+        try{
+            axios .put(`http://localhost:8080/api/store/update/${idStore}`, formData,{
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            })
+            .then((res) => {
+                alert("Cập nhật cửa hàng thành công");
+                navigate("/admin/shop");
+            })
+        }catch (error) {
+            alert("Lỗi cập nhật store");
+            console.log("Lỗi cập nhật store", error);
+        }
+    };
+
     return(
         <main>
             <div className="head-title">
@@ -26,23 +79,18 @@ const Update = () => {
             <div className="board">
                 <div className="board1">
                     <div className="row">
-                        <label htmlFor="user-head" className="col-form-label" style={{padding:"10px"}}>Địa Chỉ:</label>
-                        <textarea className="txt-input form-control" id="user-head"></textarea>
+                        <label htmlFor="user" className="col-form-label" style={{padding:"10px"}}>Quản Lý Cửa Hàng:</label>
+                        <textarea className="txt-input form-control" value={store.user} readOnly id="user"></textarea>
 
-                        <label htmlFor="user-head" className="col-form-label" style={{padding:"10px"}}>Tọa Độ:</label>
-                        <textarea className="txt-input form-control" id="user-head"></textarea>
+                        <label htmlFor="address" className="col-form-label" style={{padding:"10px"}}>Địa Chỉ:</label>
+                        <textarea className="txt-input form-control" value={store.address} onChange={handleChange} id="address"></textarea>
 
-                        <label htmlFor="date-start" className="col-form-label" style={{padding:"10px"}}>Số Điện Thoại:</label>
-                        <input type="date" id="date-start" name="date" min={new Date().toISOString().split("T")[0]} style={{padding:"10px"}}/>
-
-                        <label htmlFor="user-name" className="col-form-label" style={{padding:"10px"}}>Chủ Cửa Hàng:</label>
-                        <textarea className="txt-input form-control" id="user-name"></textarea>
+                        <label htmlFor="tel" className="col-form-label" style={{padding:"10px"}}>Số Điện Thoại:</label>
+                        <textarea className="txt-input form-control" value={store.tel} onChange={handleChange} id="tel"></textarea>
 
                         <div className="btn-form" style={{paddingTop:"10px"}}>
-                            <a href="/admin/shop">
-                                <button  className="btn-huy">Hủy</button>
-                            </a>
-                            <button className="btn-them">Lưu</button>
+                            <button className="btn-huy" onClick={handleHuy}>Hủy</button>
+                            <button className="btn-them" onClick={handleUpdate}>Lưu</button>
                         </div>
                     </div>
                 </div>

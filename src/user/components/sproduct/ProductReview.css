@@ -1,17 +1,16 @@
 #form-details {
-    display: flex;
     border-radius: 10px;
-    margin: 30px;
+    margin: 20px 150px;
     padding: 20px;
     border: 1px solid #e1e1e1;
-    justify-content: space-between;
+    background-color: #f6f6f6ab;
 }
 
 #form-details h2{
     font-size: 26px;
     line-height: 35px;
     text-align: center;
-    padding: 20px 0px;
+    padding: 10px 0px;
     color: black;
     width:100%;
 }
@@ -73,9 +72,8 @@
     border-radius: 10px;
     padding: 24px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width:45%;
+    overflow-y: auto;
     height: 355.9px;
-    margin: 40px 0;
 }
 
 .list-rate-product{

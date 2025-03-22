@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './user/css/style.css';
 import './user/css/style1.css';
 import { BrowserRouter as Navigate, Routes, Route } from "react-router-dom";
@@ -12,6 +12,7 @@ import SneakerList from "./user/pages/sneaker";
 import ClothesList from "./user/pages/clothes";
 import BrandsList from "./user/pages/brand";
 import Blog from "./user/pages/blog";
+import BlogDetail from "./user/pages/blog-detail";
 import Vouchers from "./user/pages/voucher";
 import Contact from "./user/pages/contact";
 import ProductDetailPage from "./user/pages/sproduct";
@@ -25,17 +26,7 @@ import UserDetailsOrder from "./user/pages/OrderDetail";
 import Pay from "./user/pages/pay";
 import Thankyou from "./user/pages/thankyou";
 
-function App() {
-    const [isCartVisible, setCartVisible] = useState(false);
-
-    const handleCartClick = () => {
-      setCartVisible(true);
-    };
-
-    const handleCloseCart = () => {
-      setCartVisible(false);
-    };
-    
+function App() {    
   return (
     <>
       <Header/>
@@ -49,6 +40,7 @@ function App() {
           <Route path="/clothes" element={<ClothesList />} />
           <Route path="/brands" element={<BrandsList />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog-detail/:idBlog" element={<BlogDetail />} />
           <Route path="/voucher" element={<Vouchers />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/sproduct" element={<ProductDetailPage />} />

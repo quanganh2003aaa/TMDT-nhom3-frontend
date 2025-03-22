@@ -61,11 +61,7 @@ const ProductManagement = () => {
   const handleDeleteProduct = (idProduct) => {
     if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idProduct} không?`)) {
       axios
-        .delete(`http://localhost:8080/api/product/delete/${idProduct}`, {
-          headers: {
-            'Author': `Bearer ${token}`,
-          },
-        })
+        .delete(`http://localhost:8080/api/product/delete/${idProduct}`)
         .then(() => {
           alert('Xoá sản phẩm thành công!');
           fetchProducts();

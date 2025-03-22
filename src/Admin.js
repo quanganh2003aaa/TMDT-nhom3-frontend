@@ -69,7 +69,7 @@ function Admins() {
 
             <Route path="/shop" element={<Shop />} />
             <Route path="/create-shop" element={<CreateShop />} />
-            <Route path="/update-shop" element={<UpdateShop />} />
+            <Route path="/update-shop/:idStore" element={<UpdateShop />} />
 
             <Route path="/thuonghieu" element={<ThuongHieu />} />
             <Route path="/create-thuonghieu" element={<CreateThuongHieu />} />

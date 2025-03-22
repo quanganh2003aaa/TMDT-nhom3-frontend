@@ -9,8 +9,8 @@ const Wrapper = () => {
   const [isLoginActive, setIsLoginActive] = useState(true); 
   const [loginForm, setLoginForm] = useState({ tel: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ name:"", tel: "", password: "", gmail: "" });
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Toggle giữa login và register form
   const toggleForms = () => {
     setIsLoginActive(!isLoginActive);
   };
@@ -19,7 +19,6 @@ const Wrapper = () => {
     navigate("/forget-password");
   }
 
-  // Xử lý logic đăng nhập
   const handleLogin = async (event) => {
     event.preventDefault();
     const tel = loginForm.tel.trim();
@@ -45,20 +44,20 @@ const Wrapper = () => {
     }
   };
 
-  // Xử lý logic đăng ký
   const handleRegister = async (event) => {
     event.preventDefault();
+    const name = registerForm.name.trim();
     const tel = registerForm.tel.trim();
     const password = registerForm.password.trim();
     const gmail = registerForm.gmail.trim();
 
-    if (!tel || !password || !gmail) {
+    if (!name || !tel || !password || !gmail) {
       alert("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/user/create", { tel, password, gmail });
+      const response = await axios.post("http://localhost:8080/api/user/create", {name, tel, password, gmail });
       if (response.data.code === 200) {
         alert("Đăng ký tài khoản thành công!");
         setRegisterForm({ name: "", tel: "", password: "", gmail: "" });
@@ -77,21 +76,30 @@ const Wrapper = () => {
         <div className={`login-signinform ${isLoginActive ? "login-active" : ""}`}>
           <h2 className="login-formTitle">Đăng nhập</h2>
           <form onSubmit={handleLogin}>
+              <input
+                type="tel"
+                placeholder="Số Điện Thoại"
+                className="login-input"
+                value={loginForm.tel}
+                onChange={(e) => setLoginForm({ ...loginForm, tel: e.target.value })}
+              />            
             <input
-              type="tel"
-              placeholder="Số Điện Thoại"
-              className="login-input"
-              value={loginForm.tel}
-              onChange={(e) => setLoginForm({ ...loginForm, tel: e.target.value })}
-            />
-            <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Mật Khẩu"
               className="login-input"
               value={loginForm.password}
               onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
             />
-            <button type="submit" className="login-button">
+            <div className="show-password" style={{marginLeft:"5px", fontSize:"15px"}}>
+              <input
+                type="checkbox"
+                id="showPasswordLogin"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              <label htmlFor="showPasswordLogin" style={{color:"white", marginLeft:"5px"}}>Hiển thị mật khẩu</label>
+            </div>
+            <button onClick={handleLogin} className="login-button">
               Đăng Nhập
             </button>
             <p className="login-toggle-text">

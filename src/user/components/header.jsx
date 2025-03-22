@@ -60,7 +60,7 @@ const Header = () => {
   return (
     <section id="header">
       <Link to="/home" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-        <img src="./images/logo_s.png" className="logo" style={{ width: "180px" }} alt="Logo" />
+        <img src="/images/logo_s.png" className="logo" style={{ width: "180px" }} alt="Logo" />
       </Link>
 
       <div>

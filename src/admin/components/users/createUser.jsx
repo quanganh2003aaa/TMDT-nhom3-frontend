@@ -1,43 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import './user.css'
+import axios from "axios";
 
 const CreateUser = () => {
     const navigate = useNavigate();
-    const [Data, setData] = useState({
+    const [user, setUser] = useState({
         name: "",
         tel: "",
         password: "",
         gmail: "",
-        name: ""
     });
 
     const handleChange = (e) => {
-        setData({ ...Data, [e.target.name]: e.target.value });
+        const {id, value} = e.target;
+        setUser({
+            ...user,
+            [id]: value
+        })
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch("http://localhost:8080/api/user/createAdmin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(Data)
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert("Tạo tài khoản thành công!");
-                window.location.href = "/admin/user";
-            } else {
-                alert(`Lỗi: ${result.message}`);
-            }
-        } catch (error) {
-            console.error("Lỗi khi gửi dữ liệu:", error);
-            alert("Đã có lỗi xảy ra, vui lòng thử lại!");
-        }
+        axios
+            .post("http://localhost:8080/api/user/createAdmin", user)
+            .then((response) => {
+                alert("Tạo admin mới thành công");
+                navigate("/admin/user");
+            })
+            .catch((error) => {
+                alert(`Tạo người dùng thất bại: ${error.response.data.message}`)
+                console.log("Lỗi tạo người dùng:", error.response.data.message);
+            })
     };
 
     const HuyBtn = () => {
@@ -74,7 +68,7 @@ const CreateUser = () => {
                             className="txt-input form-control" 
                             id="name" 
                             name="name"
-                            value={Data.name}
+                            value={user.name}
                             onChange={handleChange}
                             required
                         />
@@ -85,18 +79,18 @@ const CreateUser = () => {
                             className="txt-input form-control" 
                             id="tel" 
                             name="tel"
-                            value={Data.tel}
+                            value={user.tel}
                             onChange={handleChange}
                             required
                         />
 
                         <label htmlFor="gmail" className="col-form-label" style={{padding:"10px"}}>Email:</label>
                         <textarea 
-                            type="gmail" 
+                            type="email" 
                             className="txt-input form-control" 
                             id="gmail" 
                             name="gmail"
-                            value={Data.gmail}
+                            value={user.gmail}
                             onChange={handleChange}
                             required
                         />
@@ -107,7 +101,7 @@ const CreateUser = () => {
                             className="txt-input form-control" 
                             id="password" 
                             name="password"
-                            value={Data.password}
+                            value={user.password}
                             onChange={handleChange}
                             required
                         />

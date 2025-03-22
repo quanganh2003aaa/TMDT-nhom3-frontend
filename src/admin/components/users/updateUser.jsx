@@ -14,9 +14,17 @@ const UpdateUser = () => {
             `http://localhost:8080/api/user/id/${idUser}`
         )
         .then((respone) => {
-            setUser([respone.data.result])
+            setUser(respone.data.result)
         })
         .catch((error) => console.error("Error fetching User: ", error))
+    }
+
+    const handleChange = (e) => {
+        const {id, value} = e.target;
+        setUser({
+            ...user,
+            [id]: value
+        })
     }
 
     const handleHuy = () => {
@@ -59,28 +67,26 @@ const UpdateUser = () => {
                     </ul>
                 </div>
             </div>
-
-            {user.map((user) => (
                 <div className="board">
                     <div className="board1" style={{padding:"40px"}}>
                         <div className="row">
                             <div>
-                                <label htmlFor="product-name" className="col-form-label">Họ và Tên:</label>
-                                <textarea className="txt-input form-control" value={user.name} id="product-name"></textarea>
+                                <label htmlFor="name" className="col-form-label">Họ và Tên:</label>
+                                <textarea className="txt-input form-control" value={user.name} onChange={handleChange} id="name"></textarea>
                             </div>
                         </div>
 
                         <div className="row">
                             <div>
-                                <label htmlFor="product-email" className="col-form-label">Email:</label>
-                                <textarea className="txt-input form-control" value={user.gmail} id="product-email"></textarea>
+                                <label htmlFor="gmail" className="col-form-label">Email:</label>
+                                <textarea className="txt-input form-control" value={user.gmail} onChange={handleChange} id="gmail"></textarea>
                             </div>
                         </div>
 
                         <div className="row">
                             <div>
-                                <label htmlFor="product-tel" className="col-form-label">Số điện thoại:</label>
-                                <textarea className="txt-input form-control" value={user.tel} id="product-tel"></textarea>
+                                <label htmlFor="tel" className="col-form-label">Số điện thoại:</label>
+                                <textarea className="txt-input form-control" value={user.tel} onChange={handleChange} id="tel"></textarea>
                             </div>
                         </div>
 
@@ -91,9 +97,7 @@ const UpdateUser = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-            ))}
-            
+                </div>            
         </main>
     );
 };

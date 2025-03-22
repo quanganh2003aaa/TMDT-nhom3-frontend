@@ -126,3 +126,11 @@
     padding: 20px 50px;
     border-radius: 10px;
 }
+
+.star-icon.active{
+    color: #ffa103;
+}
+
+.star-icon{
+    color: gray;
+}

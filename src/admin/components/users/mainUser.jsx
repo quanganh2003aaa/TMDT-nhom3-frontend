@@ -22,30 +22,27 @@ const User = () => {
             url = "http://localhost:8080/api/user/list/client";
         }
         
-        fetch(url, {
-            method: "GET",
-        })
-        .then(res => res.json())
-        .then(setUser)
-        .catch(error => console.error("Lỗi lấy danh sách người dùng:", error));
+        axios 
+            .get(url)
+            .then((response) => {
+                setUser(response.data);
+            })
+            .catch((error) => {
+                console.log("Lỗi fecth user: ",error.response.data.message);
+            })
     }
 
     const handleDeleteUser = (idUser) => {
         if (window.confirm(`Bạn chắc chắn muốn xóa người dùng ${idUser} không?`)) {
-          fetch(`http://localhost:8080/api/user/delete/${idUser}`, {
-            method: "DELETE",
-            headers: {
-                'Author': `Bearer ${token}`,
-              },
-            })
+          axios 
+            .delete(`http://localhost:8080/api/user/delete/${idUser}`)
             .then(() => {
-              alert('Xoá người dùng thành công!');
-              fetchUser();
+                fetchUser();
             })
             .catch((error) => {
-              console.error('Lỗi xóa người dùng:', error);
-              alert('Xóa người dùng thất bại');
-            });
+                console.log("Lỗi xóa người dùng: ",error.respons.data.message);
+                alert(`Xóa người dùng thất bại: ${error.respons.data.message}`)
+            })
         }
       };
 
