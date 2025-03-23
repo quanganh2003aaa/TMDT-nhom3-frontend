@@ -1,18 +1,18 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import ProductList from "../components/product/ProductList";
+import Rates from "../components/user-detail/RateProduct";
 import Newsletter from "../components/newsletter";
 
-const Product = () => {
+const Rate = () => {
     return(
         <div>
             <Helmet>
-                <title>Danh sách sản phẩm - SneakerStudio</title>
+                <title>Đánh Giá Đơn Hàng - SneakerStudio</title>
             </Helmet>
-            <ProductList />
+            <Rates />
             <Newsletter />
         </div>
     );
 };
 
-export default Product;
+export default Rate;

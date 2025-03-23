@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar from "./side-bar";
 import './UserDetail.css'
-import './UserDetailCu.css'
 
 const Body = () => {
     const [rate, setRate] = useState([]);
@@ -60,7 +59,7 @@ const Body = () => {
                 </tr>
                 </thead>
                 <tbody >
-                {rate.length >= 0 ? 
+                {rate.length > 0 ? 
                   (rate.map((rate, index) => (
                       <tr key={index + 1}>
                           <td style={{textAlign:"center"}}>{index + 1}</td>
@@ -86,7 +85,7 @@ const Body = () => {
                       </tr>
                   ))) : (
                     <tr>
-                        <td colSpan="5" style={{ textAlign: "center", padding: "20px", fontWeight: "bold" }}>
+                        <td colSpan="5" style={{ textAlign: "center", padding: "50px", fontWeight: "bold" }}>
                             Bạn chưa có đánh giá nào
                         </td>
                     </tr>

@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
-import Update from "../../components/users/UpdateUser";
+import Update from "../../components/users/updateUser";
 
 const AdminPage = () => {
   return (

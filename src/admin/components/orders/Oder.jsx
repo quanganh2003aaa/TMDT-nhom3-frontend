@@ -67,7 +67,6 @@ const Dashboard = () => {
     const updateOrderStatus = (orderId, action) => {
         fetch(`http://localhost:8080/api/order/${action}/${orderId}`, {
             method: "PUT",
-            headers: { "Author": `Bearer ${token}` }
         })
         .then(() => {
             alert("Cập nhật sản phẩm thành công!");
@@ -207,7 +206,7 @@ const Dashboard = () => {
                                                         </tbody>
                                                     </table>
                                                     <div className="total" style={{padding: "10px 10px 0 0"}}>
-                                                        <span>Thành tiền: {formatCurrency(product.totalPrice)}</span>
+                                                        <span>Thành tiền: {formatCurrency(product.totalPrice - product.shippingFee)}</span>
                                                     </div>
                                                     <div className="total" style={{padding: "5px 10px"}}>
                                                         <span>Phí ship: {formatCurrency(product.shippingFee)}</span>

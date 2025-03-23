@@ -28,7 +28,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchOrders();
-        fetchOrderProducts();
     }, [currentPage, query, selectedStatus]);
 
     const fetchOrders = () => {
@@ -41,8 +40,7 @@ const Dashboard = () => {
         }
 
         fetch(url, {
-            method: "GET",
-            headers: { "Author": `Bearer ${token}` }
+            method: "GET"
         })
         .then(res => res.json())
         .then(data => {
@@ -63,14 +61,18 @@ const Dashboard = () => {
     };
 
     const updateOrderStatus = (orderId, action) => {
+        console.log(orderId, action);
         fetch(`http://localhost:8080/api/refund/${action}/${orderId}`, {
-            method: "PUT",
-            headers: { "Author": `Bearer ${token}` }
+            method: "PUT"
         })
         .then(() => {
-            alert("Cập nhật sản phẩm thành công!");
+            alert("Cập nhật đơn hàng thành công!");
             fetchOrders();
+        })
+        .catch((error) => {
+            console.log("Lỗi cập nhật đơn hàng:", error.response.data.message );
         });
+        
     };
 
     const handleExpandOrder = (orderId) => {
@@ -129,12 +131,13 @@ const Dashboard = () => {
                     </div>
                     <div className="accordion">
                         {orders.map((order) => (
-                            <div key={order.id} className="accordion-item">
+                            console.log(order),
+                            <div key={order.idOrder} className="accordion-item">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed btn-detail-order" type="button"
                                             onClick={() => handleExpandOrder(order.id)}
                                     >
-                                        <span>#{order.id} - {new Date(order.createdAt).toLocaleDateString()}</span>
+                                        <span>#{order.idOrder} - {new Date(order.createdAt).toLocaleDateString()}</span>
                                         <div style={{marginLeft: "50px", padding:"5px", borderRadius:"10px",
                                             color: "white",
                                             backgroundColor: 
@@ -201,29 +204,30 @@ const Dashboard = () => {
                                                             ))}
                                                         </tbody>
                                                     </table>
-                                                    <div className="total" style={{padding: "10px"}}>
-                                                        <span>Thành tiền: {formatCurrency(product.totalPrice)}</span>
-                                                        
+                                                    <div className="total" style={{padding: "10px 10px 0 0"}}>
+                                                        <span>Thành tiền: {formatCurrency(product.totalPrice - product.shippingFee)}</span>
+                                                    </div>
+                                                    <div className="total" style={{padding: "5px 10px"}}>
+                                                        <span>Phí ship: {formatCurrency(product.shippingFee)}</span>
+                                                    </div>
+                                                    <div className="total" style={{padding: "5px 10px"}}>
+                                                        <span>Giảm giá: {formatCurrency(product.discountAmount)}</span>
+                                                    </div>
+                                                    <div className="total" style={{padding: "5px 10px"}}>
+                                                        <span>Tổng thanh toán: {formatCurrency(product.finalAmount)}</span>
                                                     </div>
                                                     <div className="total" style={{padding:"0 10px 200px 0", color: product.paymentStatus==="PAID"? "#088176" : "red"}}>
                                                         <span>{product.paymentStatus=="PAID"?"Đã thanh toán":"Chưa thanh toán"}</span>
                                                     </div>
                                                     {order.status === "Chờ xác nhận hoàn trả" && (
-                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Xác nhận hoàn trả</button>
-                                                    )}
-                                                    {order.status === "Hoàn đơn được chấp nhận" && (
-                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Đang hoàn trả</button>
+                                                         <>
+                                                         <button className="btnAdmin" onClick={() => updateOrderStatus(order.idOrder, "confirm")}>Xác nhận hoàn trả</button>
+                                                         
+                                                         <button className="btnAdmin" onClick={() => updateOrderStatus(order.idOrder, "reject")}>Đơn hoàn bị từ chối</button>
+                                                         </>
                                                     )}
                                                     {order.status === "Đang trả hàng" && (
-                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Hoàn đơn thành công</button>
-                                                    ) && (
-                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Đơn hoàn bị từ chối</button>
-                                                    )}
-                                                    {order.status === "Hoàn đơn thành công" && (
-                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Hoàn đơn thành công</button>
-                                                    )}
-                                                    {order.status === "Đơn hoàn bị từ chối" && (
-                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.id, "deliver")}>Đơn hoàn bị từ chối</button>
+                                                        <button className="btnAdmin" onClick={() => updateOrderStatus(order.idOrder, "success")}>Nhận hàng thành công</button>
                                                     )}
                                                 </div>
                                             </div>

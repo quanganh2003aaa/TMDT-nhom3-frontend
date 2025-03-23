@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { error } from "jquery";
 
 const Body = () => {
+    const idUser = sessionStorage.getItem("idUser")
+    const navigate = useNavigate();
     const { id } = useParams(); 
     const [order, setOrder] = useState(null);
     const [idOrder, setIdOrder] = useState(null);
@@ -41,6 +43,36 @@ const Body = () => {
         }
     }
 
+    const refundShip = () => {
+        const Data = {
+            "idUser": idUser,
+            "idOrder": idOrder
+        }
+        console.log(Data);
+        
+        try{
+            axios 
+                .put(`http://localhost:8080/api/refund/deliver`, Data)
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((error)=> {
+                    console.log(error.response.data.code);
+                })
+        }
+        catch{
+            console.log("Lỗi nút hủy hàng", error);
+        }
+    }
+
+    const refundOrder = (idOrder) => {
+        navigate(`/refund/${idOrder}`)
+    }
+
+    const rateOrder = (idOrder) => {
+        navigate(`/rate/${idOrder}`)
+    }
+
     const renderActionButtons = () => {
         if (!order) return null;
 
@@ -53,23 +85,38 @@ const Body = () => {
         } else if (order.status === "Giao hàng thành công") {
             return (
                 <>
-                    <button className="btn-return" style={{backgroundColor:"#007bff", color:"white"}}>
+                    <button className="btn-return" style={{backgroundColor:"rgb(255 134 0)", 
+                        color:"white", 
+                        fontSize:"20px", 
+                        fontWeight:"600",
+                        border:"0"}} onClick={() => refundOrder(order.id)}>
                         Hoàn trả
                     </button>
-                    <button className="btn-review" style={{backgroundColor:"#008080", color:"white"}}>
+                    <button className="btn-review" style={{backgroundColor:"#008080", color:"white",
+                        fontSize:"20px", 
+                        fontWeight:"600",
+                        border:"0"
+                    }} onClick={() => rateOrder(order.id)}>
                         Đánh giá
                     </button>
                 </>
             );
-        } else if (order.status === "Đơn hàng đã hủy") {
-            return (
-                <></>
-            );
-        } else {
+        } else if (order.status === "Chờ xác nhận" || order.status === "Đang chuẩn bị") {
             return (
                 <button className="btn-cancel" style={{backgroundColor:"#dc3545", color:"white"}}  onClick={cancelOrder}>
                     Hủy đơn hàng
                 </button>
+            );
+        } 
+        else if (order.status === "Hoàn đơn được chấp nhận") {
+            return (
+                <button className="btn-cancel" style={{backgroundColor:"#dc3545", color:"white"}}  onClick={refundShip}>
+                    Đã giao cho đơn vị vận chuyển
+                </button>
+            );
+        } else {
+            return (
+                <></>
             );
         }
     };

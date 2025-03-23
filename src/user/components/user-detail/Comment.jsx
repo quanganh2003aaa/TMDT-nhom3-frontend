@@ -3,7 +3,6 @@ import { Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import SideBar from "./side-bar";
 import './UserDetail.css'
-import './UserDetailCu.css'
 
 const Body = () => {
     const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
-import Create from "../../components/users/CreateUser";
+import Create from "../../components/users/createUser";
 
 const AdminPage = () => {
   return (

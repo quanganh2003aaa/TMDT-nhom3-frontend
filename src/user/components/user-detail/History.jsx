@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation} from "react-router-dom";
 import axios from "axios";
 import SideBar from "./side-bar";
 import './UserDetail.css'
-import './UserDetailCu.css'
 
 const Body = () => {
     const navigate = useNavigate();
@@ -13,65 +12,28 @@ const Body = () => {
     const idUser = sessionStorage.getItem("idUser");
 
      useEffect(() => {
-          if (!token || !idUser) {
-            alert("Bạn cần đăng nhập để truy cập trang này!");
-            window.location.href = "/login";
-            return;
-          }
-          fetchOrders();
-        }, [token, idUser]);
+      if (!token || !idUser) {
+        alert("Bạn cần đăng nhập để truy cập trang này!");
+        window.location.href = "/login";
+        return;
+      }
+      fetchOrders();
+    }, [token, idUser]);
+  
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/order/getByUser/${idUser}`
+        );
+        setOrders(response.data.result);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+        alert("Lỗi khi lấy danh sách đơn hàng!");
+      }
+    };
       
-        const fetchOrders = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8080/api/order/getByUser/${idUser}`
-            );
-            setOrders(response.data.result);
-          } catch (error) {
-            console.error("Lỗi khi lấy danh sách đơn hàng:", error);
-            alert("Lỗi khi lấy danh sách đơn hàng!");
-          }
-        };
-      
-        const fetchOrderDetails = async (orderId) => {
-          navigate(`/user-detail/order-detail/${orderId}`);
-        };
-      
-        const cancelOrder = async (orderId) => {
-          // const isConfirmed = window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
-          // if (isConfirmed) {
-          //   try {
-          //     await axios.put(`http://localhost:8080/order/cancel/${orderId}`, null, {
-          //       headers: { Author: `Bearer ${token}` },
-          //     });
-          //     alert("Hủy đơn hàng thành công!");
-          //     fetchOrders();
-          //   } catch (error) {
-          //     console.error("Lỗi khi hủy đơn hàng:", error);
-          //     alert("Hủy đơn hàng thất bại!");
-          //   }
-          // }
-        };
-      
-        const completeOrder = async (orderId) => {
-          // const isConfirmed = window.confirm("Bạn đã nhận đơn hàng này?");
-          // if (isConfirmed) {
-          //   try {
-          //     await axios.put(`http://localhost:8080/order/success/${orderId}`, null, {
-          //       headers: { Author: `Bearer ${token}` },
-          //     });
-          //     alert("Cảm ơn bạn đã mua hàng thành công!");
-          //     fetchOrders();
-          //   } catch (error) {
-          //     console.error("Lỗi khi xác nhận đơn hàng:", error);
-          //     alert("Lỗi khi xác nhận đơn hàng!");
-          //   }
-          // }
-        };
-      
-        // Lấy trạng thái của đơn hàng đang xem chi tiết
-        const selectedOrderStatus = selectedOrder
-          ? orders.find((order) => order.id === selectedOrder)?.status
-          : null;
+    const fetchOrderDetails = async (orderId) => {
+      navigate(`/order-detail/${orderId}`);
+    };
       
   return(
     <div className="udetail">

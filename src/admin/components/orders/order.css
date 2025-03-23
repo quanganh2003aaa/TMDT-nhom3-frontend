@@ -5,5 +5,7 @@
     background-color: #0d6efd;
     color: white;
     transition: background-color 0.3s ease; 
+    width: 400px;
+    margin-bottom: 10px;
 }
 

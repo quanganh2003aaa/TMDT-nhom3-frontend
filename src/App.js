@@ -23,6 +23,8 @@ import UserDetailsHistory from "./user/pages/userdetail-history";
 import UserDetailsComment from "./user/pages/userdetail-comment";
 import UserDetailsRate from "./user/pages/userdetail-rate";
 import UserDetailsOrder from "./user/pages/OrderDetail";
+import Refund from "./user/pages/refund";
+import Rate from "./user/pages/rate";
 import Pay from "./user/pages/pay";
 import Thankyou from "./user/pages/thankyou";
 
@@ -50,7 +52,9 @@ function App() {
           <Route path="/user-detail/history" element={<UserDetailsHistory />} />
           <Route path="/user-detail/comment" element={<UserDetailsComment />} />
           <Route path="/user-detail/rate" element={<UserDetailsRate />} />
-          <Route path="/user-detail/order-detail/:id" element={<UserDetailsOrder />} />
+          <Route path="/order-detail/:id" element={<UserDetailsOrder />} />
+          <Route path="/refund/:idOrder" element={<Refund />} />
+          <Route path="/rate/:idRate" element={<Rate />} />
           <Route path="/pay" element={<Pay />} />
           <Route path="/thankyou" element={<Thankyou />} />
       </Routes>

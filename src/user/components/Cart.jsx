@@ -9,24 +9,24 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const fetchCart = async () => {
+    if (!idUser) {
+      alert("Bạn cần đăng nhập để xem giỏ hàng!");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await axios.get(`http://localhost:8080/api/cart/getByUser/${idUser}`);
+      const fetchedCart = response.data.result.productCartDTOList || [];
+      setCartItems(fetchedCart);
+      setTotalPrice(response.data.result.totalPrice);
+    } catch (error) {
+      console.error("Lỗi khi lấy giỏ hàng từ API:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchCart = async () => {
-      if (!idUser) {
-        alert("Bạn cần đăng nhập để xem giỏ hàng!");
-        navigate("/login");
-        return;
-      }
-
-      try {
-        const response = await axios.get(`http://localhost:8080/api/cart/getByUser/${idUser}`);
-        const fetchedCart = response.data.result.productCartDTOList || [];
-        setCartItems(fetchedCart);
-        setTotalPrice(response.data.result.totalPrice);
-      } catch (error) {
-        console.error("Lỗi khi lấy giỏ hàng từ API:", error);
-      }
-    };
-
     fetchCart();
   }, [navigate]);
 
@@ -41,14 +41,40 @@ const Cart = () => {
     }
   };
 
+  const updateQuantity = async (item, newQuantity) => {
+    if (newQuantity < 1) {
+      removeItem(item.id);
+      return;
+    }
+
+    try {
+      await axios.put(`http://localhost:8080/api/cart/update/${idUser}`, {
+        idProduct: item.idProduct,
+        quantity: newQuantity,
+        size: item.size
+      });
+
+      fetchCart();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật số lượng:", error.response?.data?.message);
+    }
+  };
+
   const handleUserNavigation = () => {
     const idUser = sessionStorage.getItem("idUser");
-    if (idUser) {
-      navigate("/pay");
-    } else {
+
+    if (!idUser) {
       alert("Bạn cần đăng nhập trước!");
       navigate("/login");
+      return;
     }
+
+    if (cartItems.length === 0) {
+      alert("Giỏ hàng của bạn chưa có sản phẩm nào!");
+      return;
+    }
+
+    navigate("/pay");
   };
 
   return (
@@ -88,7 +114,23 @@ const Cart = () => {
                   </td>
                   <td>{item.name}</td>
                   <td>{item.size}</td>
-                  <td>{item.quantity}</td>
+                  <td>
+                  <div className="quantity-control">
+                      <button
+                        className="btn-quantity"
+                        onClick={() => updateQuantity(item, item.quantity - 1)}
+                      >
+                        -
+                      </button>
+                      <span style={{margin:"5px"}}>{item.quantity}</span>
+                      <button
+                        className="btn-quantity"
+                        onClick={() => updateQuantity(item, item.quantity + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </td>
                   <td>{item.price.toLocaleString()}đ VND</td>
                   <td>
                     <button
