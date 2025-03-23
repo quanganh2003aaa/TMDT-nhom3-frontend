@@ -115,8 +115,6 @@ const CheckoutComponent = () => {
       })),
     };
 
-    const token = sessionStorage.getItem("token");
-
     if (paymentMethod === "cash") {
       console.log("➡️ paymentInfo gửi lên:", paymentInfo);
       axios

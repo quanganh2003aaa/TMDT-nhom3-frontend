@@ -6,6 +6,7 @@ const Update = () => {
     const {idTintuc} = useParams();
     const navigate = useNavigate();
     const [news, setNews] = useState([])
+    const [comment, setComment] = useState([]);
 
     const fecthNews = () => {
         const url = `http://localhost:8080/api/blog/id/${idTintuc}`;
@@ -20,8 +21,20 @@ const Update = () => {
             })
     }
 
+    const fetchComment = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/comment/blog/${idTintuc}`
+          );
+          setComment(response.data);
+        } catch (error) {
+          console.error("Lỗi khi lấy danh sách bình luận:", error.response.data.message);
+          alert("Lỗi khi lấy danh sách bình luận!");
+        }
+      };
+
     useEffect( () => {
         fecthNews();
+        fetchComment();
     }, [idTintuc])
 
     const handleChange = (e) => {
@@ -55,6 +68,18 @@ const Update = () => {
             });
     };
 
+    const handleDelete = (idBlog) => {
+        axios
+          .delete(`http://localhost:8080/api/comment/delete/${idBlog}`)
+          .then(() => {
+            alert("Xóa bình luận thành công");
+            fetchComment();
+          })
+          .catch((error) => {
+            console.log("Lỗi xóa sản phẩm: ", error.response.data.message);
+          })
+      }
+
     return(
         <main>
             <div className="head-title">
@@ -76,7 +101,7 @@ const Update = () => {
                 </div>
             </div>
 
-            <div className="board">
+            <div className="board" style={{display:"flex"}}>
                 <div className="board1">
                     <div className="row">
                         <label htmlFor="title" className="col-form-label" style={{padding:"20px 10px"}}>Tiêu Đề:</label>
@@ -95,6 +120,38 @@ const Update = () => {
                             <button className="btn-them" onClick={handleUpdate}>Lưu</button>
                         </div>
                     </div>
+                </div>
+                <div className="board2" style={{width:"1150px", maxHeight:"500px", overflowY:"auto", marginBottom:"20px"}}>
+                <h3 style={{margin:"20px"}}>Các bình luận của bài viết</h3>
+                <table className="table table-orders">
+                    <thead>
+                    <tr>
+                        <th scope="col" style={{textAlign:"center"}}>Người viết</th>
+                        <th scope="col" style={{textAlign:"center"}}>Nội dung</th>
+                        <th scope="col" style={{textAlign:"center"}}>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {comment.length > 0 ? 
+                    (comment.map((comment) => (
+                        <tr key={comment.id}>
+                            <td style={{textAlign:"center"}}>{comment.userName}</td>
+                            <td style={{textAlign:"center"}}>{comment.content}</td>
+                            <td style={{display:"flex", paddingTop:"20px", paddingBottom:"10px", justifyContent:"space-around"}} >
+                                <button type="button" className="btn btn-warning btn-delete-product" onClick={() => handleDelete(comment.id)}>                                     
+                                    <i className="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    ))) : (
+                        <tr>
+                            <td colSpan="5" style={{ textAlign: "center", padding: "20px", fontWeight: "bold" }}>
+                                Bài viết chưa có bình luận nào
+                            </td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
                 </div>
             </div>
         </main>

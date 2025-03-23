@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import SideBar from "./side-bar";
 import './UserDetail.css'
 
 const Body = () => {
-    const navigate = useNavigate();
     const [comment, setComment] = useState([]);
     const token = sessionStorage.getItem("token");
     const idUser = sessionStorage.getItem("idUser");

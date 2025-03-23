@@ -16,7 +16,7 @@ const Body = () => {
 
   return(
     <div className="udetail-sidebar">
-        <div className={`udetail-sidebar-item ${isActive(["/user-detail"]) ? "udetail-sidebar-active" : ""}`} >
+        <div className={`udetail-sidebar-item ${isActive(["/user-detail","/user-detail/update"]) ? "udetail-sidebar-active" : ""}`} >
         <Link to="/user-detail">
             <h4>Thông tin người dùng</h4>
         </Link>

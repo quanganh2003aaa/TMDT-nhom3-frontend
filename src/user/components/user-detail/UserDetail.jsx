@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import SideBar from "./side-bar";
 import axios from "axios";
 import './UserDetail.css'
+import { useNavigate } from "react-router-dom";
 
 const Body = () => {
+  const navigate = useNavigate();
   const idUser = sessionStorage.getItem("idUser");
   const [user, setUser] = useState([]);
 
@@ -25,10 +27,13 @@ const Body = () => {
     fecthUserDetail();
   }, [])
 
+  const handleUpdate = () => {
+    navigate("/user-detail/update");
+  }
+
   return(
     <div className="udetail">
       <SideBar/>
-
       <div className="udetail-body"> 
         <div style={{display:"flex", alignItems:"center"}} className="udetail-body-item">
           <img src="/images/avatar.png"></img>
@@ -39,8 +44,7 @@ const Body = () => {
           <h5>Gmail: {user.gmail}</h5>
           <h5>Địa chỉ: {user.district}, {user.ward}, {user.city}</h5>
           <div className="udetail-body-btn"> 
-            <button style={{backgroundColor:"#008080"}}>Sửa</button>
-            <button style={{backgroundColor:"red"}}>Xóa</button>
+            <button type="button" style={{backgroundColor:"#008080"}} onClick={handleUpdate}>Sửa</button>
           </div>
         </div>
       </div>
