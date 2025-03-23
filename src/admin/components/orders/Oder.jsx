@@ -137,14 +137,13 @@ const Dashboard = () => {
                                     >
                                         <span>#{order.id} - {new Date(order.date).toLocaleDateString()}</span>
                                         <div style={{marginLeft: "50px", padding:"5px 10px", borderRadius:"10px",
-                                            color:  order.status === "Đang giao hàng" ? "black" :
+                                            color:  order.status === "Đang giao hàng" ? "" :
                                             order.status === "Đang chuẩn bị" ? "black"
                                             : "white",
-                                            backgroundColor: order.status === "Đang giao hàng" ? "#ffff70" :
-                                            order.status === "Đang chuẩn bị" ? "orange" :
-                                            order.status === "Chờ xác nhận" ? "gray" :
-                                            order.status === "Đơn hàng đã hủy" ? "red" :
-                                            "green"
+                                            backgroundColor: order.status === "Đang giao hàng" ? "#3cffc7" :
+                                            order.status === "Đang chuẩn bị" ? "#ffbd45" :
+                                            order.status === "Chờ xác nhận" ? "#5251ff" :
+                                            order.status === "Đơn hàng đã hủy" ? "#ff3f3f" :"green"
                                         }}>
                                             {order.status}
                                         </div>

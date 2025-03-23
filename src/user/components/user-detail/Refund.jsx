@@ -55,7 +55,6 @@ const RefundRequest = () => {
       <form onSubmit={handleRefundSubmit} className="refund-form">
         <div className="refund-info">
           <p><strong>Mã đơn hàng:</strong> {idOrder}</p>
-          <p><strong>Mã khách hàng:</strong> {idUser}</p>
         </div>
 
         <div className="form-group">

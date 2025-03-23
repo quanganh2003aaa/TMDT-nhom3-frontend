@@ -45,12 +45,17 @@ const ProductList = () => {
 
   // Fetch products and pagination data
   const fetchProducts = async (page, priceFilter, sortFilter, query) => {
-    const url = `http://localhost:8080/api/product/admin/getAll`;
+    const url = new URL("http://localhost:8080/api/product/getProduct");
+    if (page) url.searchParams.append("page", page);
+    if (priceFilter) url.searchParams.append("price", priceFilter);
+    if (sortFilter) url.searchParams.append("sort", sortFilter);
+    if (query) url.searchParams.append("query", query);
+
 
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setProducts(data.result);
+      setProducts(data.result.objectList);
       setTotalPages(data.result.totalPages);
     } catch (error) {
       console.error("Lỗi khi lọc sản phẩm:", error);

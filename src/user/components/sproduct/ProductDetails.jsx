@@ -113,7 +113,7 @@ const ProductDetails = () => {
             </div>
 
             <div className="single-pro-details">
-                <h6>Home / {product.category}</h6>
+                <h6>Home / {product.category} / {product.id}</h6>
                 <h4>{product.name}</h4>
                 <h2>
                 {product.price.toLocaleString()} đ - {" "}

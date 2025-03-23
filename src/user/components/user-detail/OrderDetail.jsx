@@ -85,16 +85,15 @@ const Body = () => {
         } else if (order.status === "Giao hàng thành công") {
             return (
                 <>
-                    <button className="btn-return" style={{backgroundColor:"rgb(255 134 0)", 
-                        color:"white", 
-                        fontSize:"20px", 
-                        fontWeight:"600",
+                    <button className="btn-return" style={{
+                        backgroundColor: "rgb(255, 134, 0)",
+                        color: "white",
+                        width: "155px",
                         border:"0"}} onClick={() => refundOrder(order.id)}>
                         Hoàn trả
                     </button>
                     <button className="btn-review" style={{backgroundColor:"#008080", color:"white",
-                        fontSize:"20px", 
-                        fontWeight:"600",
+                        width: "155px",
                         border:"0"
                     }} onClick={() => rateOrder(order.id)}>
                         Đánh giá
@@ -131,16 +130,16 @@ const Body = () => {
 
             <div className="oderdetail-body">
                 <div className="oderdetail-body-ship">
-                    <h5>Thông tin vận chuyển</h5>
+                    <h5 style={{fontSize:"17px"}}>Thông tin vận chuyển</h5>
                     <div className="oderdetail-body-ship-detail">
-                        <h5>{order.deliveryMethod}</h5>
+                        <h5 style={{color: "#008080",fontSize: "20px",fontWeight: "700"}}>{order.deliveryMethod}</h5>
                     </div>
                 </div>
 
                 <div className="oderdetail-body-address">
-                    <h5>Địa chỉ nhận hàng</h5>
+                    <h5 style={{fontSize:"17px"}}>Địa chỉ nhận hàng</h5>
                     <div style={{ display: "flex", flexDirection: "row" }}>
-                        <i className="bx bx-map"></i>
+                        <i className="bx bx-map" style={{fontSize: "25px"}}></i>
                         <div style={{ marginLeft: "10px" }}>
                             <div style={{ display: "flex", flexDirection: "row" }}>
                                 <h5>{order.nameUser}</h5>
@@ -153,39 +152,39 @@ const Body = () => {
 
                 <div className="oderdetail-body-product">
                     {order.detailOrderDTOList.map((item, index) => (
-                        <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                        <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "10px", borderBottom: "1px solid #eaeaea"}}>
                             <img 
-                                src={`/images/product/${item.imgProduct}`} 
+                                src={`/images/product/${item.img}`} 
                                 alt={item.nameProduct} 
-                                style={{ width: "25%", height: "25%", marginRight: "30px" }} 
+                                style={{ width: "15%", margin: "0 30px" }} 
                             />
                             <div style={{width:"100%"}}>
-                                <h5 style={{fontSize:"40px"}}>{item.nameProduct}</h5>
-                                <p>Size: {item.size} | x{item.quantity}</p>
-                                <h5 style={{placeSelf: "end right" }}>{item.price.toLocaleString()}đ</h5>
+                                <h5 style={{fontSize:"27px"}}>{item.nameProduct}</h5>
+                                <p style={{marginLeft: "5px"}}>Size: {item.size} | x{item.quantity}</p>
+                                <h5 style={{placeSelf: "end right", fontSize: "22px" }}>{item.price.toLocaleString()} VND</h5>
                             </div>
                         </div>
                     ))}
                 </div>
 
                 <div className="oderdetail-summary">
-                    <div style={{display:"flex", justifyContent:"space-between", margin:"0 20px"}}>
-                        <p style={{color:"black"}}><strong>Tổng tiền hàng:</strong> </p>
-                        <p style={{color:"black"}}>{order.totalPrice.toLocaleString()}đ</p>
+                    <div style={{display:"flex", justifyContent:"space-between", margin:"0 0 0 20px"}}>
+                        <p  style={{color:"black", margin: "5px 0"}}><strong className="amount-css">Tổng tiền hàng:</strong> </p>
+                        <p style={{color:"black", margin: "5px 0"}}>{order.totalPrice.toLocaleString()}</p>
                     </div>
-                    <div style={{display:"flex", justifyContent:"space-between", margin:"0 20px"}}>
-                        <p style={{color:"black"}}><strong>Phí giao hàng:</strong> </p>     
-                        <p style={{color:"black"}}>{order.shippingFee.toLocaleString()}đ</p>
+                    <div style={{display:"flex", justifyContent:"space-between", margin:"0 0 0 20px"}}>
+                        <p  style={{color:"black", margin: "5px 0"}}><strong className="amount-css">Phí giao hàng:</strong> </p>     
+                        <p style={{color:"black", margin: "5px 0"}}>{order.shippingFee.toLocaleString()}</p>
                     </div>
-                    <div style={{display:"flex", justifyContent:"space-between", margin:"0 20px"}}>
-                        <p style={{color:"black"}}><strong>Giảm giá:</strong> </p>
-                        <p style={{color:"black"}}>{order.discountAmount.toLocaleString()}đ</p>
+                    <div style={{display:"flex", justifyContent:"space-between", margin:"0 0 0 20px"}}>
+                        <p style={{color:"black", margin: "5px 0"}}><strong className="amount-css">Giảm giá:</strong> </p>
+                        <p style={{color:"black", margin: "5px 0"}}>{order.discountAmount.toLocaleString()}</p>
                     </div>
-                    <div style={{display:"flex", justifyContent:"flex-end", margin:"20px 20px"}}>
-                        <h3 style={{color:"black", marginRight:"20px"}}><strong>Thành tiền:</strong> </h3>
-                        <h3 style={{color:"black"}}>{order.finalAmount.toLocaleString()}đ</h3>
+                    <div style={{display:"flex", justifyContent:"flex-end"}}>
+                        <h3 style={{margin: "5px 20px 5px 0px",color: "#454545",fontSize: "25px", marginRight:"20px"}}><strong >Thành tiền:</strong> </h3>
+                        <h3 style={{color:"#454545", margin: "3px 0"}}>{order.finalAmount.toLocaleString()} VND</h3>
                     </div>
-                    <h3 style={{color: order.paymentStatus === "PAID" ? "green" : "red", marginLeft:"10px", fontWeight:"650",display:"flex", justifyContent:"flex-end"}}>
+                    <h3 style={{color: order.paymentStatus === "PAID" ? "green" : "#e73838", margin:"5px 0", fontWeight:"650",display:"flex", justifyContent:"flex-end"}}>
                         {order.paymentStatus === "PAID" ? "Đã Thanh Toán" : "Chưa Thanh Toán"}
                     </h3>
                 </div>

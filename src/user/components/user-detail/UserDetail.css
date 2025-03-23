@@ -77,12 +77,12 @@
 }
 
 .oderdetail-container{
-    margin: 100px;
+    margin: 25px 100px;;
 }
 
 .oderdetail-header{
     background-color: #008080;
-    padding: 10px;
+    padding: 10px 25px;;
     border-radius: 10px 10px 0 0;
 }
 
@@ -105,13 +105,20 @@
 }
 
 .oderdetail-body-address{
-    padding: 0 20px;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eaeaea;
 }
 
 .oderdetail-body-product{
     display: flex;
     flex-direction: column;
     padding: 20px;
+}
+
+.amount-css{
+    font-size: 20px;
+    font-weight: 400;
+    color: #515151;
 }
 
 .oderdetail-summary{
@@ -125,8 +132,11 @@
 }
 
 .oderdetail-actions button{
-    padding: 20px 50px;
+    padding: 10px;
     border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
 }
 
 .star-icon.active{
@@ -204,7 +214,7 @@
   
   /* Màu xám mặc định cho trạng thái không xác định */
   .status-default {
-    background-color: #7f8c8d;
+    background-color: #4fccd5;
   }
   
 

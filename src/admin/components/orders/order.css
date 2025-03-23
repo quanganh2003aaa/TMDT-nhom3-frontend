@@ -1,11 +1,13 @@
 .btnAdmin {
     margin-inline: 20%;
-    white-space: nowrap;
-    padding-inline: 20%;
     background-color: #0d6efd;
     color: white;
-    transition: background-color 0.3s ease; 
+    transition: background-color 0.3s ease;
     width: 400px;
     margin-bottom: 10px;
+    border: none;
+    padding: 7px 0;
+    font-size: 18px;
+    font-weight: 600;
 }
 
