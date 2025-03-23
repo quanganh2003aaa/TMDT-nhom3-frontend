@@ -5,22 +5,20 @@ import './RateForm.css';
 
 const RateForm = () => {
   const navigate = useNavigate();
-  const { idRate } = useParams(); // idOrder
+  const { idRate } = useParams();
   const idUser = sessionStorage.getItem("idUser");
 
-  const [orderDetails, setOrderDetails] = useState([]); // Danh sách sản phẩm (đã loại trùng)
-  const [rates, setRates] = useState({}); // Số sao từng sản phẩm
-  const [contents, setContents] = useState({}); // Nội dung đánh giá từng sản phẩm
-  const [loadingStatus, setLoadingStatus] = useState({}); // Loading riêng từng sản phẩm
+  const [orderDetails, setOrderDetails] = useState([]);
+  const [rates, setRates] = useState({});
+  const [contents, setContents] = useState({}); 
+  const [loadingStatus, setLoadingStatus] = useState({});
 
-  // Fetch order details khi component mount
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/order/getById/${idRate}`);
         const products = response.data.result.detailOrderDTOList || [];
 
-        // Loại bỏ sản phẩm trùng idProduct bằng cách dùng Map
         const uniqueProductsMap = new Map();
         products.forEach(product => {
           if (!uniqueProductsMap.has(product.idProduct)) {
@@ -28,10 +26,9 @@ const RateForm = () => {
           }
         });
         const uniqueProducts = Array.from(uniqueProductsMap.values());
-
+        
         setOrderDetails(uniqueProducts);
 
-        // Khởi tạo rates, contents và loadingStatus cho mỗi sản phẩm
         const initialRates = {};
         const initialContents = {};
         const initialLoading = {};
@@ -131,7 +128,7 @@ const RateForm = () => {
             <h3>{product.nameProduct}</h3>
             <p><strong>Mã sản phẩm:</strong> {product.idProduct}</p>
             <img
-              src={`/images/product/${product.imgProduct}`}
+              src={`/images/product/${product.img}`}
               alt={product.nameProduct}
               className="product-image"
             />

@@ -180,7 +180,7 @@ const Body = () => {
               id="number-address"
               className="input-default"
               placeholder="Số nhà..."
-              style={{ width: "450px" }}
+              style={{ width: "450px" , padding: "11px 15px"}}
               value={numberAddress}
               onChange={(e) => setNumberAddress(e.target.value)}
             />
@@ -188,14 +188,16 @@ const Body = () => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", width: "120px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <button
               style={{
                 border: "0",
                 borderRadius: "5px",
                 backgroundColor: "red",
                 color: "white",
-                padding: "10px"
+                padding: "10px 20px",
+                fontSize: "17px",
+                fontWeight: "700"
               }}
               type="button"
               onClick={handleHuy}
@@ -209,7 +211,9 @@ const Body = () => {
                 borderRadius: "5px",
                 backgroundColor: "#008080",
                 color: "white",
-                padding: "10px"
+                padding: "10px 20px",
+                fontSize: "17px",
+                fontWeight: "700"
               }}
               type="button"
               onClick={handleSubmit}

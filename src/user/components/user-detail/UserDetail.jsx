@@ -40,9 +40,9 @@ const Body = () => {
           <h2>{user.name}</h2>
         </div>
         <div className="udetail-body-item">
-          <h5>So dien thoai: {user.tel}</h5>
-          <h5>Gmail: {user.gmail}</h5>
-          <h5>Địa chỉ: {user.district}, {user.ward}, {user.city}</h5>
+          <h5 style={{color: "#515151"}}>Số điện thoại: {user.tel}</h5>
+          <h5 style={{color: "#515151"}}>Gmail: {user.gmail}</h5>
+          <h5 style={{color: "#515151"}}>Địa chỉ: {user.district}, {user.ward}, {user.city}</h5>
           <div className="udetail-body-btn"> 
             <button type="button" style={{backgroundColor:"#008080"}} onClick={handleUpdate}>Sửa</button>
           </div>

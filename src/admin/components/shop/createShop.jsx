@@ -67,8 +67,6 @@ const Create = () => {
             <div className="board">
                 <div className="board1">
                     <div className="row">
-                        <label htmlFor="user" className="col-form-label" style={{padding:"10px"}}>Quản Lý Cửa Hàng:</label>
-                        <textarea className="txt-input form-control" id="user" value={idUser} readOnly></textarea>
 
                         <label htmlFor="address" className="col-form-label" style={{padding:"10px"}}>Địa Chỉ:</label>
                         <textarea className="txt-input form-control" id="address" onChange={handleChange}></textarea>
