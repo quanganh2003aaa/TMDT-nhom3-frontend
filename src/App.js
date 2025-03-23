@@ -5,12 +5,8 @@ import { BrowserRouter as Navigate, Routes, Route } from "react-router-dom";
 import Header from './user/components/header'
 import Footer from './user/components/footer'
 import Cart from "./user/components/Cart";
-import Accessories from "./user/pages/accessories";
 import Home from "./user/pages/home";
 import ProductList from "./user/pages/product-list";
-import SneakerList from "./user/pages/sneaker";
-import ClothesList from "./user/pages/clothes";
-import BrandsList from "./user/pages/brand";
 import Blog from "./user/pages/blog";
 import BlogDetail from "./user/pages/blog-detail";
 import Vouchers from "./user/pages/voucher";
@@ -25,6 +21,7 @@ import UserDetailsRate from "./user/pages/userdetail-rate";
 import UserDetailsOrder from "./user/pages/OrderDetail";
 import Refund from "./user/pages/refund";
 import Rate from "./user/pages/rate";
+import UpdateUserDetail from "./user/pages/update-userDetail";
 import Pay from "./user/pages/pay";
 import Thankyou from "./user/pages/thankyou";
 
@@ -36,11 +33,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/accessories" element={<Accessories />} />
           <Route path="/product-list" element={<ProductList />} />
-          <Route path="/sneaker" element={<SneakerList />} />
-          <Route path="/clothes" element={<ClothesList />} />
-          <Route path="/brands" element={<BrandsList />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog-detail/:idBlog" element={<BlogDetail />} />
           <Route path="/voucher" element={<Vouchers />} />
@@ -55,6 +48,7 @@ function App() {
           <Route path="/order-detail/:id" element={<UserDetailsOrder />} />
           <Route path="/refund/:idOrder" element={<Refund />} />
           <Route path="/rate/:idRate" element={<Rate />} />
+          <Route path="/user-detail/update" element={<UpdateUserDetail />} />
           <Route path="/pay" element={<Pay />} />
           <Route path="/thankyou" element={<Thankyou />} />
       </Routes>

@@ -72,26 +72,12 @@ const Header = () => {
           </li>
           <li>
             <Link
-              className={isActive(["/product-list", "/sneaker", "/clothes", "/accessories", "/brands"]) ? "active" : ""}
+              className={isActive(["/product-list"]) ? "active" : ""}
               to="/product-list"
               onClick={() => handleNavigation("/product-list")}
             >
               SẢN PHẨM
             </Link>
-            <ul className="drop-menu">
-              <li>
-                <a href="/sneaker" onClick={() => handleNavigation("/sneaker")}>GIÀY</a>
-              </li>
-              <li>
-                <a href="/clothes" onClick={() => handleNavigation("/clothes")}>QUẦN ÁO</a>
-              </li>
-              <li>
-                <a href="/accessories" onClick={() => handleNavigation("/accessories")}>PHỤ KIỆN</a>
-              </li>
-              <li>
-                <a href="/brands" onClick={() => handleNavigation("/brands")}>THƯƠNG HIỆU</a>
-              </li>
-            </ul>
           </li>
           <li>
             <Link
