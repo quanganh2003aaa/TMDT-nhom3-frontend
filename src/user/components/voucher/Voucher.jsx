@@ -60,7 +60,7 @@ const Body = () => {
 
     return(
         <div>      
-            <section className="product section-p1">
+            <section className="product">
                 <h1 style={{ margin: "20px 10px" }}>Khuyến Mãi</h1>
                 <h6 style={{ color: "gray" }}>"Các ưu đãi tốt nhất dành cho bạn"</h6>
             </section>

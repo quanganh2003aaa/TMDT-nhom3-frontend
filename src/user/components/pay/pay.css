@@ -161,6 +161,7 @@ img {
     background: var(--platium);
     border-radius: var(--radius);
     color: black;
+    border: 1px solid #c5c5c5;
 }
 
 .payment-form input {

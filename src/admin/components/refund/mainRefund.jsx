@@ -46,6 +46,7 @@ const Dashboard = () => {
         .then(data => {
             setOrders(data.result.objectList);
             setTotalPages(data.result.totalPages);
+            
         });
     };
 
@@ -131,26 +132,27 @@ const Dashboard = () => {
                     </div>
                     <div className="accordion">
                         {orders.map((order) => (
-                            console.log(order),
                             <div key={order.idOrder} className="accordion-item">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed btn-detail-order" type="button"
-                                            onClick={() => handleExpandOrder(order.id)}
-                                    >
+                                            onClick={() => handleExpandOrder(order.idOrder)
+                                            }>
+                                    
                                         <span>#{order.idOrder} - {new Date(order.createdAt).toLocaleDateString()}</span>
-                                        <div style={{marginLeft: "50px", padding:"5px", borderRadius:"10px",
-                                            color: "white",
-                                            backgroundColor: 
-                                            order.status === "Chờ xác nhận" ? "gray" :
-                                            order.status === "Đơn hoàn bị từ chối" ? "red" :
-                                            "black"
+                                        <div style={{marginLeft: "50px", padding:"5px 10px", borderRadius:"10px",
+                                            color:  order.status === "Chờ xác nhận hoàn trả" ? "white" : 
+                                            order.status === "Đơn hoàn được chấp nhận" ? "black"
+                                            : "white",
+                                            backgroundColor: order.status === "Chờ xác nhận hoàn trả" ? "#5251ff" :
+                                            order.status === "Hoàn đơn thành công" ? "green" :
+                                            order.status === "Đơn hoàn bị từ chối" ? "#ff3f3f" : "#00ffe5"
                                         }}>
                                             {order.status}
                                         </div>
                                     </button>
                                 </h2>
                             
-                                {expandedOrder === order.id && orderProducts.map((product) => (
+                                {expandedOrder === order.idOrder && orderProducts.map((product) => (
                                     <div id="collapse" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                         <div className="accordion-body row">
                                             <div className="card col-5">

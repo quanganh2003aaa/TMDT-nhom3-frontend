@@ -46,7 +46,7 @@ const Body = () => {
                 <thead>
                 <tr>
                     <th scope="col" style={{textAlign:"center"}}>Mã đơn hàng</th>
-                    <th scope="col" style={{textAlign:"center"}}>Ngày/ Tháng/ Năm</th>
+                    <th scope="col" style={{textAlign:"center"}}>Thời gian</th>
                     <th scope="col" style={{textAlign:"center"}}>Tổng Tiền</th>
                     <th scope="col" style={{textAlign:"center"}}>Tình Trạng</th>
                     <th scope="col" style={{textAlign:"center"}}>Thao tác</th>
@@ -57,8 +57,12 @@ const Body = () => {
                   (orders.map((order) => (
                       <tr key={order.id}>
                           <td style={{textAlign:"center"}}>{order.id}</td>
-                          <td style={{textAlign:"center"}}>{order.date}</td>
-                          <td style={{textAlign:"center"}}>{order.finalAmount}</td>
+                          <td style={{textAlign:"center"}}>
+                            {new Date(order.date).toLocaleDateString("vi-VN")}
+                            </td>
+                          <td style={{textAlign:"center"}}>
+                            {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(order.finalAmount)}
+                            </td>
                           <td style={{textAlign:"center"}}>
                               <span
                                   className= {`status ${
