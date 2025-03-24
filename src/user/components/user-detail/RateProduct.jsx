@@ -7,7 +7,7 @@ const RateForm = () => {
   const navigate = useNavigate();
   const { idRate } = useParams();
   const idUser = sessionStorage.getItem("idUser");
-
+  const token = sessionStorage.getItem("token");
   const [orderDetails, setOrderDetails] = useState([]);
   const [rates, setRates] = useState({});
   const [contents, setContents] = useState({}); 
@@ -16,7 +16,9 @@ const RateForm = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/order/getById/${idRate}`);
+        const response = await axios.get(`http://localhost:8080/api/order/getById/${idRate}`, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }});
         const products = response.data.result.detailOrderDTOList || [];
 
         const uniqueProductsMap = new Map();
@@ -92,7 +94,9 @@ const RateForm = () => {
 
     try {
       setLoadingStatus(prev => ({ ...prev, [productId]: true }));
-      const response = await axios.post("http://localhost:8080/api/rate/create", requestData);
+      const response = await axios.post("http://localhost:8080/api/rate/create", requestData, {
+        headers: { Author: `Bearer ${token}`,
+                    "Content-Type": "application/json", }});
 
     const resData = response.data;
 

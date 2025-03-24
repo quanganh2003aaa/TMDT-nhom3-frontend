@@ -14,7 +14,7 @@ const Body = () => {
         blogId: idBlog,
         content: "",
     });
-
+    const token = sessionStorage.getItem("token");
     const fetchBlog = () => {
         axios
             .get(`http://localhost:8080/api/blog/id/${idBlog}`)
@@ -30,7 +30,8 @@ const Body = () => {
 
     const fetchComment = () => {
         axios
-            .get(`http://localhost:8080/api/comment/blog/${idBlog}`)
+            .get(`http://localhost:8080/api/comment/blog/${idBlog}`, {headers: { 
+                Author: `Bearer ${token}` }})
             .then((response) => {
                 setComment(response.data);
             })
@@ -58,7 +59,8 @@ const Body = () => {
     }
 
     axios
-        .post("http://localhost:8080/api/comment/create", cmtByuser)
+        .post("http://localhost:8080/api/comment/create", cmtByuser, {headers: { 
+            Author: `Bearer ${token}` }})
         .then(() => {
             alert("Bình luận thành công");
             fetchComment();

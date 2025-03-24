@@ -22,7 +22,9 @@ const Body = () => {
   
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/order/getByUser/${idUser}`
+        const response = await axios.get(`http://localhost:8080/api/order/getByUser/${idUser}`, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }}
         );
         setOrders(response.data.result);
       } catch (error) {

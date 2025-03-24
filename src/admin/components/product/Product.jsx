@@ -8,6 +8,7 @@ const ProductManagement = () => {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const token = sessionStorage.getItem('token');
+  
   const navigate = useNavigate();
   const debounceTimeoutRef = useRef(null);
 
@@ -16,6 +17,18 @@ const ProductManagement = () => {
   };
 
   useEffect(() => {
+    fetch("http://localhost:8080/api/auth/introspect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token })
+  })
+  .then(res => res.json())
+  .then(data => {
+      if (!data.result.valid || data.result.scope !== "ADMIN") {
+          window.location.href = "/admin/404";
+      }
+  })
+  .catch(() => window.location.href = "/admin/404");
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
@@ -37,7 +50,12 @@ const ProductManagement = () => {
     }
     try {
         axios 
-         .get(url)
+         .get(url, {
+          headers: {
+            Author: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
          .then((response) => {
           setProducts(response.data.result)
          })
@@ -50,8 +68,6 @@ const ProductManagement = () => {
 
   const handleSearchChange = (event) => {
     setQuery(event.target.value);
-    console.log(query);
-    
   };
 
   const handleEditProduct = (idProduct) => {

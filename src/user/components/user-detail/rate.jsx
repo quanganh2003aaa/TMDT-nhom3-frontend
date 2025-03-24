@@ -19,7 +19,9 @@ const Body = () => {
       
     const fetchRate = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/rate/user/${idUser}`
+        const response = await axios.get(`http://localhost:8080/api/rate/user/${idUser}`, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }}
         );
         const data = response.data?.result?.objectList || []; 
         setRate(data);
@@ -30,7 +32,9 @@ const Body = () => {
       
     const handleDelete = (idRate) => {
       axios
-        .delete(`http://localhost:8080/api/rate/delete/${idRate}`)
+        .delete(`http://localhost:8080/api/rate/delete/${idRate}`, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }})
         .then(() => {
           alert("Xóa đánh giá thành công");
           fetchRate();

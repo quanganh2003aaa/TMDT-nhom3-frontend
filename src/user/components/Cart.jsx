@@ -8,7 +8,7 @@ const Cart = () => {
   const idUser = sessionStorage.getItem("idUser");
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const token = sessionStorage.getItem("token");
   const fetchCart = async () => {
     if (!idUser) {
       alert("Bạn cần đăng nhập để xem giỏ hàng!");
@@ -17,7 +17,12 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/cart/getByUser/${idUser}`);
+      const response = await axios.get(`http://localhost:8080/api/cart/getByUser/${idUser}`, {
+        headers: { 
+            "Author": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        }
+    });
       const fetchedCart = response.data.result.productCartDTOList || [];
       setCartItems(fetchedCart);
       setTotalPrice(response.data.result.totalPrice);
@@ -34,7 +39,12 @@ const Cart = () => {
     try {
       await axios.delete(`http://localhost:8080/api/cart/delete`, {
         params: { idUser: idUser, idCart: idCart }
-      });
+      }, {
+        headers: { 
+            "Author": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+        }
+    });
       window.location.reload();
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error.response.data.message);
@@ -52,7 +62,12 @@ const Cart = () => {
         idProduct: item.idProduct,
         quantity: newQuantity,
         size: item.size
-      });
+      }, {
+        headers: { 
+            "Author": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+        }
+    });
 
       fetchCart();
     } catch (error) {

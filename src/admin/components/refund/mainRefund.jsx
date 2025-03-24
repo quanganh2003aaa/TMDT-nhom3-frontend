@@ -40,7 +40,7 @@ const Dashboard = () => {
         }
 
         fetch(url, {
-            method: "GET"
+            method: "GET",headers: { Author: `Bearer ${token}` }
         })
         .then(res => res.json())
         .then(data => {
@@ -52,7 +52,8 @@ const Dashboard = () => {
 
     const fetchOrderProducts = (orderId) => {
         axios
-            .get(`http://localhost:8080/api/order/getById/${orderId}`)
+                .get(`http://localhost:8080/api/order/getById/${orderId}`,{headers: { Author: `Bearer ${token}` }}
+                    )
             .then((response) => {
                 setOrderProducts([response.data.result]);
             })
@@ -64,7 +65,7 @@ const Dashboard = () => {
     const updateOrderStatus = (orderId, action) => {
         console.log(orderId, action);
         fetch(`http://localhost:8080/api/refund/${action}/${orderId}`, {
-            method: "PUT"
+            method: "PUT",headers: { Author: `Bearer ${token}` }
         })
         .then(() => {
             alert("Cập nhật đơn hàng thành công!");

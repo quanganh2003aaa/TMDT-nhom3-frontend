@@ -6,11 +6,26 @@ const Update = () => {
     const { idCate } = useParams(); 
     const navigate = useNavigate();
     const [cate, setCate] = useState({ name: "" })
+    const token = sessionStorage.getItem("token");
+    useEffect(() => {
+            fetch("http://localhost:8080/api/auth/introspect", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.result.valid || data.result.scope !== "ADMIN") {
+                    window.location.href = "/admin/404";
+                }
+            })
+            .catch(() => window.location.href = "/admin/404");
+    });
 
     const fecthCate = () => {
         const url = `http://localhost:8080/api/category/id/${idCate}`;
         axios 
-            .get(url)
+            .get(url,{headers: { Author: `Bearer ${token}`}})
             .then((response) => {
                 if (response.data && response.data.result) {
                     setCate({ name: response.data.result.name });
@@ -43,7 +58,7 @@ const Update = () => {
         const url = `http://localhost:8080/api/category/update/${idCate}`;
         axios
             .put(url, formData, {
-                headers: { "Content-Type": "multipart/form-data" }
+                headers: {Author: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
             })
             .then(() => {
                 alert("Cập nhật danh mục thành công!");

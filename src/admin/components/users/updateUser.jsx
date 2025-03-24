@@ -11,7 +11,8 @@ const UpdateUser = () => {
     
     const fetchUser = () => {
         axios .get(
-            `http://localhost:8080/api/user/id/${idUser}`
+            `http://localhost:8080/api/user/id/${idUser}`, {
+                headers: { Author: `Bearer ${token}`, }}
         )
         .then((respone) => {
             setUser(respone.data.result)
@@ -34,8 +35,8 @@ const UpdateUser = () => {
     const handleUpdate = async () => {
         try {
             await axios.put(`http://localhost:8080/api/user/updateAdmin/${idUser}`, user, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+                headers: { Author: `Bearer ${token}`,
+                            "Content-Type": "application/json", }});
             alert("Cập nhật thành công!");
             navigate("/admin/user");
         } catch (error) {
@@ -44,6 +45,18 @@ const UpdateUser = () => {
     }
 
     useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fetchUser();
     }, []);
 

@@ -8,11 +8,16 @@ const Body = () => {
   const navigate = useNavigate();
   const idUser = sessionStorage.getItem("idUser");
   const [user, setUser] = useState([]);
-
+  const token = sessionStorage.getItem("token");
   const fecthUserDetail = () => {
     const url=`http://localhost:8080/api/user/id/${idUser}`;
     axios 
-      .get(url)
+      .get(url, {
+        headers: { 
+            "Author": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        }
+    })
       .then((response) => {
         setUser(response.data.result)
       })

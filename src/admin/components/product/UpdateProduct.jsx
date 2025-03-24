@@ -28,6 +28,18 @@ const UpdateProduct = () => {
     const fileInputRef = useRef(null);
 
     useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/product/id/${idProduct}`);
@@ -102,13 +114,28 @@ const UpdateProduct = () => {
     };
 
     const handleSelectChange = (e) => {
-        const { id, value } = e.target;
-    
-        setProduct({
-            ...product,
-            [id]: value 
-        });
+        setProduct((prev) => ({
+            ...prev,
+            status: e.target.value
+        }));
     };
+
+    const handleBrandChange = (e) => {
+        setProduct((prev) => ({
+            ...prev,
+            brand:parseInt(e.target.value)
+        }));
+    };
+    
+    
+    const handleCategoryChange = (e) => {
+        const selectedCategory = category.find(c => c.id == e.target.value);
+        setProduct((prev) => ({
+            ...prev,
+            category: parseInt(selectedCategory.id)
+        }));
+    };
+    
     
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
@@ -125,9 +152,9 @@ const UpdateProduct = () => {
     
     const handleSubmit = async () => {
         const formData = new FormData();
-        const brandId = product.brand;
-        const categoryId = product.category;
-    
+        const brandId = typeof product.brand === "object" ? product.brand.id : product.brand;
+        const categoryId = typeof product.category === "object" ? product.category.id : product.category;
+        
         // Thêm thông tin sản phẩm vào formData
         formData.append("name", product.name);
         formData.append("brand", brandId);
@@ -142,7 +169,6 @@ const UpdateProduct = () => {
     
         if (imageFiles.length > 0) {
             imageFiles.forEach((file, index) => {
-                console.log(`File ${index}:`, file);
                 formData.append("files", file);
             });
         } else {
@@ -150,17 +176,13 @@ const UpdateProduct = () => {
             formData.append("files", new Blob([]), "empty.png");
         }
 
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
-        }
-
         try {
             await axios.put(`http://localhost:8080/api/product/update/${idProduct}`, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data" 
+                    Author: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
                 }
             });
-    
             alert("Cập nhật sản phẩm thành công!");
             navigate("/admin/products");
         } catch (error) {
@@ -222,9 +244,14 @@ const UpdateProduct = () => {
 
                         <div className="col-8 col-sm-6">
                             <label htmlFor="status" className="col-form-label">Trạng thái sản phẩm:</label>
-                            <select className="txt-input form-control" id="status" value={product.status} onChange={handleSelectChange}>
-                                <option value="ACTIVE" selected={product.status === "ACTIVE"}>ACTIVE</option>
-                                <option value="INACTIVE" selected={product.status === "INACTIVE"}>INACTIVE</option>
+                            <select
+                                className="txt-input form-control"
+                                id="status"
+                                value={product.status}
+                                onChange={handleSelectChange}
+                            >
+                                <option value="ACTIVE">ACTIVE</option>
+                                <option value="INACTIVE">INACTIVE</option>
                             </select>
                         </div>
                     </div>
@@ -232,7 +259,12 @@ const UpdateProduct = () => {
                     <div className="row">
                         <div className="col-8 col-sm-6">
                             <label htmlFor="brand" className="col-form-label">Thương Hiệu:</label>
-                            <select className="txt-input form-control" id="brand" value={product.brand} onChange={handleSelectChange}>
+                            <select
+                                className="txt-input form-control"
+                                id="brand"
+                                value={product.brand?.id || product.brand} 
+                                onChange={handleBrandChange}
+                            >
                                 {brand.map((a) => (
                                     <option key={a.id} value={a.id}>
                                         {a.name}
@@ -243,7 +275,12 @@ const UpdateProduct = () => {
 
                         <div className="col-8 col-sm-6">
                             <label htmlFor="category" className="col-form-label">Danh Mục:</label>
-                            <select className="txt-input form-control" id="category" value={product.category} onChange={handleSelectChange}>
+                            <select 
+                                className="txt-input form-control" 
+                                id="category" 
+                                value={product.category?.id || product.category} 
+                                onChange={handleCategoryChange}
+                            >
                                 {category.map((a) => (
                                     <option key={a.id} value={a.id}>
                                         {a.name}

@@ -6,11 +6,14 @@ const Update = () => {
     const {idThuongHieu} = useParams();
     const navigate = useNavigate();
     const [brand, setBrand] = useState({name: ""})
+    const token = sessionStorage.getItem("token");
 
     const fecthBrand = () => {
-        const url = `http://localhost:8080/api/brand/${idThuongHieu}`;
+        const url = `http://localhost:8080/api/brand/id/${idThuongHieu}`;
         axios 
-            .get(url)
+            .get(url, {
+                headers: {Author: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
+            })
             .then((response) => {
                 setBrand({name: response.data.result.name})
             })
@@ -21,6 +24,18 @@ const Update = () => {
     }
 
     useEffect( () => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fecthBrand();
     }, [idThuongHieu])
 
@@ -39,7 +54,7 @@ const Update = () => {
         const url = `http://localhost:8080/api/brand/update/${idThuongHieu}`;
         axios
             .put(url, formData, {
-                headers: { "Content-Type": "multipart/form-data" }
+                headers: {Author: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
             })
             .then(() => {
                 alert("Cập nhật danh mục thành công!");

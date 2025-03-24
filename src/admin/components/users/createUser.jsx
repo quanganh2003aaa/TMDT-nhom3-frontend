@@ -4,6 +4,19 @@ import './user.css'
 import axios from "axios";
 
 const CreateUser = () => {
+    const token = sessionStorage.getItem('token');
+    fetch("http://localhost:8080/api/auth/introspect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.result.valid || data.result.scope !== "ADMIN") {
+            window.location.href = "/admin/404";
+        }
+    })
+    .catch(() => window.location.href = "/admin/404");
     const navigate = useNavigate();
     const [user, setUser] = useState({
         name: "",
@@ -23,7 +36,10 @@ const CreateUser = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         axios
-            .post("http://localhost:8080/api/user/createAdmin", user)
+            .post("http://localhost:8080/api/user/createAdmin", user, {
+                headers: { Author: `Bearer ${token}`,
+                            "Content-Type": "application/json", }}
+        )
             .then((response) => {
                 alert("Tạo admin mới thành công");
                 navigate("/admin/user");

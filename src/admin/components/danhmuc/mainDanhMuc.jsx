@@ -5,10 +5,22 @@ import axios from "axios";
 const Main = () => {
     const navigate = useNavigate();
     const [category, setCategory] = useState([]);
-
+    const token = sessionStorage.getItem("token");
     useEffect(() => {
-        fetchCate();
-    }, []);
+                fetch("http://localhost:8080/api/auth/introspect", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.result.valid || data.result.scope !== "ADMIN") {
+                        window.location.href = "/admin/404";
+                    }
+                })
+                .catch(() => window.location.href = "/admin/404");
+                fetchCate();
+        });
 
     const fetchCate = () => {
         const url = "http://localhost:8080/api/category/getAll";
@@ -30,7 +42,9 @@ const Main = () => {
     const handleDeleteDanhMuc = (idDanhMuc) => {
         const url = `http://localhost:8080/api/category/delete/${idDanhMuc}`;
         axios
-            .delete(url)
+            .delete(url, {headers: { 
+                Author: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data" }})
             .then((reponse) =>{
                 alert("Xóa danh mục thành công");
                 fetchCate();

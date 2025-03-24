@@ -7,6 +7,21 @@ const Create = () => {
     const [cate, setCate] = useState({
         name: "",
     })
+    const token = sessionStorage.getItem("token");
+    useEffect(() => {
+                fetch("http://localhost:8080/api/auth/introspect", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.result.valid || data.result.scope !== "ADMIN") {
+                        window.location.href = "/admin/404";
+                    }
+                })
+                .catch(() => window.location.href = "/admin/404");
+        });
 
     const handleHuy = () => {
         navigate("/admin/danhmuc");
@@ -23,7 +38,9 @@ const Create = () => {
         const url = "http://localhost:8080/api/category/create";
         axios 
             .post(url, formData, {
-                headers: { "Content-Type": "multipart/form-data" }
+                headers: { 
+                    Author: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data" }
             })
             .then((response) => {
                 alert("Thêm Danh mục thành công");

@@ -18,7 +18,7 @@ const CheckoutComponent = () => {
   const [shippingFee, setShippingFee] = useState(0);
   const [discountValue, setDiscountValue] = useState(0);
   const idUser = sessionStorage.getItem("idUser")
-
+  const token = sessionStorage.getItem('token');
   const fetchCart = () => {
     axios
     .get(
@@ -118,7 +118,9 @@ const CheckoutComponent = () => {
     if (paymentMethod === "cash") {
       console.log("➡️ paymentInfo gửi lên:", paymentInfo);
       axios
-        .post("http://localhost:8080/api/order/create", paymentInfo)
+        .post("http://localhost:8080/api/order/create", paymentInfo, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }})
         .then(() => {
           alert("Thanh toán thành công!");
           window.location.href = "/thankyou";
@@ -129,13 +131,17 @@ const CheckoutComponent = () => {
         });
     } else if (paymentMethod === "vnpay") {
       axios
-        .post("http://localhost:8080/api/order/create", paymentInfo)
+        .post("http://localhost:8080/api/order/create", paymentInfo, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }})
         .then((response) => {
           if (response.data && response.data.result && response.data.result.success) {
             const idOrder = response.data.result.idOrder;
             
             axios
-              .post(`http://localhost:8080/vnpay/create/${idOrder}`)
+              .post(`http://localhost:8080/vnpay/create/${idOrder}`, {
+                headers: { Author: `Bearer ${token}`,
+                            "Content-Type": "application/json", }})
               .then((response) => {
                 if (response.data && response.data.result) {
                   window.location.href = response.data.result;

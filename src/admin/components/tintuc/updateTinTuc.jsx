@@ -7,6 +7,7 @@ const Update = () => {
     const navigate = useNavigate();
     const [news, setNews] = useState([])
     const [comment, setComment] = useState([]);
+    const token = sessionStorage.getItem("token");
 
     const fecthNews = () => {
         const url = `http://localhost:8080/api/blog/id/${idTintuc}`;
@@ -23,7 +24,11 @@ const Update = () => {
 
     const fetchComment = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/api/comment/blog/${idTintuc}`
+          const response = await axios.get(`http://localhost:8080/api/comment/blog/${idTintuc}`,{
+            headers: {
+                "Author": `Bearer ${token}`
+            }
+        }
           );
           setComment(response.data);
         } catch (error) {
@@ -33,6 +38,18 @@ const Update = () => {
       };
 
     useEffect( () => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fecthNews();
         fetchComment();
     }, [idTintuc])
@@ -58,7 +75,12 @@ const Update = () => {
         const url = `http://localhost:8080/api/blog/update/${idTintuc}`;
         
         axios
-            .put(url, Data)
+            .put(url, Data,{
+                headers: {
+                    "Content-Type": "application/json",
+                    "Author": `Bearer ${token}`
+                }
+            })
             .then(() => {
                 alert("Cập nhật danh mục thành công!");
                 navigate("/admin/tintuc"); 
@@ -70,7 +92,8 @@ const Update = () => {
 
     const handleDelete = (idBlog) => {
         axios
-          .delete(`http://localhost:8080/api/comment/delete/${idBlog}`)
+          .delete(`http://localhost:8080/api/comment/delete/${idBlog}`, {headers: { 
+            Author: `Bearer ${token}` }})
           .then(() => {
             alert("Xóa bình luận thành công");
             fetchComment();

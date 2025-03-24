@@ -5,12 +5,24 @@ import { useNavigate } from 'react-router-dom';
 const User = () => {    
     const [voucher, setVoucher] = useState([]);
     const navigate = useNavigate();
-
+    const token = sessionStorage.getItem('token');
     const formatPrice = (price) => {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
     };
 
     useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         renderListVoucher();
     }, []);
 
@@ -33,7 +45,8 @@ const User = () => {
     const handleDeleteUser = (idVoucher) => {
         if (window.confirm(`Bạn chắc chắn muốn xóa sản phẩm ${idVoucher} không?`)) {
           axios
-            .delete(`http://localhost:8080/api/voucher/delete/${idVoucher}`)
+            .delete(`http://localhost:8080/api/voucher/delete/${idVoucher}`, {
+                headers: { Author: `Bearer ${token}`}})
             .then(() => {
               alert('Xoá sản phẩm thành công!');
               renderListVoucher();
