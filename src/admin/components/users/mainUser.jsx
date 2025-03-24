@@ -23,7 +23,8 @@ const User = () => {
         }
         
         axios 
-            .get(url)
+            .get(url, {
+                headers: { Author: `Bearer ${token}` }})
             .then((response) => {
                 setUser(response.data);
             })
@@ -35,13 +36,13 @@ const User = () => {
     const handleDeleteUser = (idUser) => {
         if (window.confirm(`Bạn chắc chắn muốn xóa người dùng ${idUser} không?`)) {
           axios 
-            .delete(`http://localhost:8080/api/user/delete/${idUser}`)
+            .delete(`http://localhost:8080/api/user/delete/${idUser}`, {
+                headers: { Author: `Bearer ${token}` }})
             .then(() => {
                 fetchUser();
             })
             .catch((error) => {
-                console.log("Lỗi xóa người dùng: ",error.respons.data.message);
-                alert(`Xóa người dùng thất bại: ${error.respons.data.message}`)
+                alert(`Xóa người dùng thất bại`)
             })
         }
       };

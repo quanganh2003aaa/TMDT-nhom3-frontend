@@ -27,9 +27,22 @@ const CreateVoucher = () => {
         };
 
     useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         const fetchVoucher = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/voucher/id/${idVoucher}`);
+                const response = await axios.get(`http://localhost:8080/api/voucher/id/${idVoucher}`, {
+                    headers: { Author: `Bearer ${token}` }});
                 const data = response.data.result;
 
                 setVoucherData({
@@ -58,7 +71,8 @@ const CreateVoucher = () => {
 
         try {
             await axios.put(`http://localhost:8080/api/voucher/update/${idVoucher}`, updatedData, {
-                headers: { Authorization: `Bearer ${token}` }
+                "Content-Type": "application/json",
+                headers: { Author: `Bearer ${token}` }
             });
             alert("Cập nhật thành công!");
             navigate("/admin/voucher");

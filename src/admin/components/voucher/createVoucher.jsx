@@ -3,6 +3,23 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateUser = () => {
+    const token = sessionStorage.getItem('token');
+    useEffect(() => {
+            fetch("http://localhost:8080/api/auth/introspect", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.result.valid || data.result.scope !== "ADMIN") {
+                    window.location.href = "/admin/404";
+                }
+            })
+            .catch(() => window.location.href = "/admin/404");
+        }, []);
+
+
     const navigate = useNavigate();
     const [voucherData, setVoucherData] = useState({
         id: '',
@@ -32,7 +49,9 @@ const CreateUser = () => {
                 maxUsage: Number(voucherData.maxUsage)
             };
 
-            await axios.post('http://localhost:8080/api/voucher/create', formattedData);
+            await axios.post('http://localhost:8080/api/voucher/create', formattedData, {
+                headers: { Author: `Bearer ${token}`,
+                            "Content-Type": "application/json", }});
             alert('Mã giảm giá đã được tạo thành công!');
             navigate('/admin/voucher');
         } catch (error) {

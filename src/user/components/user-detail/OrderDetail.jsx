@@ -9,9 +9,11 @@ const Body = () => {
     const { id } = useParams(); 
     const [order, setOrder] = useState(null);
     const [idOrder, setIdOrder] = useState(null);
-
+    const token = sessionStorage.getItem("token");
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/order/getById/${id}`)
+        axios.get(`http://localhost:8080/api/order/getById/${id}`, {
+            headers: { Author: `Bearer ${token}`,
+                        "Content-Type": "application/json", }})
             .then(response => {
                 setOrder(response.data.result);
                 setIdOrder(response.data.result.id);
@@ -24,7 +26,9 @@ const Body = () => {
     const receiveOrder = () => {
         try{
             axios 
-                .put(`http://localhost:8080/api/order/success/${idOrder}`)
+                .put(`http://localhost:8080/api/order/success/${idOrder}`, {
+                    headers: { Author: `Bearer ${token}`,
+                                "Content-Type": "application/json", }})
             window.location.reload();
         }
         catch{
@@ -35,7 +39,9 @@ const Body = () => {
     const cancelOrder = () => {
         try{
             axios 
-                .put(`http://localhost:8080/api/order/cancel/${idOrder}`)
+                .put(`http://localhost:8080/api/order/cancel/${idOrder}`, {
+                    headers: { Author: `Bearer ${token}`,
+                                "Content-Type": "application/json", }})
             window.location.reload();
         }
         catch{
@@ -52,7 +58,9 @@ const Body = () => {
         
         try{
             axios 
-                .put(`http://localhost:8080/api/refund/deliver`, Data)
+                .put(`http://localhost:8080/api/refund/deliver`, Data, {
+                    headers: { Author: `Bearer ${token}`,
+                                "Content-Type": "application/json", }})
                 .then(() => {
                     window.location.reload();
                 })

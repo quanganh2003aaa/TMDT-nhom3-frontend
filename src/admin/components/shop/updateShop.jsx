@@ -6,10 +6,14 @@ const Update = () => {
     const {idStore} = useParams();
     const navigate = useNavigate();
     const [store, setStore] = useState([]);
-
+    const token = sessionStorage.getItem('token');
     const fecthStore = () => {
         axios
-            .get(`http://localhost:8080/api/store/id/${idStore}`)
+            .get(`http://localhost:8080/api/store/id/${idStore}`,{
+                headers: {
+                    "Author": `Bearer ${token}`
+                }
+            })
             .then((response) => {
                 setStore(response.data.result);
             })
@@ -19,6 +23,18 @@ const Update = () => {
     }
 
     useEffect( () => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fecthStore();
     }, []);
 
@@ -43,6 +59,7 @@ const Update = () => {
             axios .put(`http://localhost:8080/api/store/update/${idStore}`, formData,{
                 headers: {
                     "Content-Type": "multipart/form-data",
+                    "Author": `Bearer ${token}`
                 }
             })
             .then((res) => {

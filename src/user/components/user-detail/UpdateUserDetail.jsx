@@ -17,11 +17,16 @@ const Body = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedWard, setSelectedWard] = useState("");
   const [numberAddress, setNumberAddress] = useState("");
-
+  const token = sessionStorage.getItem("token");
   const fetchUserDetail = () => {
     const url = `http://localhost:8080/api/user/id/${idUser}`;
     axios
-      .get(url)
+      .get(url, {
+        headers: { 
+            "Author": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        }
+    })
       .then((response) => {
         const userData = response.data.result;
         setUser(userData);
@@ -93,7 +98,12 @@ const Body = () => {
     };
 
     axios
-      .put(`http://localhost:8080/api/user/update/${idUser}`, dataToUpdate)
+      .put(`http://localhost:8080/api/user/update/${idUser}`, dataToUpdate, {
+        headers: { 
+            "Author": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        }
+    })
       .then((response) => {
         if (response.data.result === true) {
           alert("Cập nhật thông tin thành công!");

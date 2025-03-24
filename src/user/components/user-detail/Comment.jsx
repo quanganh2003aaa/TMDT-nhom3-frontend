@@ -19,7 +19,9 @@ const Body = () => {
       
     const fetchComment = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/comment/user/${idUser}`
+        const response = await axios.get(`http://localhost:8080/api/comment/user/${idUser}`, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }}
         );
         setComment(response.data);
       } catch (error) {
@@ -30,7 +32,9 @@ const Body = () => {
       
     const handleDelete = (idBlog) => {
       axios
-        .delete(`http://localhost:8080/api/comment/delete/${idBlog}`)
+        .delete(`http://localhost:8080/api/comment/delete/${idBlog}`, {
+          headers: { Author: `Bearer ${token}`,
+                      "Content-Type": "application/json", }})
         .then(() => {
           alert("Xóa bình luận thành công");
           fetchComment();

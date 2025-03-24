@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Main = () => {
     const navigate = useNavigate();
     const [brand, setBrand] = useState([]);
+    const token = sessionStorage.getItem("token");
 
     const handleEditThuongHieu = (idThuongHieu) => {
         navigate(`/admin/update-thuonghieu/${idThuongHieu}`);  
@@ -14,7 +15,9 @@ const Main = () => {
         const url = `http://localhost:8080/api/brand/delete/${idThuongHieu}`;
 
         axios 
-            .delete(url)
+            .delete(url, {
+                headers: {Author: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
+            })
             .then((response) => {
                 alert("Xóa thương hiệu thành công");
                 fetchBrand();
@@ -40,6 +43,18 @@ const Main = () => {
     }
 
     useEffect( () => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fetchBrand();
     }, []);
 

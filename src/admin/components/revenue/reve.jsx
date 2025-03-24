@@ -4,6 +4,7 @@ import axios from "axios";
 import './reve.css'
 
 const RevenueChart = () => {
+  const token = sessionStorage.getItem('token');
   const [chartData, setChartData] = useState({
     series: [],
     options: {
@@ -29,6 +30,18 @@ const RevenueChart = () => {
   });
 
   useEffect(() => {
+    fetch("http://localhost:8080/api/auth/introspect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token })
+  })
+  .then(res => res.json())
+  .then(data => {
+      if (!data.result.valid || data.result.scope !== "ADMIN") {
+          window.location.href = "/admin/404";
+      }
+  })
+  .catch(() => window.location.href = "/admin/404");
     const fetchRevenueData = async () => {
       try {
         const token = sessionStorage.getItem("token");

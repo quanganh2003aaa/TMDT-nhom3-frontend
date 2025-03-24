@@ -9,12 +9,6 @@ const Body = () => {
 
     useEffect(() => {
         const fetchVoucher = async () => {
-            const idUser = sessionStorage.getItem("idUser");
-            if (!idUser) {
-                alert("Bạn cần đăng nhập để xem voucher!");
-                navigate("/login");
-                return;
-            }
 
             try {
                 const response = await axios.get(`http://localhost:8080/api/voucher/getAll`);

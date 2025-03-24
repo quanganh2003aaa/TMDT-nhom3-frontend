@@ -7,7 +7,7 @@ const RefundRequest = () => {
   const navigate = useNavigate();
   const { idOrder } = useParams(); 
   const idUser = sessionStorage.getItem("idUser");
-
+  const token = sessionStorage.getItem("token");
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,9 @@ const RefundRequest = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:8080/api/refund/create", requestData);
+      const response = await axios.post("http://localhost:8080/api/refund/create", requestData, {
+        headers: { Author: `Bearer ${token}`,
+                    "Content-Type": "application/json", }});
 
       if (response.data) {
         alert("Yêu cầu hoàn trả đã được gửi thành công!");

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Main = () => {
     const navigate = useNavigate();
     const [store, setStore] = useState([]);
-    
+    const token = sessionStorage.getItem('token');
     const fecthStore = () =>{
         axios 
             .get("http://localhost:8080/api/store/getAll")
@@ -19,6 +19,18 @@ const Main = () => {
     }
 
     useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fecthStore();
     },[])
 
@@ -29,7 +41,11 @@ const Main = () => {
     const handleDeleteStore = (idStore) => {
         if (window.confirm(`Bạn chắc chắn muốn xóa cửa hàng ${idStore} không?`)) {
             try{
-                axios .delete(`http://localhost:8080/api/store/delete/${idStore}`)
+                axios .delete(`http://localhost:8080/api/store/delete/${idStore}`,{
+                    headers: {
+                        "Author": `Bearer ${token}`
+                    }
+                })
                 fecthStore();
             }catch{
                 alert("Xóa sản phẩm thất bại");

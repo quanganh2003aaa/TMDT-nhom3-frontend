@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
     const navigate = useNavigate();
-
+    const token = sessionStorage.getItem('token');
     const [deliver, setDeliver] = useState([]);
 
     const fetchDeliver = () => {
@@ -25,16 +25,35 @@ const Main = () => {
 
     const deleteDeliver = (idDeli) => {
         axios 
-            .delete(`http://localhost:8080/api/delivery/delete/${idDeli}`)
-            .catch((error) => {
-                const errorMessage = error.response.data.Message;
-                console.log(errorMessage);
+            .delete(`http://localhost:8080/api/delivery/delete/${idDeli}`, {
+                headers: { 
+                    Author: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data" }
             })
+            .then(() => {
+                alert("Xóa thành công!");
+                fetchDeliver();
+            })
+            .catch((error) => {
+                console.error("Lỗi khi xóa:", error.response?.data?.message || error.message);
+            });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fetchDeliver();
-    }, [])
+});
 
     return(
         <main>
@@ -86,7 +105,7 @@ const Main = () => {
                                         <i className="fa-solid fa-pen-to-square"></i>
                                         </button>
                                     </div>
-                                    <button type="button" className="btn btn-warning btn-delete-product" onClick={deleteDeliver(deliver.id)}>
+                                    <button type="button" className="btn btn-warning btn-delete-product" onClick={() => deleteDeliver(deliver.id)}>
                                     <i className="fa-solid fa-trash"></i>
                                     </button>
                                 </td>

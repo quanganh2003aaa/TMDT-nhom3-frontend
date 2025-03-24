@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const Main = () => {
     const navigate = useNavigate();
     const [news, setNews] = useState([]);
+    const token = sessionStorage.getItem("token");
+
 
     const handleEditTintuc = (idTintuc) => {
         navigate(`/admin/update-tintuc/${idTintuc}`);  
@@ -12,9 +14,10 @@ const Main = () => {
 
     const handleDeleteTintuc = (idTintuc) => {
         const url = `http://localhost:8080/api/blog/delete/${idTintuc}`;
-
         axios 
-            .delete(url)
+            .delete(url, {headers: { 
+                Author: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data" }})
             .then((response) => {
                 alert("Xóa tin tức thành công");
                 fetchNews();
@@ -40,6 +43,18 @@ const Main = () => {
     }
 
     useEffect( () => {
+        fetch("http://localhost:8080/api/auth/introspect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.result.valid || data.result.scope !== "ADMIN") {
+                window.location.href = "/admin/404";
+            }
+        })
+        .catch(() => window.location.href = "/admin/404");
         fetchNews();
     }, []);
 
